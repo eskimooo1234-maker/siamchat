@@ -22,5 +22,8 @@
 - `assets/logo-64.png`, `logo-128.png` — โลโก้
 - `assets/favicon-32.png`, `apple-touch-icon.png` — ไอคอนแท็บ/หน้าจอโฮม
 - `assets/og.png` — ภาพตอนแชร์ลิงก์ (1200×630)
-- `assets/districts.json` — รายชื่อ 77 จังหวัด / 928 อำเภอ-เขต (ชื่อไทย + จังหวัดเท่านั้น) สำหรับช่องค้นหา
-  export จาก `src/data/provinces.ts` + `src/data/districts.ts` ของแอป · ค้นในเครื่องผู้ใช้ ไม่เรียก API ไม่เก็บสิ่งที่พิมพ์
+- `assets/districts.json` — 77 จังหวัด / 928 อำเภอ-เขต: ชื่อไทย + จังหวัด + พิกัดกึ่งกลาง (ใช้กับช่องค้นหาและแผนที่)
+  export จาก `src/data/provinces.ts` + `src/data/districts.ts` + migration `districts_center_radius_seed` ของแอป
+  พิกัด: OpenGISData-Thailand (CC BY 4.0) · ศูนย์กลางจังหวัด = อ.เมือง (กรุงเทพฯ = เขตพระนคร)
+- แผนที่จำลอง: Leaflet 1.9.4 (cdnjs, BSD-2) + แผ่นแผนที่ OpenStreetMap (ต้องแสดง "© OpenStreetMap contributors")
+  โหลดเมื่อเลื่อนถึงการ์ดเท่านั้น · หมุดทั้งหมดเป็นตัวอย่างที่สร้างในหน้าเว็บ ไม่ใช่ข้อมูลจากแอป
