@@ -730,7 +730,10 @@ footer nav a:hover{text-decoration:underline}
     }
     function fit(){
       ring.setCenter({ lat: state.lat, lng: state.lng }); ring.setRadius(km * 1000);
-      map.fitBounds(ring.getBounds(), 8);    // ย้ายกล้องเท่านั้น (ไม่สร้างแผนที่ใหม่)
+      // ย้ายกล้องเท่านั้น (ไม่สร้างแผนที่ใหม่) · ซูมให้วงพอดีความสูงแผนที่ (การ์ดมือถือแคบกว่าสูง วงจึงชิดขอบซ้าย-ขวา)
+      var h = box.clientHeight || 320, mpp = 156543.03392 * Math.cos(state.lat * Math.PI / 180);
+      var z = Math.floor(Math.log2(mpp * (h - 16) / (2 * km * 1000)));
+      map.panTo({ lat: state.lat, lng: state.lng }); map.setZoom(Math.max(5, Math.min(17, z)));
     }
     function start(){
       if (started) return; started = true;
