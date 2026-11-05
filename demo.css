@@ -129,7 +129,7 @@ html.da-lock,html.da-lock body{overflow:hidden!important;overscroll-behavior:non
 .ac .at{flex:1;min-width:0}
 .ac .chip{display:inline-block;padding:2px 7px;border-radius:8px;font-size:10px;font-weight:700;color:#fff;background:var(--c)}
 .ac b{display:block;font-size:14px;margin-top:3px;line-height:1.35}
-.ac span{display:block;font-size:12px;color:#6b7280;margin-top:2px}
+.ac .at > span:not(.chip){display:block;font-size:12px;color:#6b7280;margin-top:2px}
 .ac .live{color:#dc2626;font-weight:700}
 
 /* ---------- โปรไฟล์ ---------- */
