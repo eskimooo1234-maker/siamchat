@@ -7,8 +7,8 @@
 เปิด `index.html` แล้วดูส่วน `<script>` ด้านบนสุด (ใต้ `<link href="https://fonts...">`)
 
 - `LINKS` — ลิงก์ Facebook / TikTok / LINE · ใส่ลิงก์แล้วปุ่มจะขึ้นเอง · เว้น `''` = ซ่อน
-- `DOWNLOAD` — อีเมลติดต่อ, ข้อความขั้นที่ 1–2, ลิงก์ Google Play, หมายเหตุ
-  (เปลี่ยนเป็น Google Group ได้ที่ `step1`, `step1Btn` และ `playUrl`)
+- `DOWNLOAD` — ข้อความขั้นที่ 1–3, ลิงก์ และหมายเหตุใต้การ์ด
+  (`groupUrl` = ลิงก์กลุ่ม Google Group · `playUrl` = ลิงก์ทดสอบ · `storeUrl` = หน้าแอปใน Play Store)
 
 ข้อความอื่น ๆ (หัวข้อ, การ์ด) แก้ตรงในเนื้อ HTML ได้เลย
 
