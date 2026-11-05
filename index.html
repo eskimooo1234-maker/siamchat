@@ -4,8 +4,8 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Siam Chat — คุยกับคนในพื้นที่เดียวกัน</title>
-<meta name="description" content="Siam Chat แชทชุมชน 77 จังหวัด เลือกจังหวัดและอำเภอของคุณบนแผนที่ประเทศไทย แลกเปลี่ยนข่าวสาร แนะนำสถานที่ และแจ้งเหตุใกล้ตัว ฟรี ไม่มีค่าใช้จ่าย">
-<meta name="theme-color" content="#0f6a3d">
+<meta name="description" content="Siam Chat แชทชุมชน 77 จังหวัด 928 อำเภอ เลือกพื้นที่ของคุณ แล้วคุยกับคนแถวบ้านจริง ๆ แลกเปลี่ยนข่าวสาร แนะนำสถานที่ และแจ้งเหตุใกล้ตัว ฟรี">
+<meta name="theme-color" content="#0b2a5b">
 <link rel="canonical" href="https://eskimooo1234-maker.github.io/siamchat/">
 
 <!-- แชร์ลิงก์ LINE / Facebook / X -->
@@ -13,7 +13,7 @@
 <meta property="og:site_name" content="Siam Chat">
 <meta property="og:locale" content="th_TH">
 <meta property="og:title" content="Siam Chat — คุยกับคนในพื้นที่เดียวกัน">
-<meta property="og:description" content="แชทชุมชน 77 จังหวัด เลือกจังหวัดและอำเภอบนแผนที่ แลกเปลี่ยนข่าวสาร แนะนำสถานที่ และแจ้งเหตุใกล้ตัว">
+<meta property="og:description" content="แชทชุมชน 77 จังหวัด เลือกอำเภอของคุณ แล้วคุยกับคนแถวบ้านจริง ๆ แลกเปลี่ยนข่าวสาร แนะนำสถานที่ และแจ้งเหตุใกล้ตัว">
 <meta property="og:url" content="https://eskimooo1234-maker.github.io/siamchat/">
 <meta property="og:image" content="https://eskimooo1234-maker.github.io/siamchat/assets/og.png">
 <meta property="og:image:width" content="1200">
@@ -21,7 +21,7 @@
 <meta property="og:image:alt" content="Siam Chat — คุยกับคนในพื้นที่เดียวกัน">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Siam Chat — คุยกับคนในพื้นที่เดียวกัน">
-<meta name="twitter:description" content="แชทชุมชน 77 จังหวัด เลือกจังหวัดและอำเภอบนแผนที่ แลกเปลี่ยนข่าวสาร แนะนำสถานที่ และแจ้งเหตุใกล้ตัว">
+<meta name="twitter:description" content="แชทชุมชน 77 จังหวัด เลือกอำเภอของคุณ แล้วคุยกับคนแถวบ้านจริง ๆ">
 <meta name="twitter:image" content="https://eskimooo1234-maker.github.io/siamchat/assets/og.png">
 
 <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png">
@@ -43,7 +43,7 @@ const LINKS = {
   line:     ''
 };
 
-// ส่วน "ร่วมเป็นผู้ทดสอบรุ่นแรก"
+// ส่วน "เริ่มใช้ 3 ขั้น" (id="install")
 const DOWNLOAD = {
   // ขั้นที่ 1 — กลุ่มผู้ทดสอบ (Google Group)
   step1:     "เข้าร่วมกลุ่มผู้ทดสอบ (กด 'เข้าร่วมกลุ่ม')",
@@ -52,12 +52,12 @@ const DOWNLOAD = {
   // ขั้นที่ 2 — ลิงก์ทดสอบบน Google Play
   step2:     "กด 'เป็นผู้ทดสอบ'",
   playUrl:   'https://play.google.com/apps/testing/com.siamchat.app',
-  playBtn:   'เปิดให้ทดสอบบน Google Play',
+  playBtn:   'เปิดหน้าทดสอบ Google Play',
   // ขั้นที่ 3 — หน้าแอปใน Play Store
   step3:     'ติดตั้งแอปจาก Google Play',
   storeUrl:  'https://play.google.com/store/apps/details?id=com.siamchat.app',
   storeBtn:  'ติดตั้งจาก Google Play',
-  // หมายเหตุใต้การ์ด
+  // หมายเหตุใต้ขั้นตอน
   note:      'ใช้ Gmail เดียวกับที่ล็อกอินใน Play Store บนมือถือ · ถ้าขึ้นว่าไม่พบแอป ให้รอ 5–10 นาทีแล้วลองใหม่'
 };
 </script>
@@ -66,284 +66,277 @@ const DOWNLOAD = {
 :root{
   --green:#0f6a3d; --green-2:#13a463; --green-soft:#e8f6ee;
   --navy:#0b2a5b; --ink:#16202e; --muted:#5b6676; --line:#e3e8ee;
-  --bg:#ffffff; --bg-2:#f6f9f7;
-  --radius:18px; --max:1100px;
+  --bg:#ffffff; --bg-2:#f5f8f6;
+  --max:1000px;
 }
 *{box-sizing:border-box}
-html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%;scroll-padding-top:72px}
 body{margin:0;background:var(--bg);color:var(--ink);
   font-family:'Noto Sans Thai',system-ui,-apple-system,'Segoe UI',sans-serif;
-  line-height:1.65;font-size:16px}
-img{max-width:100%;display:block}
+  font-size:15px;line-height:1.6}
 a{color:inherit}
-.wrap{max-width:var(--max);margin:0 auto;padding:0 20px}
-section{padding:56px 0}
-h2{font-size:1.6rem;line-height:1.3;color:var(--navy);margin:0 0 8px;text-align:center}
-.sub{color:var(--muted);text-align:center;margin:0 auto 32px;max-width:36em}
+img{display:block;max-width:100%}
+button,input{font:inherit;color:inherit}
+.wrap{max-width:var(--max);margin:0 auto;padding:0 16px}
+section{padding:36px 0}
+h2{font-size:20px;line-height:1.35;color:var(--navy);margin:0 0 14px}
+.muted{color:var(--muted)}
 
-/* ---------- แถบบน ---------- */
-.top{position:sticky;top:0;z-index:10;background:rgba(255,255,255,.92);
-  backdrop-filter:saturate(1.4) blur(8px);-webkit-backdrop-filter:saturate(1.4) blur(8px);
-  border-bottom:1px solid var(--line)}
+/* ปุ่ม */
+.btn{display:flex;align-items:center;justify-content:center;gap:8px;min-height:48px;
+  padding:0 20px;border-radius:12px;border:0;text-decoration:none;font-weight:700;font-size:15px;
+  cursor:pointer;transition:background .15s, transform .1s}
+.btn:active{transform:scale(.98)}
+.btn-green{background:var(--green-2);color:#fff}
+.btn-green:hover{background:#0f9257}
+.btn-dark{background:#000;color:#fff}
+.btn-outline{background:#fff;color:var(--green);border:1.5px solid #bfe3cf}
+.btn-outline:hover{background:var(--green-soft)}
+.gp{width:20px;height:22px;flex:none}
+
+/* ---------- 1) แถบบน ---------- */
+.top{position:sticky;top:0;z-index:20;background:rgba(255,255,255,.95);
+  backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
 .top .wrap{display:flex;align-items:center;justify-content:space-between;height:64px}
-.brand{display:flex;align-items:center;gap:10px;text-decoration:none;font-weight:800;
-  color:var(--navy);font-size:1.15rem}
-.brand img{width:40px;height:40px;border-radius:10px;box-shadow:0 1px 3px rgba(0,0,0,.12)}
-.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;
-  text-decoration:none;font-weight:700;border-radius:999px;padding:10px 20px;
-  font-size:.95rem;transition:transform .15s, box-shadow .15s, background .15s;cursor:pointer;border:0}
-.btn:active{transform:scale(.97)}
-.btn-green{background:var(--green);color:#fff}
-.btn-green:hover{background:#0c5832}
+.brand{display:flex;align-items:center;gap:10px;text-decoration:none;font-weight:800;color:var(--navy);font-size:17px}
+.brand img{width:36px;height:36px;border-radius:9px;box-shadow:0 1px 3px rgba(0,0,0,.12)}
+.top .btn{min-height:48px;padding:0 18px;border-radius:999px;font-size:14px;background:var(--green);color:#fff}
+.top .btn:hover{background:#0c5832}
 
-/* ---------- Hero ---------- */
-.hero{padding:40px 0 56px;background:
-  radial-gradient(1000px 420px at 85% -10%, #dff3e8 0%, transparent 60%),
-  linear-gradient(#fff, var(--bg-2))}
-.hero-grid{display:grid;gap:40px;align-items:center}
-.pill{display:inline-block;background:var(--green-soft);color:var(--green);font-weight:700;
-  padding:6px 14px;border-radius:999px;font-size:.9rem;border:1px solid #cdebd9}
-.hero h1{font-size:clamp(2.1rem, 8.5vw, 3.4rem);line-height:1.2;margin:16px 0 14px;
-  color:var(--navy);font-weight:800;letter-spacing:-.01em}
-.hero h1 span{color:var(--green-2);display:block}
-.lead{font-size:1.08rem;color:var(--muted);margin:0 0 26px;max-width:30em}
-.cta{display:flex;flex-wrap:wrap;align-items:center;gap:14px 22px}
-.play{display:inline-flex;align-items:center;gap:12px;background:#000;color:#fff;
-  text-decoration:none;border-radius:12px;padding:10px 20px 10px 16px;
-  box-shadow:0 6px 18px rgba(0,0,0,.18);transition:transform .15s}
-.play:hover{transform:translateY(-1px)}
-.play svg{width:26px;height:28px;flex:none}
-.play small{display:block;font-size:.72rem;opacity:.8;line-height:1.2}
-.play b{display:block;font-size:1rem;line-height:1.3;font-weight:600}
-.howlink{color:var(--green);font-weight:600;text-decoration:none}
-.howlink:hover{text-decoration:underline}
+/* ---------- 2) Hero ---------- */
+.hero{background:linear-gradient(160deg,var(--navy) 0%,#0d4a58 55%,var(--green) 100%);color:#fff;padding:20px 0 24px}
+.kicker{font-size:13px;font-weight:600;color:#cfe8dc;margin:0}
+.hero h1{font-size:27px;line-height:1.3;margin:6px 0 6px;font-weight:800}
+.hero h1 span{display:block;color:#7ee2b0}
+.lead{margin:0 0 16px;color:#e3eef5;font-size:15px}
 
-/* กรอบมือถือ */
-.phone{width:270px;max-width:78vw;aspect-ratio:9/19;margin:0 auto;position:relative;
-  background:#0d1421;border-radius:42px;padding:11px;
-  box-shadow:0 30px 60px -20px rgba(11,42,91,.45), 0 0 0 1px #2a3445 inset}
-.phone::before{content:"";position:absolute;top:20px;left:50%;transform:translateX(-50%);
-  width:76px;height:20px;background:#0d1421;border-radius:12px;z-index:3}
-.screen{position:relative;width:100%;height:100%;border-radius:32px;overflow:hidden;background:#eaf2ec}
-.screen > img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:2;border-radius:32px}
-/* ภาพจำลองแผนที่ (แสดงเมื่อยังไม่มี assets/screen-1.png) */
-.mock-head{position:absolute;top:0;left:0;right:0;padding:44px 14px 10px;background:#fff;
-  z-index:1;box-shadow:0 1px 0 var(--line)}
-.mock-head b{display:block;color:var(--navy);font-size:.85rem}
-.mock-head i{font-style:normal;color:var(--muted);font-size:.7rem}
-.mock-map{position:absolute;inset:0;
-  background:
-    linear-gradient(115deg, transparent 47%, #fff 47%, #fff 50%, transparent 50%) 0 0/100% 100%,
-    linear-gradient(20deg, transparent 60%, #fff 60%, #fff 62.5%, transparent 62.5%) 0 0/100% 100%,
-    linear-gradient(90deg, transparent 30%, #f7e7b4 30%, #f7e7b4 33%, transparent 33%) 0 0/100% 100%,
-    radial-gradient(60% 30% at 80% 78%, #bfe0f5 0 60%, transparent 61%),
-    radial-gradient(40% 18% at 18% 30%, #cfe9d5 0 70%, transparent 71%),
-    #e9efe6}
-.pin{position:absolute;width:30px;height:30px;border-radius:50% 50% 50% 0;transform:rotate(-45deg);
-  display:grid;place-items:center;box-shadow:0 3px 8px rgba(0,0,0,.25);border:2px solid #fff}
-.pin span{transform:rotate(45deg);font-size:14px;line-height:1}
-.mock-chat{position:absolute;left:10px;right:10px;bottom:12px;z-index:1;display:grid;gap:6px}
-.bub{background:#fff;border-radius:14px 14px 14px 4px;padding:7px 10px;font-size:.68rem;
-  box-shadow:0 2px 6px rgba(0,0,0,.08);max-width:85%;line-height:1.4}
-.bub.me{justify-self:end;background:var(--green-2);color:#fff;border-radius:14px 14px 4px 14px}
-.bub em{font-style:normal;font-weight:700;color:var(--green);display:block;font-size:.62rem}
+.search{position:relative}
+.search input{width:100%;height:50px;border-radius:12px;border:0;padding:0 14px 0 42px;
+  font-size:15px;background:#fff;color:var(--ink);box-shadow:0 6px 20px rgba(0,0,0,.18);outline:none}
+.search input:focus{box-shadow:0 0 0 3px #7ee2b0, 0 6px 20px rgba(0,0,0,.18)}
+.search .mag{position:absolute;left:14px;top:50%;transform:translateY(-50%);font-size:16px;pointer-events:none}
+.results{list-style:none;margin:8px 0 0;padding:4px;background:#fff;border-radius:12px;color:var(--ink);
+  box-shadow:0 8px 24px rgba(0,0,0,.18)}
+.results:empty,.results[hidden]{display:none}
+.results li button{width:100%;min-height:48px;display:flex;align-items:center;justify-content:space-between;gap:8px;
+  padding:6px 12px;border:0;background:none;border-radius:8px;text-align:left;cursor:pointer}
+.results li button:hover,.results li button:focus{background:var(--green-soft);outline:none}
+.results b{font-weight:600;color:var(--navy)}
+.results small{color:var(--muted);font-size:13px;white-space:nowrap}
+.results .more{padding:8px 12px;color:var(--muted);font-size:13px}
+.found{margin-top:10px;background:#fff;color:var(--ink);border-radius:14px;padding:16px;
+  box-shadow:0 8px 24px rgba(0,0,0,.18)}
+.found[hidden]{display:none}
+.found p{margin:0 0 12px;font-size:15px}
+.found strong{color:var(--green)}
 
-/* ---------- 3 ขั้นตอน ---------- */
-.steps{display:grid;gap:16px;counter-reset:s}
-.step{display:flex;gap:16px;align-items:flex-start;background:#fff;border:1px solid var(--line);
-  border-radius:var(--radius);padding:20px}
-.num{flex:none;width:44px;height:44px;border-radius:50%;background:var(--green);color:#fff;
-  display:grid;place-items:center;font-weight:800;font-size:1.2rem}
-.step h3{margin:0 0 2px;font-size:1.1rem;color:var(--navy)}
-.step p{margin:0;color:var(--muted)}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
+.chip{min-height:44px;padding:0 13px;border-radius:999px;border:1px solid rgba(255,255,255,.4);
+  background:rgba(255,255,255,.1);color:#fff;font-size:14px;font-weight:600;cursor:pointer}
+.chip.main{background:#fff;color:var(--navy);border-color:#fff}
+.chip:active{transform:scale(.97)}
 
-/* ---------- ฟีเจอร์ ---------- */
-.feat-bg{background:var(--bg-2)}
-.cards{display:grid;gap:16px}
-.card{background:#fff;border:1px solid var(--line);border-radius:var(--radius);padding:22px}
-.ico{width:52px;height:52px;border-radius:14px;background:var(--green-soft);
-  display:grid;place-items:center;font-size:1.6rem;margin-bottom:12px}
-.card h3{margin:0 0 4px;font-size:1.1rem;color:var(--navy)}
-.card p{margin:0;color:var(--muted)}
+/* ---------- 3) ตัวอย่างห้องแชท ---------- */
+.demo{background:#fff;border:1px solid var(--line);border-radius:16px;overflow:hidden;
+  box-shadow:0 10px 30px -14px rgba(11,42,91,.35)}
+.demo-head{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:12px 14px;border-bottom:1px solid var(--line)}
+.demo-head b{color:var(--navy);font-size:15px}
+.demo-head small{display:block;color:var(--muted);font-size:12px;font-weight:400}
+.badge{flex:none;background:#fff4d6;color:#8a5a00;border:1px solid #f1d58a;font-size:12px;font-weight:700;
+  padding:3px 10px;border-radius:999px}
+.demo-body{padding:12px 14px;display:grid;gap:10px;background:#f7faf8}
+.msg{display:flex;gap:10px;align-items:flex-start}
+.ava{flex:none;width:34px;height:34px;border-radius:50%;background:var(--green-soft);display:grid;place-items:center;font-size:18px}
+.bubble{background:#fff;border:1px solid var(--line);border-radius:4px 14px 14px 14px;padding:7px 11px;font-size:14px;line-height:1.5}
+.bubble em{display:block;font-style:normal;font-weight:700;color:var(--green);font-size:12px}
+.demo-foot{padding:8px 14px;font-size:12px;color:var(--muted);border-top:1px solid var(--line)}
 
-/* ---------- ตัวเลข ---------- */
-.stats{background:var(--navy);color:#fff;padding:40px 0}
-.stats .wrap{display:grid;gap:24px;text-align:center}
-.stat b{display:block;font-size:2.4rem;line-height:1.1;font-weight:800;color:#fff}
-.stat span{color:#b9c8e4}
+/* ---------- 4) ปุ่มใหญ่ ---------- */
+.cta{padding:20px 0 4px}
+.cta .btn{width:100%;font-size:16px;min-height:54px}
+.cta p{text-align:center;margin:8px 0 0;font-size:13px;color:var(--muted)}
 
-/* ---------- ดาวน์โหลด ---------- */
-.dl{background:linear-gradient(135deg,var(--green-2),var(--green));color:#fff;
-  border-radius:24px;padding:32px 22px;max-width:760px;margin:0 auto;
-  box-shadow:0 20px 40px -18px rgba(15,106,61,.6)}
-.dl h2{color:#fff}
-.dl .sub{color:#d9f5e6;margin-bottom:24px}
-.dl-steps{display:grid;gap:14px}
-.dl-step{background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.22);
-  border-radius:16px;padding:18px}
-.dl-step .tag{display:inline-block;background:#fff;color:var(--green);font-weight:800;
-  border-radius:999px;padding:2px 12px;font-size:.82rem;margin-bottom:8px}
-.dl-step p{margin:0 0 12px;font-weight:600}
-.btn-white{background:#fff;color:var(--green)}
-.btn-white:hover{background:#eefaf3}
-.dl .play{box-shadow:none}
-.note{display:block;margin-top:10px;font-size:.85rem;color:#d9f5e6}
-.dl-note{margin-top:16px;text-align:center;line-height:1.55}
+/* ---------- 5) ทำไม ---------- */
+.why{list-style:none;margin:0;padding:0;display:grid;gap:14px}
+.why li{display:flex;gap:12px;align-items:flex-start}
+.why .i{flex:none;width:40px;height:40px;border-radius:10px;background:var(--green-soft);display:grid;place-items:center;font-size:19px}
+.why b{display:block;color:var(--navy);font-size:15px}
+.why span{color:var(--muted);font-size:14px}
 
-/* ---------- โซเชียล + ท้ายหน้า ---------- */
-.social{display:flex;justify-content:center;gap:14px;margin-top:32px}
+/* ---------- 6) ติดตั้ง ---------- */
+.install{background:var(--bg-2)}
+.steps{list-style:none;margin:0;padding:0;display:grid;gap:12px}
+.step{background:#fff;border:1px solid var(--line);border-radius:14px;padding:14px;display:flex;gap:12px}
+.num{flex:none;width:32px;height:32px;border-radius:50%;background:var(--green);color:#fff;display:grid;place-items:center;font-weight:800;font-size:15px}
+.step-body{flex:1;min-width:0}
+.step p{margin:3px 0 10px;font-weight:600;color:var(--navy)}
+.note{margin:12px 0 0;font-size:13px;color:var(--muted);line-height:1.55}
+
+/* ---------- 7) FAQ ---------- */
+.faq details{border:1px solid var(--line);border-radius:12px;background:#fff;margin-bottom:10px}
+.faq summary{min-height:48px;display:flex;align-items:center;justify-content:space-between;gap:10px;
+  padding:10px 14px;font-weight:600;color:var(--navy);cursor:pointer;list-style:none}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary::after{content:"+";font-size:20px;color:var(--green);line-height:1;flex:none}
+.faq details[open] summary::after{content:"−"}
+.faq details p{margin:0;padding:0 14px 14px;color:var(--muted);font-size:14px}
+.faq a{color:var(--green);font-weight:600}
+
+/* ---------- 8) โซเชียล + ท้ายหน้า ---------- */
+.social{display:flex;justify-content:center;gap:14px;padding:8px 0 24px}
 .social:empty{display:none}
-.social a{width:48px;height:48px;border-radius:50%;display:grid;place-items:center;color:#fff;
-  transition:transform .15s}
-.social a:hover{transform:translateY(-2px)}
+.social a{width:48px;height:48px;border-radius:50%;display:grid;place-items:center;color:#fff}
 .social svg{width:22px;height:22px;fill:currentColor}
-footer{border-top:1px solid var(--line);padding:28px 0 36px;text-align:center;color:var(--muted);font-size:.92rem}
-footer nav{display:flex;flex-wrap:wrap;justify-content:center;gap:6px 18px;margin-top:8px}
-footer nav a{color:var(--navy);text-decoration:none}
+footer{border-top:1px solid var(--line);padding:22px 0 30px;text-align:center;color:var(--muted);font-size:13px}
+footer nav{display:flex;flex-wrap:wrap;justify-content:center;gap:4px 16px;margin-top:6px}
+footer nav a{color:var(--navy);text-decoration:none;min-height:32px;display:inline-flex;align-items:center}
 footer nav a:hover{text-decoration:underline}
 
-/* ---------- จอใหญ่ ---------- */
-@media (min-width:640px){
-  .cards{grid-template-columns:1fr 1fr}
-  .stats .wrap{grid-template-columns:repeat(3,1fr)}
-  .dl{padding:40px 36px}
-}
+/* ---------- จอคอม ---------- */
 @media (min-width:900px){
-  section{padding:80px 0}
-  h2{font-size:2rem}
-  .hero{padding:64px 0 80px}
-  .hero-grid{grid-template-columns:1.15fr .85fr}
-  .phone{width:300px}
+  body{font-size:15px}
+  section{padding:56px 0}
+  h2{font-size:24px}
+  .hero{padding:48px 0 52px}
+  .hero-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:40px;align-items:center}
+  .hero h1{font-size:36px}
+  .cta{max-width:480px;margin:0 auto}
+  .why{grid-template-columns:1fr 1fr;gap:20px 32px}
   .steps{grid-template-columns:repeat(3,1fr)}
   .step{flex-direction:column}
-  .cards{grid-template-columns:repeat(4,1fr)}
+  .faq{max-width:720px;margin:0 auto}
 }
+@media (max-width:899px){ .hero-demo{display:none} }
+@media (min-width:900px){ .demo-mobile{display:none} }
 @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{transition:none!important}}
 </style>
 </head>
 <body>
 
+<!-- 1) แถบบน -->
 <header class="top">
   <div class="wrap">
-    <a class="brand" href="#top" aria-label="Siam Chat หน้าแรก">
-      <img src="assets/logo-64.png" alt="" width="40" height="40">Siam Chat
-    </a>
-    <a class="btn btn-green" href="#download">ดาวน์โหลด</a>
+    <a class="brand" href="#top" aria-label="Siam Chat หน้าแรก"><img src="assets/logo-64.png" alt="" width="36" height="36">Siam Chat</a>
+    <a class="btn" href="#install">ติดตั้ง</a>
   </div>
 </header>
 
 <main id="top">
   <!-- 2) Hero -->
-  <section class="hero">
+  <div class="hero">
     <div class="wrap hero-grid">
       <div>
-        <span class="pill">🇹🇭 แชทชุมชน 77 จังหวัด</span>
-        <h1>คุยกับคน<span>ในพื้นที่เดียวกัน</span></h1>
-        <p class="lead">เลือกจังหวัดและอำเภอของคุณบนแผนที่ประเทศไทย แลกเปลี่ยนข่าวสาร แนะนำสถานที่ และแจ้งเหตุใกล้ตัว</p>
-        <div class="cta">
-          <a class="play js-play" href="#download" rel="noopener">
-            <svg viewBox="0 0 24 26" aria-hidden="true"><path fill="#00d7fe" d="M1.2.6 13.4 13 1.2 25.4c-.4-.3-.7-.8-.7-1.4V2c0-.6.3-1.1.7-1.4z"/><path fill="#ffce00" d="m17.5 17.1-4.1-4.1 4.1-4.1 4.7 2.7c1.4.8 1.4 2.1 0 2.9z"/><path fill="#ff3a44" d="M17.5 17.1 13.4 13 1.2 25.4c.5.4 1.2.4 2 0z"/><path fill="#00f076" d="M17.5 8.9 3.2.6C2.4.2 1.7.2 1.2.6L13.4 13z"/></svg>
-            <span><small>Android</small><b class="js-play-text">เปิดให้ทดสอบบน Google Play</b></span>
-          </a>
-          <a class="howlink" href="#how">ดูวิธีใช้งาน ↓</a>
+        <p class="kicker">🇹🇭 77 จังหวัด · 928 อำเภอ</p>
+        <h1>อำเภอของคุณ<span>กำลังคุยเรื่องอะไร?</span></h1>
+        <p class="lead">เลือกพื้นที่ แล้วคุยกับคนแถวบ้านจริง ๆ</p>
+
+        <!-- ค้นหาจากรายชื่อในไฟล์ assets/districts.json เท่านั้น ไม่ส่งข้อมูลไปที่ไหน ไม่เก็บสิ่งที่พิมพ์ -->
+        <div class="search" role="search">
+          <span class="mag" aria-hidden="true">🔍</span>
+          <input id="q" type="search" inputmode="search" autocomplete="off" enterkeyhint="search"
+                 placeholder="พิมพ์ชื่ออำเภอ เช่น เมืองเชียงใหม่" aria-label="ค้นหาอำเภอ" aria-controls="results">
+        </div>
+        <ul class="results" id="results" role="listbox" hidden></ul>
+        <div class="found" id="found" hidden aria-live="polite">
+          <p id="foundText"></p>
+          <a class="btn btn-green" href="#install">ติดตั้งแอปเพื่อเข้าห้อง</a>
+        </div>
+
+        <div class="chips" aria-label="จังหวัดลัด">
+          <button class="chip main" type="button" data-q="เชียงใหม่">เชียงใหม่</button>
+          <button class="chip" type="button" data-q="ลำพูน">ลำพูน</button>
+          <button class="chip" type="button" data-q="เชียงราย">เชียงราย</button>
+          <button class="chip" type="button" data-q="กรุงเทพ">กรุงเทพฯ</button>
         </div>
       </div>
 
-      <div class="phone" role="img" aria-label="ตัวอย่างหน้าจอแอป Siam Chat">
-        <div class="screen">
-          <!-- ใส่ภาพหน้าจอจริงชื่อ assets/screen-1.png แล้วภาพจะขึ้นแทนภาพจำลองเอง -->
-          <img src="assets/screen-1.png" alt="" onerror="this.remove()">
-          <div class="mock-map">
-            <div class="pin" style="top:30%;left:22%;background:#f0a020"><span>🍜</span></div>
-            <div class="pin" style="top:38%;left:62%;background:var(--green-2)"><span>⛽</span></div>
-            <div class="pin" style="top:52%;left:38%;background:#e5484d"><span>⚠️</span></div>
-            <div class="pin" style="top:24%;left:72%;background:#3b82f6"><span>🏞️</span></div>
-          </div>
-          <div class="mock-head"><b>อ.เมืองเชียงใหม่</b><i>จ.เชียงใหม่ · ห้องแชทอำเภอ</i></div>
-          <div class="mock-chat">
-            <div class="bub"><em>🐼 แพนด้าน้อย</em>ถนนนิมมานฯ รถติดมากตอนนี้</div>
-            <div class="bub me">ขอบคุณครับ เดี๋ยวอ้อมไปทางอื่น</div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- 3) 3 ขั้นตอน -->
-  <section id="how">
-    <div class="wrap">
-      <h2>ใช้งานง่าย 3 ขั้นตอน</h2>
-      <p class="sub">ไม่ต้องตั้งค่าอะไรมาก เปิดแอปแล้วเลือกพื้นที่ของคุณได้เลย</p>
-      <div class="steps">
-        <div class="step"><div class="num">1</div><div><h3>เลือกจังหวัด</h3><p>แตะบนแผนที่ประเทศไทย 77 จังหวัด</p></div></div>
-        <div class="step"><div class="num">2</div><div><h3>เลือกอำเภอ</h3><p>ทุกอำเภอมีห้องของตัวเอง</p></div></div>
-        <div class="step"><div class="num">3</div><div><h3>เริ่มพูดคุย</h3><p>กับคนที่อยู่ในพื้นที่เดียวกันจริง</p></div></div>
-      </div>
-    </div>
-  </section>
-
-  <!-- 4) ทำอะไรได้บ้าง -->
-  <section class="feat-bg">
-    <div class="wrap">
-      <h2>ทำอะไรได้บ้าง</h2>
-      <p class="sub">ทุกอย่างที่ต้องรู้เกี่ยวกับพื้นที่รอบตัว รวมไว้ในที่เดียว</p>
-      <div class="cards">
-        <div class="card"><div class="ico">💬</div><h3>แชทอำเภอ</h3><p>คุยกับคนในอำเภอเดียวกัน ถามตอบเรื่องใกล้ตัว</p></div>
-        <div class="card"><div class="ico">📍</div><h3>ปักหมุดสถานที่</h3><p>ร้านอาหาร ปั๊ม ห้องน้ำ ที่เที่ยว</p></div>
-        <div class="card"><div class="ico">⚠️</div><h3>แจ้งเหตุใกล้ตัว</h3><p>อุบัติเหตุ น้ำท่วม รถติด</p></div>
-        <div class="card"><div class="ico">🛡️</div><h3>เป็นส่วนตัว</h3><p>ใช้รูปสัตว์แทนรูปจริง</p></div>
-      </div>
-    </div>
-  </section>
-
-  <!-- 5) ตัวเลข -->
-  <div class="stats">
-    <div class="wrap">
-      <div class="stat"><b>77</b><span>จังหวัด</span></div>
-      <div class="stat"><b>928</b><span>อำเภอ</span></div>
-      <div class="stat"><b>ฟรี</b><span>ไม่มีค่าใช้จ่าย</span></div>
+      <!-- จอคอม: การ์ดตัวอย่างอยู่ขวามือ -->
+      <div class="hero-demo" aria-hidden="true"></div>
     </div>
   </div>
 
-  <!-- 6) ดาวน์โหลด (ข้อความ/ลิงก์แก้ที่ DOWNLOAD ใน <script> ด้านบน) -->
-  <section id="download">
-    <div class="wrap">
-      <div class="dl">
-        <h2>ร่วมเป็นผู้ทดสอบรุ่นแรก</h2>
-        <p class="sub">ตอนนี้ Siam Chat เปิดให้ทดสอบบน Android ทำตาม 3 ขั้นตอนนี้</p>
-        <div class="dl-steps">
-          <div class="dl-step">
-            <span class="tag">ขั้นที่ 1</span>
-            <p class="js-step1">เข้าร่วมกลุ่มผู้ทดสอบ (กด 'เข้าร่วมกลุ่ม')</p>
-            <a class="btn btn-white js-group" href="https://groups.google.com/g/siamchat-testers" target="_blank" rel="noopener">👥 <span class="js-group-btn">เข้าร่วมกลุ่มผู้ทดสอบ</span></a>
-          </div>
-          <div class="dl-step">
-            <span class="tag">ขั้นที่ 2</span>
-            <p class="js-step2">กด 'เป็นผู้ทดสอบ'</p>
-            <a class="play js-play" href="https://play.google.com/apps/testing/com.siamchat.app" target="_blank" rel="noopener">
-              <svg viewBox="0 0 24 26" aria-hidden="true"><path fill="#00d7fe" d="M1.2.6 13.4 13 1.2 25.4c-.4-.3-.7-.8-.7-1.4V2c0-.6.3-1.1.7-1.4z"/><path fill="#ffce00" d="m17.5 17.1-4.1-4.1 4.1-4.1 4.7 2.7c1.4.8 1.4 2.1 0 2.9z"/><path fill="#ff3a44" d="M17.5 17.1 13.4 13 1.2 25.4c.5.4 1.2.4 2 0z"/><path fill="#00f076" d="M17.5 8.9 3.2.6C2.4.2 1.7.2 1.2.6L13.4 13z"/></svg>
-              <span><small>Android</small><b class="js-play-text">เปิดให้ทดสอบบน Google Play</b></span>
-            </a>
-          </div>
-          <div class="dl-step">
-            <span class="tag">ขั้นที่ 3</span>
-            <p class="js-step3">ติดตั้งแอปจาก Google Play</p>
-            <a class="play js-store" href="https://play.google.com/store/apps/details?id=com.siamchat.app" target="_blank" rel="noopener">
-              <svg viewBox="0 0 24 26" aria-hidden="true"><path fill="#00d7fe" d="M1.2.6 13.4 13 1.2 25.4c-.4-.3-.7-.8-.7-1.4V2c0-.6.3-1.1.7-1.4z"/><path fill="#ffce00" d="m17.5 17.1-4.1-4.1 4.1-4.1 4.7 2.7c1.4.8 1.4 2.1 0 2.9z"/><path fill="#ff3a44" d="M17.5 17.1 13.4 13 1.2 25.4c.5.4 1.2.4 2 0z"/><path fill="#00f076" d="M17.5 8.9 3.2.6C2.4.2 1.7.2 1.2.6L13.4 13z"/></svg>
-              <span><small>Android</small><b class="js-store-text">ติดตั้งจาก Google Play</b></span>
-            </a>
-          </div>
-        </div>
-        <small class="note dl-note js-note">ใช้ Gmail เดียวกับที่ล็อกอินใน Play Store บนมือถือ · ถ้าขึ้นว่าไม่พบแอป ให้รอ 5–10 นาทีแล้วลองใหม่</small>
+  <!-- 3) ตัวอย่างห้องแชท (ข้อความสมมติ มีป้าย "ตัวอย่าง" เสมอ) -->
+  <template id="demoTpl">
+    <div class="demo">
+      <div class="demo-head">
+        <div><b>ห้องแชท อ.เมืองเชียงใหม่</b><small>จ.เชียงใหม่</small></div>
+        <span class="badge">ตัวอย่าง</span>
       </div>
+      <div class="demo-body">
+        <div class="msg"><div class="ava">🦉</div><div class="bubble"><em>นกฮูกน้อย</em>ถนนห้วยแก้วรถติดยาวถึงแยกรินคำ เลี่ยงได้เลี่ยงนะ</div></div>
+        <div class="msg"><div class="ava">🐘</div><div class="bubble"><em>ช้างเผือก</em>ปั๊มแถวสี่แยกข่วงสิงห์ น้ำมันมาแล้วครับ</div></div>
+        <div class="msg"><div class="ava">🐱</div><div class="bubble"><em>แมวส้ม</em>มีร้านข้าวต้มเปิดดึกแถวช้างเผือกไหมคะ</div></div>
+      </div>
+      <div class="demo-foot">ข้อความตัวอย่างเพื่อแสดงหน้าตาห้องแชท ไม่ใช่ข้อความจริงของผู้ใช้</div>
+    </div>
+  </template>
+  <section class="demo-mobile" style="padding:20px 0 0">
+    <div class="wrap" id="demoMobile"></div>
+  </section>
 
-      <!-- 7) โซเชียล (แสดงเฉพาะที่ใส่ลิงก์ใน LINKS) -->
-      <div class="social" id="social"></div>
+  <!-- 4) ปุ่มใหญ่ -->
+  <div class="wrap cta">
+    <a class="btn btn-green" href="#install">
+      <svg class="gp" viewBox="0 0 24 26" aria-hidden="true"><path fill="#fff" d="M1.2.6 13.4 13 1.2 25.4c-.4-.3-.7-.8-.7-1.4V2c0-.6.3-1.1.7-1.4z"/><path fill="#fff" opacity=".85" d="m17.5 17.1-4.1-4.1 4.1-4.1 4.7 2.7c1.4.8 1.4 2.1 0 2.9z"/><path fill="#fff" opacity=".7" d="M17.5 17.1 13.4 13 1.2 25.4c.5.4 1.2.4 2 0z"/><path fill="#fff" opacity=".9" d="M17.5 8.9 3.2.6C2.4.2 1.7.2 1.2.6L13.4 13z"/></svg>
+      ติดตั้งฟรีบน Google Play
+    </a>
+    <p>ช่วงทดสอบ · 3 ขั้น ใช้เวลา 1 นาที</p>
+  </div>
+
+  <!-- 5) ทำไมต้อง Siam Chat -->
+  <section>
+    <div class="wrap">
+      <h2>ทำไมต้อง Siam Chat</h2>
+      <ul class="why">
+        <li><div class="i">📍</div><div><b>ผูกกับพื้นที่จริง</b><span>ทุกอำเภอมีห้องของตัวเอง คุยกับคนที่อยู่ใกล้กันจริง</span></div></li>
+        <li><div class="i">⚠️</div><div><b>รู้เรื่องแถวบ้านก่อนใคร</b><span>อุบัติเหตุ น้ำท่วม รถติด แจ้งและเห็นได้ทันที</span></div></li>
+        <li><div class="i">💬</div><div><b>ไม่วุ่นวายเหมือนกลุ่มใหญ่</b><span>เรื่องในห้องเป็นเรื่องของพื้นที่นั้น ไม่ปนกับที่อื่น</span></div></li>
+        <li><div class="i">🛡️</div><div><b>เป็นส่วนตัว</b><span>ใช้รูปสัตว์แทนรูปจริง</span></div></li>
+      </ul>
     </div>
   </section>
+
+  <!-- 6) ติดตั้ง (ข้อความ/ลิงก์แก้ที่ DOWNLOAD ใน <script> ด้านบน) -->
+  <section class="install" id="install">
+    <div class="wrap">
+      <h2>เริ่มใช้ 3 ขั้น</h2>
+      <ol class="steps">
+        <li class="step"><div class="num">1</div><div class="step-body">
+          <p class="js-step1">เข้าร่วมกลุ่มผู้ทดสอบ (กด 'เข้าร่วมกลุ่ม')</p>
+          <a class="btn btn-outline js-group" href="https://groups.google.com/g/siamchat-testers" target="_blank" rel="noopener">👥 <span class="js-group-btn">เข้าร่วมกลุ่มผู้ทดสอบ</span></a>
+        </div></li>
+        <li class="step"><div class="num">2</div><div class="step-body">
+          <p class="js-step2">กด 'เป็นผู้ทดสอบ'</p>
+          <a class="btn btn-dark js-play" href="https://play.google.com/apps/testing/com.siamchat.app" target="_blank" rel="noopener">
+            <svg class="gp" viewBox="0 0 24 26" aria-hidden="true"><path fill="#00d7fe" d="M1.2.6 13.4 13 1.2 25.4c-.4-.3-.7-.8-.7-1.4V2c0-.6.3-1.1.7-1.4z"/><path fill="#ffce00" d="m17.5 17.1-4.1-4.1 4.1-4.1 4.7 2.7c1.4.8 1.4 2.1 0 2.9z"/><path fill="#ff3a44" d="M17.5 17.1 13.4 13 1.2 25.4c.5.4 1.2.4 2 0z"/><path fill="#00f076" d="M17.5 8.9 3.2.6C2.4.2 1.7.2 1.2.6L13.4 13z"/></svg>
+            <span class="js-play-text">เปิดหน้าทดสอบ Google Play</span></a>
+        </div></li>
+        <li class="step"><div class="num">3</div><div class="step-body">
+          <p class="js-step3">ติดตั้งแอปจาก Google Play</p>
+          <a class="btn btn-green js-store" href="https://play.google.com/store/apps/details?id=com.siamchat.app" target="_blank" rel="noopener">
+            <span class="js-store-text">ติดตั้งจาก Google Play</span></a>
+        </div></li>
+      </ol>
+      <p class="note js-note">ใช้ Gmail เดียวกับที่ล็อกอินใน Play Store บนมือถือ · ถ้าขึ้นว่าไม่พบแอป ให้รอ 5–10 นาทีแล้วลองใหม่</p>
+    </div>
+  </section>
+
+  <!-- 7) คำถามที่พบบ่อย -->
+  <section>
+    <div class="wrap faq">
+      <h2>คำถามที่พบบ่อย</h2>
+      <details><summary>ใช้ฟรีไหม</summary><p>ฟรี ไม่มีค่าใช้จ่าย</p></details>
+      <details><summary>iPhone ใช้ได้ไหม</summary><p>ตอนนี้เปิดให้ใช้บน Android ก่อน iPhone กำลังตามมา</p></details>
+      <details><summary>ข้อมูลส่วนตัวปลอดภัยไหม</summary><p>ในแอปใช้รูปสัตว์แทนรูปจริง และไม่แสดงอีเมลของคุณให้ผู้อื่นเห็น อ่านรายละเอียดได้ที่ <a href="https://eskimooo1234-maker.github.io/siam-chat-legal/privacy.html">นโยบายความเป็นส่วนตัว</a></p></details>
+      <details><summary>ทำไมต้องเข้ากลุ่ม Google</summary><p>ช่วงทดสอบ Google กำหนดให้ผู้ทดสอบเข้ากลุ่มก่อน จึงจะติดตั้งแอปจาก Google Play ได้</p></details>
+      <details><summary>ลบบัญชีได้ไหม</summary><p>ได้ ดูวิธีได้ที่หน้า <a href="https://eskimooo1234-maker.github.io/siam-chat-legal/delete-account.html">ลบบัญชี</a></p></details>
+    </div>
+  </section>
+
+  <!-- 8) โซเชียล (แสดงเฉพาะที่ใส่ลิงก์ใน LINKS) -->
+  <div class="wrap social" id="social"></div>
 </main>
 
-<!-- 8) ท้ายหน้า -->
 <footer>
   <div class="wrap">
     <div>© 2026 Siam Chat · เชียงใหม่</div>
@@ -357,36 +350,113 @@ footer nav a:hover{text-decoration:underline}
 
 <script>
 (function(){
-  var D = DOWNLOAD, $$ = function(s){return document.querySelectorAll(s)};
-  function each(s, f){ Array.prototype.forEach.call($$(s), f); }
+  function each(s, f){ Array.prototype.forEach.call(document.querySelectorAll(s), f); }
+  function setText(s, v){ each(s, function(e){ e.textContent = v; }); }
+  function setHref(s, v){ each(s, function(a){ a.href = v; }); }
 
-  // ส่วนดาวน์โหลด
-  each('.js-step1', function(e){ e.textContent = D.step1; });
-  each('.js-group', function(a){ a.href = D.groupUrl; });
-  each('.js-group-btn', function(e){ e.textContent = D.groupBtn; });
-  each('.js-step2', function(e){ e.textContent = D.step2; });
-  each('.js-play-text', function(e){ e.textContent = D.playBtn; });
-  each('.js-step3', function(e){ e.textContent = D.step3; });
-  each('.js-store', function(a){ a.href = D.storeUrl; });
-  each('.js-store-text', function(e){ e.textContent = D.storeBtn; });
-  each('.js-note', function(e){ e.textContent = D.note; });
-  // ปุ่ม Google Play ใน hero พาลงไปส่วนดาวน์โหลด (ต้องขอสิทธิ์ก่อน) · ปุ่มในส่วนดาวน์โหลดเปิดลิงก์จริง
-  each('#download .js-play', function(a){ a.href = D.playUrl; });
+  // ---- ส่วนติดตั้ง: ค่าจาก DOWNLOAD ----
+  var D = DOWNLOAD;
+  setText('.js-step1', D.step1); setHref('.js-group', D.groupUrl); setText('.js-group-btn', D.groupBtn);
+  setText('.js-step2', D.step2); setHref('.js-play', D.playUrl);  setText('.js-play-text', D.playBtn);
+  setText('.js-step3', D.step3); setHref('.js-store', D.storeUrl); setText('.js-store-text', D.storeBtn);
+  setText('.js-note', D.note);
 
-  // ปุ่มโซเชียล
+  // ---- การ์ดตัวอย่าง: มือถืออยู่ใต้ hero · จอคอมอยู่ขวาของ hero ----
+  var tpl = document.getElementById('demoTpl');
+  document.getElementById('demoMobile').appendChild(tpl.content.cloneNode(true));
+  document.querySelector('.hero-demo').appendChild(tpl.content.cloneNode(true));
+
+  // ---- ค้นหาอำเภอ (ข้อมูลจาก assets/districts.json เท่านั้น ไม่เรียก API ไม่เก็บสิ่งที่พิมพ์) ----
+  var q = document.getElementById('q'), list = document.getElementById('results'),
+      found = document.getElementById('found'), foundText = document.getElementById('foundText');
+  var DATA = null, loading = null, MAX = 6;
+
+  function load(){
+    if (DATA || loading) return loading;
+    loading = fetch('assets/districts.json').then(function(r){ return r.json(); }).then(function(j){
+      DATA = j.d.map(function(x){ return { n: x[0], p: j.p[x[1]] }; });
+    }).catch(function(){ DATA = []; });
+    return loading;
+  }
+  function norm(s){
+    return (s || '').replace(/\s+/g, '').replace(/^(อำเภอ|อ\.|เขต|จังหวัด|จ\.)/, '')
+      .replace(/กรุงเทพฯ?/, 'กรุงเทพ');
+  }
+  function label(d){
+    var bkk = d.p === 'กรุงเทพมหานคร';
+    return { name: bkk ? d.n : 'อ.' + d.n, prov: bkk ? d.p : 'จ.' + d.p };
+  }
+  function search(raw){
+    var t = norm(raw); if (!t || !DATA) return { items: [], total: 0 };
+    var a = [], b = [], c = [];
+    DATA.forEach(function(d){
+      var n = d.n.replace(/^เขต/, ''), p = d.p;
+      if (n.indexOf(t) === 0) a.push(d);
+      else if (n.indexOf(t) > 0) b.push(d);
+      else if (p.indexOf(t) === 0) c.push(d);   // พิมพ์ชื่อจังหวัด → แสดงอำเภอในจังหวัดนั้น (อ.เมือง ก่อน)
+    });
+    c.sort(function(x, y){ return (y.n.indexOf('เมือง') === 0) - (x.n.indexOf('เมือง') === 0); });
+    var all = a.concat(b, c);
+    return { items: all.slice(0, MAX), total: all.length };
+  }
+  function render(){
+    found.hidden = true;
+    var r = search(q.value);
+    list.innerHTML = '';
+    if (!q.value.trim()) { list.hidden = true; return; }
+    if (!r.items.length) {
+      list.innerHTML = '<li class="more">ไม่พบชื่อนี้ ลองพิมพ์ชื่ออำเภอหรือจังหวัดอีกครั้ง</li>';
+      list.hidden = false; return;
+    }
+    r.items.forEach(function(d){
+      var L = label(d), li = document.createElement('li'), bt = document.createElement('button');
+      bt.type = 'button'; bt.setAttribute('role', 'option');
+      var b = document.createElement('b'); b.textContent = L.name;
+      var s = document.createElement('small'); s.textContent = L.prov;
+      bt.appendChild(b); bt.appendChild(s);
+      bt.addEventListener('click', function(){ pick(d); });
+      li.appendChild(bt); list.appendChild(li);
+    });
+    if (r.total > MAX) {
+      var m = document.createElement('li'); m.className = 'more';
+      m.textContent = 'และอีก ' + (r.total - MAX) + ' แห่ง · พิมพ์เพิ่มเพื่อให้แคบลง';
+      list.appendChild(m);
+    }
+    list.hidden = false;
+  }
+  function pick(d){
+    var L = label(d);
+    list.hidden = true; list.innerHTML = '';
+    foundText.innerHTML = '';
+    var s = document.createElement('strong'); s.textContent = 'ห้องแชท ' + L.name + ' ' + L.prov;
+    foundText.appendChild(s);
+    foundText.appendChild(document.createTextNode(' พร้อมแล้ว — ติดตั้งแอปเพื่อเข้าห้อง'));
+    found.hidden = false;
+    q.value = d.n;
+  }
+  q.addEventListener('focus', load);
+  q.addEventListener('input', function(){ (load() || Promise.resolve()).then(render); });
+  each('.chip', function(c){
+    c.addEventListener('click', function(){
+      q.value = c.getAttribute('data-q');
+      (load() || Promise.resolve()).then(render);
+    });
+  });
+
+  // ---- ปุ่มโซเชียล ----
   var ICONS = {
     facebook: {bg:'#1877f2', label:'Facebook', d:'M14 8.5V6.8c0-.8.2-1.3 1.4-1.3H17V2.6c-.3 0-1.3-.1-2.4-.1-2.4 0-4 1.4-4 4.1v1.9H8v3.2h2.6V21H14v-9.3h2.6l.4-3.2z'},
     tiktok:   {bg:'#111111', label:'TikTok',   d:'M16.6 5.8A4.4 4.4 0 0 1 15.5 3h-3.2v12.4a2.6 2.6 0 1 1-2.6-2.6c.3 0 .5 0 .8.1V9.7a5.8 5.8 0 1 0 5 5.7V9.1a7.5 7.5 0 0 0 4.4 1.4V7.3a4.4 4.4 0 0 1-3.3-1.5z'},
-    line:     {bg:'#06c755', label:'LINE',     d:'M12 3C6.5 3 2 6.6 2 11c0 4 3.6 7.3 8.4 7.9.3.1.8.2.9.5.1.3.1.7 0 1l-.1.9c0 .3-.2 1 .9.5s5.9-3.5 8-5.9C21.4 14.3 22 12.7 22 11c0-4.4-4.5-8-10-8zM8.2 13.4H6.3c-.3 0-.5-.2-.5-.5V9.1c0-.3.2-.5.5-.5s.5.2.5.5v3.3h1.4c.3 0 .5.2.5.5s-.2.5-.5.5zm2-.5c0 .3-.2.5-.5.5s-.5-.2-.5-.5V9.1c0-.3.2-.5.5-.5s.5.2.5.5zm4.6 0c0 .2-.1.4-.3.5h-.2c-.2 0-.3-.1-.4-.2l-1.9-2.6v2.3c0 .3-.2.5-.5.5s-.5-.2-.5-.5V9.1c0-.2.1-.4.3-.5h.2c.2 0 .3.1.4.2l1.9 2.6V9.1c0-.3.2-.5.5-.5s.5.2.5.5zm3.1-2.4c.3 0 .5.2.5.5s-.2.5-.5.5h-1.4v.9h1.4c.3 0 .5.2.5.5s-.2.5-.5.5H16c-.3 0-.5-.2-.5-.5V9.1c0-.3.2-.5.5-.5h1.9c.3 0 .5.2.5.5s-.2.5-.5.5h-1.4v.9z'}
+    line:     {bg:'#06c755', label:'LINE',     d:'M12 3C6.5 3 2 6.6 2 11c0 4 3.6 7.3 8.4 7.9.3.1.8.2.9.5.1.3.1.7 0 1l-.1.9c0 .3-.2 1 .9.5s5.9-3.5 8-5.9C21.4 14.3 22 12.7 22 11c0-4.4-4.5-8-10-8z'}
   };
-  var box = document.getElementById('social'), html = '';
+  var box = document.getElementById('social');
   Object.keys(ICONS).forEach(function(k){
     var url = (LINKS[k] || '').trim(); if (!url) return;
-    var i = ICONS[k];
-    html += '<a href="' + url.replace(/"/g,'&quot;') + '" target="_blank" rel="noopener" aria-label="' + i.label +
-            '" style="background:' + i.bg + '"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="' + i.d + '"/></svg></a>';
+    var i = ICONS[k], a = document.createElement('a');
+    a.href = url; a.target = '_blank'; a.rel = 'noopener'; a.setAttribute('aria-label', i.label); a.style.background = i.bg;
+    a.innerHTML = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="' + i.d + '"/></svg>';
+    box.appendChild(a);
   });
-  box.innerHTML = html;
 })();
 </script>
 </body>
