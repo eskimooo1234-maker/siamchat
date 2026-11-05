@@ -166,7 +166,7 @@ h2{font-size:20px;line-height:1.35;color:var(--navy);margin:0 0 14px}
 .mode[aria-pressed="true"]{background:var(--c)}
 .mode[aria-pressed="true"] b{color:#fff}
 .mode[aria-pressed="true"] small{color:rgba(255,255,255,.85)}
-.map-box{position:relative;height:320px;background:#e5e3df}
+.map-box{position:relative;height:350px;background:#e5e3df}
 #map{position:absolute;inset:0}
 .map-msg{position:absolute;inset:0;display:grid;place-items:center;align-content:center;gap:12px;padding:20px;text-align:center;
   color:var(--muted);font-size:14px;background:#f2f5f3}
@@ -257,7 +257,7 @@ footer nav a:hover{text-decoration:underline}
   .steps{grid-template-columns:repeat(3,1fr)}
   .step{flex-direction:column}
   .faq{max-width:720px;margin:0 auto}
-  .map-box{height:360px}
+  .map-box{height:380px}
   .map-sec{display:none}
   .hero .map-note{color:#cfe8dc}
 }
@@ -732,7 +732,7 @@ footer nav a:hover{text-decoration:underline}
       ring.setCenter({ lat: state.lat, lng: state.lng }); ring.setRadius(km * 1000);
       // ย้ายกล้องเท่านั้น (ไม่สร้างแผนที่ใหม่) · ซูมให้วงพอดีความสูงแผนที่ (การ์ดมือถือแคบกว่าสูง วงจึงชิดขอบซ้าย-ขวา)
       var h = box.clientHeight || 320, mpp = 156543.03392 * Math.cos(state.lat * Math.PI / 180);
-      var z = Math.floor(Math.log2(mpp * (h - 16) / (2 * km * 1000)));
+      var z = Math.floor(Math.log2(mpp * (h - 8) / (2 * km * 1000)));   // สูง 350px → วง 3 กม. ได้ซูม 13 ทั้งประเทศ
       map.panTo({ lat: state.lat, lng: state.lng }); map.setZoom(Math.max(5, Math.min(17, z)));
     }
     function start(){
