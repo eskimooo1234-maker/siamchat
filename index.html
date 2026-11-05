@@ -113,9 +113,9 @@ h2{font-size:20px;line-height:1.35;color:var(--navy);margin:0 0 14px}
 /* ---------- 2) Hero ---------- */
 .hero{background:linear-gradient(160deg,var(--navy) 0%,#0d4a58 55%,var(--green) 100%);color:#fff;padding:20px 0 24px}
 .kicker{font-size:13px;font-weight:600;color:#cfe8dc;margin:0}
-.hero h1{font-size:27px;line-height:1.3;margin:6px 0 6px;font-weight:800}
-.hero h1 span{display:block;color:#7ee2b0}
-.lead{margin:0 0 16px;color:#e3eef5;font-size:15px}
+/* หัวข้อบรรทัดเดียว: ไม่ตัดบรรทัด ขนาดตามความกว้างจอ (360px ≈ 22px) */
+.hero h1{font-size:clamp(20px,6.1vw,30px);line-height:1.3;margin:6px 0 14px;font-weight:800;white-space:nowrap}
+.hero h1 span{color:#7ee2b0}
 
 .search{position:relative}
 .search input{width:100%;height:50px;border-radius:12px;border:0;padding:0 14px 0 42px;
@@ -149,35 +149,83 @@ h2{font-size:20px;line-height:1.35;color:var(--navy);margin:0 0 14px}
 .pick select:focus{outline:3px solid #7ee2b0;outline-offset:0}
 .pick .n{position:absolute;right:36px;top:50%;transform:translateY(-50%);font-size:11px;color:var(--muted);pointer-events:none}
 
-/* ---------- 3) แผนที่ (Google Maps) ---------- */
-.mapcard{background:#fff;border:1px solid var(--line);border-radius:16px;overflow:hidden;
+/* ---------- 3) แผนที่ (Google Maps) — หน้าตาแบบ FullMapModal / TravelMapModal ของแอป ---------- */
+.mapcard{--ac:#10b981;--abg:#dcfce7;--hd:#10b981;--rc:#10b981;background:#fff;border:1px solid var(--line);border-radius:20px;overflow:hidden;
   box-shadow:0 10px 30px -14px rgba(11,42,91,.35);color:var(--ink)}
-.map-head{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:12px 14px;border-bottom:1px solid var(--line)}
-.map-head b{color:var(--navy);font-size:15px;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.badge{flex:none;background:#fff4d6;color:#8a5a00;border:1px solid #f1d58a;font-size:12px;font-weight:700;
-  padding:3px 10px;border-radius:999px}
-/* แท็บแบบ MapModeToggle ในแอป: ชีวิตประจำวัน (เขียว) | ท่องเที่ยว (น้ำเงิน) */
-.modes{display:flex;border-bottom:1px solid var(--line)}
+.mapcard.travel{--ac:#1a56db;--abg:#e8f0fe;--hd:#185FA5;--rc:#185FA5}
+/* แท็บแบบ MapModeToggle */
+.modes{display:flex;border-bottom:1px solid #e5e7eb}
 .mode{flex:1;display:flex;align-items:center;gap:8px;min-height:52px;padding:6px 12px;border:0;background:#fff;cursor:pointer;text-align:left}
-.mode + .mode{border-left:1px solid var(--line)}
+.mode + .mode{border-left:1px solid #e5e7eb}
 .mode .mi{font-size:18px;line-height:1}
 .mode b{display:block;font-size:14px;color:#111827;line-height:1.25}
-.mode small{display:block;font-size:11px;color:#6b7280;line-height:1.3}
+.mode small{display:block;font-size:10px;font-weight:500;color:#6b7280;line-height:1.3}
 .mode[aria-pressed="true"]{background:var(--c)}
 .mode[aria-pressed="true"] b{color:#fff}
 .mode[aria-pressed="true"] small{color:rgba(255,255,255,.85)}
+/* หัว modal: พื้นเขียว/น้ำเงิน ตัวขาว */
+.mhead{display:flex;align-items:center;gap:10px;padding:12px 16px;background:var(--hd);color:#fff}
+.mhead .t{flex:1;min-width:0}
+.mhead b{display:block;font-size:18px;font-weight:800;line-height:1.3;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.mhead small{display:block;font-size:12px;line-height:1.4;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.mhead .badge{background:rgba(255,255,255,.2);color:#fff;border:0}
+.badge{flex:none;background:#fff4d6;color:#8a5a00;border:1px solid #f1d58a;font-size:12px;font-weight:700;padding:4px 10px;border-radius:999px}
+/* แถวแหล่ง (SourceTabs) */
+.srcs{display:flex;gap:6px;padding:8px;background:#F8FAFF;border-bottom:.5px solid rgba(0,0,0,.08)}
+.src{flex:1;display:flex;align-items:center;justify-content:center;gap:4px;min-height:34px;border-radius:6px;font-size:12px;
+  background:#fff;border:.5px solid #D1D5DB;color:#374151;white-space:nowrap}
+.src i{font-style:normal;font-size:11px;color:#6B7280}
+.src .dot{width:8px;height:8px;border-radius:4px;background:var(--hd)}
+.src.g .dot{background:#E24B4A}
+.src.on{background:var(--hd);border-color:var(--hd);color:#fff;font-weight:500}
+.src.on i{color:rgba(255,255,255,.8)}
+.src.on .dot{background:#fff}
+.src.off{opacity:.45}
+.src svg{width:12px;height:12px}
+/* หมวดหมู่ (CategoryChips): วงกลม 48 · ระยะ 62 · ป้าย 11px */
+.cats-head{display:flex;justify-content:space-between;align-items:center;padding:8px 14px 1px}
+.cats-head span{font-size:12px;font-weight:700;color:#6b7280}
+.cats-head a{font-size:12px;font-weight:600;color:var(--ac);text-decoration:none}
+.cats-wrap{position:relative;border-bottom:1px solid #e5e7eb;padding-bottom:4px}
+.cats-wrap::after{content:"";position:absolute;right:0;top:0;bottom:0;width:16px;background:linear-gradient(90deg,rgba(255,255,255,0),#fff);pointer-events:none}
+.cats{display:flex;gap:10px;overflow-x:auto;padding:4px;scrollbar-width:none;-webkit-overflow-scrolling:touch}
+.cats::-webkit-scrollbar{display:none}
+.cat{flex:none;width:52px;display:flex;flex-direction:column;align-items:center;border:0;background:none;padding:2px 0;cursor:pointer}
+.cat .ci{width:48px;height:48px;border-radius:50%;display:grid;place-items:center;font-size:22px;line-height:1;
+  background:#f8fafc;border:2px solid #e5e7eb;box-sizing:border-box}
+.cat .ci img{width:26px;height:26px}
+.cat .cl{font-size:11px;margin-top:4px;color:#6b7280;font-weight:500;white-space:nowrap;max-width:60px;overflow:hidden;text-overflow:ellipsis}
+.cat[aria-pressed="true"] .ci{background:var(--abg);border-color:var(--ac);box-shadow:0 0 8px var(--ac)}
+.cat[aria-pressed="true"] .cl{color:var(--ac);font-weight:700;text-decoration:underline}
+/* แผนที่ */
 .map-box{position:relative;height:350px;background:#e5e3df}
 #map{position:absolute;inset:0}
 .map-msg{position:absolute;inset:0;display:grid;place-items:center;align-content:center;gap:12px;padding:20px;text-align:center;
-  color:var(--muted);font-size:14px;background:#f2f5f3}
+  color:var(--muted);font-size:14px;background:#f2f5f3;z-index:3}
 .map-msg[hidden]{display:none}
 .map-msg b{color:var(--navy);font-size:16px}
 .map-msg .btn{min-width:200px}
-.rowchips{display:flex;gap:8px;overflow-x:auto;padding:10px 14px 12px;scrollbar-width:none;-webkit-overflow-scrolling:touch}
-.rowchips::-webkit-scrollbar{display:none}
-.mchip{flex:none;min-height:36px;padding:0 14px;border-radius:999px;border:1px solid var(--line);background:#fff;
-  font-size:13px;font-weight:600;color:#374151;cursor:pointer;white-space:nowrap}
-.mchip[aria-pressed="true"]{background:var(--c,#10b981);border-color:var(--c,#10b981);color:#fff}
+/* ปุ่มตำแหน่ง (แบบปุ่ม my-location ของ Google ในแอป) */
+.locbtn{width:40px;height:40px;margin:10px;border-radius:4px;background:#fff;border:0;box-shadow:0 1px 4px rgba(0,0,0,.3);
+  display:grid;place-items:center;cursor:pointer;padding:0}
+.locbtn svg{width:22px;height:22px}
+/* ปุ่มปักหมุดลอย (AddPlaceFab) — ย่อจาก 72 เป็น 60 ให้พอดีการ์ด */
+.fab{position:absolute;left:18px;bottom:44px;width:60px;height:60px;z-index:2;display:block;-webkit-tap-highlight-color:transparent}
+.fab .ring{position:absolute;inset:-12px;border-radius:50%;border:1.5px dashed rgba(46,139,255,.35)}
+.fab .pulse{position:absolute;inset:0;border-radius:50%;background:#2E8BFF;animation:fabPulse 2s ease-out infinite}
+.fab .core{position:absolute;inset:0;border-radius:50%;display:grid;place-items:center;
+  background:linear-gradient(135deg,#37C0FF,#1F6BFF);box-shadow:0 3px 6px rgba(0,0,0,.3)}
+.fab .core svg{width:30px;height:30px}
+.mapcard.daily .fab .ring{border-color:rgba(46,191,90,.35)}
+.mapcard.daily .fab .pulse{background:#2EBF5A}
+.mapcard.daily .fab .core{background:linear-gradient(135deg,#2E9E52,#1A7A3A)}
+@keyframes fabPulse{0%{transform:scale(1);opacity:.45}100%{transform:scale(1.6);opacity:0}}
+@media (prefers-reduced-motion:reduce){.fab .pulse{animation:none;opacity:0}}
+/* แถบระยะ (RadiusChips) */
+.rads{display:flex;gap:8px;overflow-x:auto;padding:8px;border-top:1px solid #e5e7eb;scrollbar-width:none}
+.rads::-webkit-scrollbar{display:none}
+.rad{flex:none;padding:6px 16px;border-radius:16px;border:1px solid #D1D5DB;background:#fff;font-size:13px;font-weight:500;color:#6B7280;cursor:pointer}
+.rad[aria-pressed="true"]{background:var(--rc);border-color:var(--rc);color:#fff;font-weight:600}
 .map-note{margin:10px 2px 0;font-size:12px;color:var(--muted);line-height:1.55}
 .map-note a{color:inherit}
 /* หมุดแบบในแอป (useMapPinIcons): หัววงกลมขาว 36px ขอบ 2px สีหมวด + หางสี่เหลี่ยมหมุน 45° · จุดยึด = ปลายหาง */
@@ -251,7 +299,7 @@ footer nav a:hover{text-decoration:underline}
   .hero{padding:48px 0 52px}
   .hero-grid{display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:center}
   .hero-grid > *{min-width:0}
-  .hero h1{font-size:36px}
+  .hero h1{font-size:30px}
   .cta{max-width:480px;margin:0 auto}
   .why{grid-template-columns:1fr 1fr;gap:20px 32px}
   .steps{grid-template-columns:repeat(3,1fr)}
@@ -280,8 +328,7 @@ footer nav a:hover{text-decoration:underline}
     <div class="wrap hero-grid">
       <div>
         <p class="kicker">🇹🇭 77 จังหวัด · 928 อำเภอ</p>
-        <h1>อำเภอของคุณ<span>กำลังคุยเรื่องอะไร?</span></h1>
-        <p class="lead">เลือกพื้นที่ แล้วคุยกับคนแถวบ้านจริง ๆ</p>
+        <h1>คุยกับคนรอบตัว <span>ผ่านหมุด</span> 📍</h1>
 
         <!-- ค้นหาจากรายชื่อในไฟล์ assets/districts.json เท่านั้น ไม่ส่งข้อมูลไปที่ไหน ไม่เก็บสิ่งที่พิมพ์ -->
         <div class="search" role="search">
@@ -315,16 +362,30 @@ footer nav a:hover{text-decoration:underline}
   <section class="map-sec" style="padding:20px 0 0">
     <div class="wrap" id="slotMobile">
       <div id="mapWrap">
-        <div class="mapcard">
-          <div class="map-head"><b id="mapTitle">แผนที่ อ.เมืองเชียงใหม่ จ.เชียงใหม่</b><span class="badge">ตัวอย่าง</span></div>
+        <div class="mapcard daily" id="mapCard">
           <div class="modes" role="group" aria-label="โหมดแผนที่">
             <button class="mode" type="button" data-mode="daily" aria-pressed="true" style="--c:#10b981">
               <span class="mi">🏪</span><span><b>ชีวิตประจำวัน</b><small>สิ่งอำนวยความสะดวก</small></span></button>
             <button class="mode" type="button" data-mode="travel" aria-pressed="false" style="--c:#1a56db">
               <span class="mi">✈️</span><span><b>ท่องเที่ยว</b><small>แนะนำสถานที่เที่ยว</small></span></button>
           </div>
+          <div class="mhead">
+            <div class="t"><b id="mapTitle">แผนที่ชีวิตประจำวัน</b><small id="mapSub">📍 อ.เมืองเชียงใหม่ จ.เชียงใหม่ · 0 จุด</small></div>
+            <span class="badge">ตัวอย่าง</span>
+          </div>
+          <div class="srcs" aria-label="แหล่งหมุด">
+            <span class="src"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3 2 8l10 5 10-5-10-5zM2 13l10 5 10-5M2 17.5l10 5 10-5"/></svg>ทั้งหมด <i id="cAll">0</i></span>
+            <span class="src g off" title="ตัวอย่างนี้ไม่มีหมุด Google"><span class="dot"></span>Google <i>0</i></span>
+            <span class="src on"><span class="dot"></span>Siam <i id="cSiam">0</i></span>
+          </div>
+          <div class="cats-head"><span id="catLabel">หมวดหมู่</span><a href="#install">เลือกหมวดหมู่ &gt;</a></div>
+          <div class="cats-wrap"><div class="cats" id="cats" aria-label="หมวดหมู่"></div></div>
           <div class="map-box">
             <div id="map" role="region" aria-label="แผนที่ตัวอย่าง"></div>
+            <a class="fab" href="#install" aria-label="ปักหมุด (ติดตั้งแอป)">
+              <span class="ring"></span><span class="pulse"></span>
+              <span class="core"><svg viewBox="0 0 24 24" fill="#fff"><path d="M12 2a7 7 0 0 0-7 7c0 5.2 7 13 7 13s7-7.8 7-13a7 7 0 0 0-7-7zm3.5 8H13v2.5h-2V10H8.5V8H11V5.5h2V8h2.5v2z"/></svg></span>
+            </a>
             <div class="map-msg" id="mapLoading">กำลังโหลดแผนที่…</div>
             <div class="map-msg" id="mapFail" hidden>
               <span style="font-size:32px">🗺️</span>
@@ -332,12 +393,12 @@ footer nav a:hover{text-decoration:underline}
               <a class="btn btn-green" href="#install">ติดตั้งแอป</a>
             </div>
           </div>
-          <div class="rowchips" id="radChips" aria-label="ระยะ">
-            <button class="mchip" type="button" data-km="1" aria-pressed="false">1 กม.</button>
-            <button class="mchip" type="button" data-km="2" aria-pressed="false">2 กม.</button>
-            <button class="mchip" type="button" data-km="3" aria-pressed="true">3 กม.</button>
-            <button class="mchip" type="button" data-km="5" aria-pressed="false">5 กม.</button>
-            <button class="mchip" type="button" data-km="10" aria-pressed="false">10 กม.</button>
+          <div class="rads" id="radChips" aria-label="ระยะ">
+            <button class="rad" type="button" data-km="1" aria-pressed="false">1 กม.</button>
+            <button class="rad" type="button" data-km="2" aria-pressed="false">2 กม.</button>
+            <button class="rad" type="button" data-km="3" aria-pressed="true">3 กม.</button>
+            <button class="rad" type="button" data-km="5" aria-pressed="false">5 กม.</button>
+            <button class="rad" type="button" data-km="10" aria-pressed="false">10 กม.</button>
           </div>
         </div>
         <p class="map-note">หมุดในแผนที่นี้เป็นตัวอย่าง ดาวน์โหลดแอปเพื่อดูหมุดจริงที่คนในพื้นที่ช่วยกันปัก
@@ -538,7 +599,7 @@ footer nav a:hover{text-decoration:underline}
     function clearD(){ sD.innerHTML = '<option value="">เลือกจังหวัดก่อน</option>'; sD.disabled = true; nD.textContent = ''; }
     function go(d){
       var L = label(d);
-      MAP.show({ title: 'แผนที่ ' + L.name + ' ' + L.prov, lat: d.lat, lng: d.lng, seed: d.p + '/' + d.n });
+      MAP.show({ place: L.name + ' ' + L.prov, lat: d.lat, lng: d.lng, seed: d.p + '/' + d.n });
     }
     function set(d){
       var p = PROV[d.pi];
@@ -568,44 +629,52 @@ footer nav a:hover{text-decoration:underline}
   // ---- แผนที่ Google (Maps JavaScript API) — โหลดครั้งเดียวตอนการ์ดใกล้เข้าจอ · เปลี่ยนพื้นที่ = ย้ายกล้อง ไม่สร้างแผนที่ใหม่ ----
   // หมุดทั้งหมดสร้างขึ้นในเครื่อง (สุ่มแบบคงที่ตามชื่ออำเภอ) เป็นตัวอย่าง ไม่ใช่ข้อมูลจริงจากแอป/DB
   var ICON_IMG = { 'svg:drinks': 'assets/icons/drinks-thai-tea.svg', 'svg:market': 'assets/icons/market-stall.svg' };
-  // ไอคอน/ชื่อหมวดชุดเดียวกับ ROOM_META ใน rooms.ts ของแอป
-  var SAMPLES = {
+  // หมวดตาม rooms.ts ของแอป (ลำดับเดียวกัน) · [slug, ไอคอน, ชื่อสั้นในวงกลม (CategoryChips/TourismChips), ชื่อหมวดใน popup (ROOM_META), ชื่อหมุดตัวอย่าง…]
+  // หมุดแรกของทุกหมวดอยู่ในรัศมี 3 กม. (ค่าเริ่มต้น) — แตะหมวดไหนก็เห็นหมุดอย่างน้อย 1 อัน
+  var CATS = {
     daily: [
-      ['🍜', 'ร้านอาหาร', 'ร้านก๋วยเตี๋ยว (ตัวอย่าง)'],
-      ['🍜', 'ร้านอาหาร', 'ร้านข้าวแกง (ตัวอย่าง)'],
-      ['svg:drinks', 'เครื่องดื่ม', 'ร้านชาไทย (ตัวอย่าง)'],
-      ['⛽', 'ปั๊มน้ำมัน', 'ปั๊มน้ำมัน (ตัวอย่าง)'],
-      ['🚻', 'ห้องน้ำ', 'ห้องน้ำสาธารณะ (ตัวอย่าง)'],
-      ['🏦', 'ATM', 'ตู้ ATM (ตัวอย่าง)'],
-      ['🅿️', 'ที่จอดรถ', 'ลานจอดรถ (ตัวอย่าง)'],
-      ['svg:market', 'ตลาดสด', 'ตลาดสด (ตัวอย่าง)'],
-      ['💊', 'ร้านยา', 'ร้านขายยา (ตัวอย่าง)'],
-      ['🏪', 'สะดวกซื้อ', 'ร้านสะดวกซื้อ (ตัวอย่าง)'],
-      ['☕', 'คาเฟ่', 'ร้านกาแฟ (ตัวอย่าง)'],
-      ['🏥', 'โรงพยาบาล', 'คลินิก (ตัวอย่าง)']
+      ['toilet', '🚻', 'ห้องน้ำ', 'ห้องน้ำ', 'ห้องน้ำสาธารณะ'],
+      ['food', '🍜', 'อาหาร', 'ร้านอาหาร', 'ร้านก๋วยเตี๋ยว', 'ร้านข้าวแกง'],
+      ['drinks', 'svg:drinks', 'เครื่องดื่ม', 'เครื่องดื่ม', 'ร้านชาไทย'],
+      ['gas', '⛽', 'ปั๊ม', 'ปั๊มน้ำมัน', 'ปั๊มน้ำมัน', 'ปั๊มน้ำมัน'],
+      ['atm', '🏦', 'ATM', 'ATM', 'ตู้ ATM'],
+      ['parking', '🅿️', 'จอดรถ', 'ที่จอดรถ', 'ลานจอดรถ'],
+      ['transit', '🚌', 'รถเมล์', 'รถประจำทาง', 'ป้ายรถสองแถว'],
+      ['market', 'svg:market', 'ตลาดสด', 'ตลาดสด', 'ตลาดสด'],
+      ['convenience', '🏪', 'สะดวกซื้อ', 'สะดวกซื้อ', 'ร้านสะดวกซื้อ'],
+      ['mechanic', '🔧', 'ซ่อมรถ', 'ซ่อมรถ', 'ร้านซ่อมรถ'],
+      ['car_rental', '🚙', 'รถเช่า', 'รถเช่า', 'ร้านรถเช่า'],
+      ['hospital', '🏥', 'รพ.', 'โรงพยาบาล', 'คลินิก'],
+      ['pharmacy', '💊', 'ร้านยา', 'ร้านยา', 'ร้านขายยา'],
+      ['dental', '🦷', 'ทันตกรรม', 'ทันตกรรม', 'คลินิกทันตกรรม'],
+      ['fitness', '🏃', 'ออกกำลังกาย', 'ออกกำลังกาย', 'สวนสาธารณะ'],
+      ['cafe', '☕', 'คาเฟ่', 'คาเฟ่', 'ร้านกาแฟ', 'คาเฟ่']
     ],
     travel: [
-      ['🏯', 'วัด', 'วัด (ตัวอย่าง)'],
-      ['🏯', 'วัด', 'ศาลเจ้า (ตัวอย่าง)'],
-      ['🌄', 'จุดชมวิว', 'จุดชมวิว (ตัวอย่าง)'],
-      ['🌿', 'ธรรมชาติ', 'น้ำตก (ตัวอย่าง)'],
-      ['🛍️', 'ถนนคนเดิน', 'ถนนคนเดิน (ตัวอย่าง)'],
-      ['🏛️', 'พิพิธภัณฑ์', 'พิพิธภัณฑ์ (ตัวอย่าง)'],
-      ['🏕️', 'ที่พัก', 'ลานกางเต็นท์ (ตัวอย่าง)'],
-      ['💆', 'สปา', 'ร้านนวดไทย (ตัวอย่าง)'],
-      ['🎭', 'แลนด์มาร์ก', 'แลนด์มาร์ก (ตัวอย่าง)'],
-      ['🌾', 'ฟาร์ม', 'สวนเกษตร (ตัวอย่าง)'],
-      ['🎢', 'สวนสนุก', 'สวนสนุก (ตัวอย่าง)'],
-      ['🍸', 'ไนท์ไลฟ์', 'บาร์ (ตัวอย่าง)']
+      ['temple', '🏯', 'วัด', 'วัด', 'วัด', 'ศาลเจ้า'],
+      ['beach', '🏖️', 'ทะเล', 'ทะเล', 'ชายหาด'],
+      ['viewpoint', '🌄', 'จุดชมวิว', 'จุดชมวิว', 'จุดชมวิว', 'จุดชมพระอาทิตย์ตก'],
+      ['nature', '🌿', 'ธรรมชาติ', 'ธรรมชาติ', 'น้ำตก'],
+      ['walkingstreet', '🛍️', 'ถนนคนเดิน', 'ถนนคนเดิน', 'ถนนคนเดิน'],
+      ['museum', '🏛️', 'พิพิธภัณฑ์', 'พิพิธภัณฑ์', 'พิพิธภัณฑ์'],
+      ['themepark', '🎢', 'สวนสนุก', 'สวนสนุก', 'สวนสนุก'],
+      ['landmark', '🎭', 'กิจกรรม', 'แลนด์มาร์ก', 'แลนด์มาร์ก'],
+      ['spa', '💆', 'สปา', 'สปา', 'ร้านนวดไทย'],
+      ['nightlife', '🍸', 'ไนท์ไลฟ์', 'ไนท์ไลฟ์', 'บาร์'],
+      ['farm', '🌾', 'ฟาร์ม', 'ฟาร์ม', 'สวนเกษตร'],
+      ['camping', '🏕️', 'ที่พัก', 'ที่พัก', 'ลานกางเต็นท์']
     ]
   };
   var PIN_BORDER = '#1a56db';           // colors.primary ของแอป (ขอบหมุดค่าเริ่มต้น)
-  var MODE_COLOR = { daily: '#10b981', travel: '#1a56db' };
 
   var MAP = (function(){
-    var state = { title: 'แผนที่ อ.เมืองเชียงใหม่ จ.เชียงใหม่', lat: 18.7883, lng: 98.9853, seed: 'เชียงใหม่/เมืองเชียงใหม่' };
-    var km = 3, mode = 'daily', map = null, G = null, layer = null, ring = null, started = false, failed = false, creates = 0;
-    var box = document.getElementById('map'), title = document.getElementById('mapTitle'),
+    var state = { place: 'อ.เมืองเชียงใหม่ จ.เชียงใหม่', lat: 18.7883, lng: 98.9853, seed: 'เชียงใหม่/เมืองเชียงใหม่' };
+    var km = 3, mode = 'daily', cat = 'all', map = null, G = null, layer = null, ring = null, started = false, failed = false, creates = 0;
+    var pinsData = [];
+    var box = document.getElementById('map'), card = document.getElementById('mapCard'),
+        title = document.getElementById('mapTitle'), sub = document.getElementById('mapSub'),
+        cAll = document.getElementById('cAll'), cSiam = document.getElementById('cSiam'),
+        catsEl = document.getElementById('cats'), catLabel = document.getElementById('catLabel'),
         loadingEl = document.getElementById('mapLoading'), failEl = document.getElementById('mapFail');
 
     function rng(str){                       // สุ่มแบบคงที่: อำเภอเดิม = หมุดชุดเดิม
@@ -621,20 +690,55 @@ footer nav a:hover{text-decoration:underline}
     function esc(s){ return String(s).replace(/[&<>"]/g, function(c){ return { '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;' }[c]; }); }
 
     function makePins(){
-      var r = rng(state.seed + '#' + mode), list = SAMPLES[mode], n = list.length;
-      return list.map(function(s, i){
-        // กระจายใน 10 กม. — ใกล้ศูนย์กลางมากกว่า (เห็นต่างกันเมื่อเปลี่ยนระยะ 1/2/3/5/10)
-        var d = 0.25 + Math.pow((i + r()) / n, 1.6) * 9.5;
-        var ang = r() * 2 * Math.PI;
-        return { ll: offset(state.lat, state.lng, d, ang), d: d, icon: s[0], cat: s[1], name: s[2] };
+      var r = rng(state.seed + '#' + mode), out = [];
+      CATS[mode].forEach(function(c){
+        c.slice(4).forEach(function(name, k){
+          // หมุดแรกของหมวด: 0.35–2.8 กม. · หมุดเพิ่ม: 3.2–9.5 กม. (เห็นเมื่อขยายระยะ)
+          var d = k === 0 ? 0.35 + r() * 2.45 : 3.2 + r() * 6.3;
+          out.push({ ll: offset(state.lat, state.lng, d, r() * 2 * Math.PI), d: d, slug: c[0], icon: c[1], cat: c[3], name: name + ' (ตัวอย่าง)' });
+        });
       });
+      return out;
+    }
+    function visible(p){ return p.d <= km && (cat === 'all' || p.slug === cat); }
+    function updateCounts(){
+      var n = pinsData.filter(visible).length;
+      cAll.textContent = n; cSiam.textContent = n;
+      sub.textContent = '📍 ' + state.place + ' · ' + n + ' จุด';
+    }
+    function renderHead(){
+      title.textContent = mode === 'daily' ? 'แผนที่ชีวิตประจำวัน' : '🗺️ สถานที่ท่องเที่ยวใกล้ฉัน';
+      catLabel.textContent = mode === 'daily' ? 'หมวดหมู่' : 'หมวดท่องเที่ยว';
+      card.classList.toggle('daily', mode === 'daily'); card.classList.toggle('travel', mode === 'travel');
+    }
+    // วงกลมหมวด: 🌐 ทั้งหมด ก่อน แล้วตามหมวดของแท็บ
+    function renderCats(){
+      catsEl.innerHTML = '';
+      [['all', '🌐', 'ทั้งหมด']].concat(CATS[mode]).forEach(function(c){
+        var b = document.createElement('button');
+        b.type = 'button'; b.className = 'cat'; b.setAttribute('data-cat', c[0]);
+        b.setAttribute('aria-pressed', c[0] === cat ? 'true' : 'false');
+        b.innerHTML = '<span class="ci">' + iconHtml(c[1]) + '</span><span class="cl">' + esc(c[2]) + '</span>';
+        b.addEventListener('click', function(){
+          cat = c[0];
+          each('#cats .cat', function(x){ x.setAttribute('aria-pressed', x === b ? 'true' : 'false'); });
+          if (layer) { layer.close(); layer.draw(); }
+          updateCounts();
+        });
+        catsEl.appendChild(b);
+      });
+      catsEl.scrollLeft = 0;
+    }
+    function rebuild(){
+      pinsData = makePins();
+      if (layer) layer.setPins(pinsData);
+      updateCounts();
     }
 
     function fail(why){
       if (failed) return; failed = true;
       console.warn('[siamchat] แผนที่ Google โหลดไม่ได้:', why);
       box.style.display = 'none'; loadingEl.hidden = true; failEl.hidden = false;
-      document.getElementById('radChips').style.display = 'none';
     }
 
     function init(){
@@ -643,7 +747,7 @@ footer nav a:hover{text-decoration:underline}
       if (!G) return fail('no google.maps');
 
       // หมุด HTML แบบในแอป (OverlayView — ไม่ต้องใช้ Map ID) + จุดผู้ใช้ + popup
-      function Layer(){ this.pins = []; this.pop = null; this.center = null; }
+      function Layer(){ this.pins = []; this.pop = null; }
       Layer.prototype = new G.OverlayView();
       Layer.prototype.onAdd = function(){
         this.root = document.createElement('div'); this.root.style.position = 'absolute';
@@ -656,16 +760,16 @@ footer nav a:hover{text-decoration:underline}
         this.pins.forEach(function(p){
           var pt = pr.fromLatLngToDivPixel(new G.LatLng(p.ll.lat, p.ll.lng));
           p.el.style.left = pt.x + 'px'; p.el.style.top = pt.y + 'px';
-          p.el.style.display = p.d <= km ? '' : 'none';
+          p.el.style.display = visible(p) ? '' : 'none';
         });
         if (this.you) {
           var c = pr.fromLatLngToDivPixel(new G.LatLng(state.lat, state.lng));
           this.you.style.left = c.x + 'px'; this.you.style.top = c.y + 'px';
         }
         if (this.pop) {
+          if (!visible(this.pop.p)) { this.close(); return; }
           var q2 = pr.fromLatLngToDivPixel(new G.LatLng(this.pop.p.ll.lat, this.pop.p.ll.lng));
           this.pop.el.style.left = q2.x + 'px'; this.pop.el.style.top = q2.y + 'px';
-          if (this.pop.p.d > km) this.close();
         }
       };
       Layer.prototype.close = function(){
@@ -686,7 +790,7 @@ footer nav a:hover{text-decoration:underline}
       Layer.prototype.setPins = function(pins){
         if (!this.root) { this.pending = pins; return; }   // ยังไม่ onAdd — รอวาดตอน overlay พร้อม
         var self = this; this.close();
-        this.pins.forEach(function(p){ p.el.remove(); });
+        this.pins.forEach(function(p){ p.el && p.el.remove(); });
         this.pins = pins.map(function(p){
           var el = document.createElement('div'); el.className = 'gpin'; el.style.setProperty('--c', PIN_BORDER);
           el.title = p.name; el.setAttribute('role', 'button'); el.setAttribute('aria-label', p.name);
@@ -712,26 +816,32 @@ footer nav a:hover{text-decoration:underline}
       window.__siamchatMapCenter = function(){ var c = map.getCenter(); return [+c.lat().toFixed(4), +c.lng().toFixed(4), map.getZoom()]; };
       console.log('[siamchat] google.maps.Map created ×' + creates);
 
+      // ปุ่มตำแหน่ง ⊙ มุมขวาบน (แบบ showsMyLocationButton ในแอป) — กด = กลับไปกลางอำเภอ
+      var loc = document.createElement('button');
+      loc.type = 'button'; loc.className = 'locbtn'; loc.title = 'กลับไปกลางอำเภอ'; loc.setAttribute('aria-label', 'กลับไปกลางอำเภอ');
+      loc.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="#666" stroke-width="2"><circle cx="12" cy="12" r="7"/><circle cx="12" cy="12" r="2.5" fill="#666" stroke="none"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3"/></svg>';
+      loc.addEventListener('click', function(){ if (layer) layer.close(); fit(); });
+      map.controls[G.ControlPosition.TOP_RIGHT].push(loc);
+
       // วงรัศมีแบบในแอป (StaticMapPreview): ขอบ rgba(26,86,219,.6) · พื้น rgba(26,86,219,.08)
       ring = new G.Circle({ map: map, center: { lat: state.lat, lng: state.lng }, radius: km * 1000, clickable: false,
         strokeColor: '#1a56db', strokeOpacity: .6, strokeWeight: 2, fillColor: '#1a56db', fillOpacity: .08 });
       layer = new Layer(); layer.setMap(map);
       map.addListener('click', function(){ layer.close(); });
 
-      // ไม่ใช้ตัวจับเวลา: เน็ตช้า/แท็บพื้นหลังอาจโหลดแผ่นแผนที่ช้า แต่แผนที่ยังใช้ได้ — ตัดสินว่าล้มเหลวจาก 3 ทางด้านล่างเท่านั้น
+      // ไม่ใช้ตัวจับเวลา: เน็ตช้า/แท็บพื้นหลังอาจโหลดแผ่นแผนที่ช้า แต่แผนที่ยังใช้ได้ — ตัดสินว่าล้มเหลวจาก 3 ทางเท่านั้น
+      // (gm_authFailure · สคริปต์โหลดไม่ได้ · กล่อง error ของ Google ในแผนที่)
       G.event.addListenerOnce(map, 'tilesloaded', function(){ loadingEl.hidden = true; });
-      // Google แสดงกล่อง error ในแผนที่เมื่อกุญแจ/โควตามีปัญหา → สลับเป็นกล่อง "ดูในแอป"
       new MutationObserver(function(){ if (box.querySelector('.gm-err-container, .gm-err-message')) fail('gm-err'); })
         .observe(box, { childList: true, subtree: true });
 
-      title.textContent = state.title;
-      layer.setPins(makePins());
+      layer.setPins(pinsData);
       fit();
     }
     function fit(){
       ring.setCenter({ lat: state.lat, lng: state.lng }); ring.setRadius(km * 1000);
       // ย้ายกล้องเท่านั้น (ไม่สร้างแผนที่ใหม่) · ซูมให้วงพอดีความสูงแผนที่ (การ์ดมือถือแคบกว่าสูง วงจึงชิดขอบซ้าย-ขวา)
-      var h = box.clientHeight || 320, mpp = 156543.03392 * Math.cos(state.lat * Math.PI / 180);
+      var h = box.clientHeight || 350, mpp = 156543.03392 * Math.cos(state.lat * Math.PI / 180);
       var z = Math.floor(Math.log2(mpp * (h - 8) / (2 * km * 1000)));   // สูง 350px → วง 3 กม. ได้ซูม 13 ทั้งประเทศ
       map.panTo({ lat: state.lat, lng: state.lng }); map.setZoom(Math.max(5, Math.min(17, z)));
     }
@@ -748,29 +858,29 @@ footer nav a:hover{text-decoration:underline}
     }
     function show(next){
       state = next;
-      title.textContent = state.title;
+      rebuild();
       if (!map) { start(); return; }
-      layer.setPins(makePins()); fit();
+      fit();
     }
 
     // แท็บ ชีวิตประจำวัน | ท่องเที่ยว
     each('.mode', function(b){
       b.addEventListener('click', function(){
-        mode = b.getAttribute('data-mode');
+        mode = b.getAttribute('data-mode'); cat = 'all';
         each('.mode', function(x){ x.setAttribute('aria-pressed', x === b ? 'true' : 'false'); });
-        document.getElementById('radChips').style.setProperty('--c', MODE_COLOR[mode]);
-        if (map) layer.setPins(makePins());
+        renderHead(); renderCats(); rebuild();
       });
     });
-    document.getElementById('radChips').style.setProperty('--c', MODE_COLOR[mode]);
     // ระยะ 1 / 2 / 3 / 5 / 10 กม.
-    each('#radChips .mchip', function(b){
+    each('#radChips .rad', function(b){
       b.addEventListener('click', function(){
         km = +b.getAttribute('data-km');
-        each('#radChips .mchip', function(x){ x.setAttribute('aria-pressed', x === b ? 'true' : 'false'); });
+        each('#radChips .rad', function(x){ x.setAttribute('aria-pressed', x === b ? 'true' : 'false'); });
         if (map) { fit(); layer.draw(); }
+        updateCounts();
       });
     });
+    renderHead(); renderCats(); rebuild();
 
     // ย้ายการ์ด: มือถืออยู่ใต้ hero · จอคอม ≥900px อยู่ขวาของ hero (ย้าย DOM เดิม ไม่สร้างแผนที่ใหม่)
     var wrapEl = document.getElementById('mapWrap'), mq = window.matchMedia('(min-width:900px)');
