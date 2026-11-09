@@ -1,0 +1,166 @@
+<!doctype html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>นโยบายความเป็นส่วนตัว — Siam Chat</title>
+<meta name="description" content="นโยบายความเป็นส่วนตัวของ Siam Chat (เวอร์ชัน 2.2)">
+<meta name="theme-color" content="#0b2a5b">
+<link rel="canonical" href="https://eskimooo1234-maker.github.io/siamchat/privacy.html">
+<link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png">
+<link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--green:#0f6a3d;--green-2:#13a463;--green-soft:#e8f6ee;--navy:#0b2a5b;--ink:#16202e;--muted:#5b6676;--line:#e3e8ee;--bg:#fff;--bg-2:#f5f8f6;--max:1000px}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%;scroll-padding-top:80px}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:'Noto Sans Thai',system-ui,-apple-system,'Segoe UI',sans-serif;font-size:15px;line-height:1.7;overflow-wrap:anywhere}
+a{color:var(--green)}
+.wrap{max-width:var(--max);margin:0 auto;padding:0 16px}
+.top{position:sticky;top:0;z-index:20;background:rgba(255,255,255,.95);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+.top .wrap{display:flex;align-items:center;justify-content:space-between;height:64px}
+.brand{display:flex;align-items:center;gap:10px;text-decoration:none;font-weight:800;color:var(--navy);font-size:17px}
+.brand img{width:36px;height:36px;border-radius:9px;box-shadow:0 1px 3px rgba(0,0,0,.12)}
+.back{display:inline-flex;align-items:center;gap:6px;min-height:48px;padding:0 4px;color:var(--navy);text-decoration:none;font-size:14px;font-weight:600}
+.back:hover{text-decoration:underline}
+.ic{flex:none}
+article{max-width:720px;margin:0 auto;padding:32px 16px 56px}
+h1{font-size:26px;line-height:1.3;font-weight:800;color:var(--navy);margin:0 0 8px;text-wrap:balance}
+.meta{font-size:14px;color:var(--muted);margin:0 0 28px}
+.toc{background:var(--bg-2);border:1px solid var(--line);border-radius:12px;padding:16px 18px;margin-bottom:32px}
+.toc p{font-size:13px;font-weight:700;color:var(--muted);margin:0 0 8px}
+.toc ol{padding-left:22px;margin:0}
+.toc li{font-size:14px;margin:0}
+.toc a{color:var(--green);text-decoration:none;display:inline-block;padding:6px 0;min-height:32px}
+.toc a:hover{text-decoration:underline}
+article section{margin-bottom:32px}
+h2{font-size:19px;line-height:1.35;color:var(--navy);border-bottom:1px solid var(--line);padding-bottom:8px;margin:0 0 14px;scroll-margin-top:80px}
+article p{margin:0 0 14px}
+ul,ol{padding-left:22px;margin:0 0 14px}
+li{margin-bottom:6px}
+.highlight-box{background:var(--green-soft);border-left:3px solid var(--green-2);border-radius:0 8px 8px 0;padding:14px 16px;margin-bottom:14px}
+footer{border-top:1px solid var(--line);padding:22px 0 30px;text-align:center;color:var(--muted);font-size:13px}
+footer nav{display:flex;flex-wrap:wrap;justify-content:center;gap:4px 16px;margin-top:6px}
+footer nav a{color:var(--navy);text-decoration:none;min-height:32px;display:inline-flex;align-items:center}
+footer nav a:hover{text-decoration:underline}
+footer nav a.on{font-weight:800;color:var(--green);text-decoration:underline;text-underline-offset:4px}
+</style>
+</head>
+<body>
+<header class="top">
+  <div class="wrap">
+    <a class="brand" href="./" aria-label="Siam Chat หน้าแรก"><img src="assets/logo-64.png" alt="" width="36" height="36">Siam Chat</a>
+    <a class="back" href="./"><svg class="ic" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m12 19-7-7 7-7"/><path d="M19 12H5"/></svg>กลับหน้าหลัก</a>
+  </div>
+</header>
+
+<main>
+<article>
+<h1>Privacy Policy<br>นโยบายความเป็นส่วนตัว</h1>
+  <p class="meta">มีผลบังคับใช้: 5 พฤศจิกายน 2569 &nbsp;·&nbsp; เวอร์ชัน 2.2</p>
+  <nav class="toc"><p>สารบัญ</p><ol><li><a href="#controller">ผู้ควบคุมข้อมูลส่วนบุคคล</a></li><li><a href="#collect">ข้อมูลที่เราเก็บ</a></li><li><a href="#purpose">วัตถุประสงค์และฐานทางกฎหมาย</a></li><li><a href="#share">การเปิดเผยข้อมูลและผู้ให้บริการภายนอก</a></li><li><a href="#visible">ข้อมูลที่ผู้ใช้อื่นมองเห็น</a></li><li><a href="#retention">ระยะเวลาเก็บรักษาและการลบบัญชี</a></li><li><a href="#security">ความปลอดภัยของข้อมูล</a></li><li><a href="#rights">สิทธิของเจ้าของข้อมูล</a></li><li><a href="#age">อายุผู้ใช้</a></li><li><a href="#changes">การเปลี่ยนแปลงนโยบาย</a></li><li><a href="#contact">ติดต่อเรา</a></li></ol></nav>
+
+  <section id="controller">
+    <h2>1. ผู้ควบคุมข้อมูลส่วนบุคคล</h2>
+    <p>แอปพลิเคชัน SIAM CHAT ("แอป", "เรา") ดำเนินการโดย <strong>นายสมชาย แซ่ตั้ง (Somchai Saetang)</strong> จังหวัดเชียงใหม่ ประเทศไทย ในฐานะผู้ควบคุมข้อมูลส่วนบุคคลตามพระราชบัญญัติคุ้มครองข้อมูลส่วนบุคคล พ.ศ. 2562 (PDPA)</p>
+    <p>ติดต่อเรื่องข้อมูลส่วนบุคคล: <a href="mailto:eskimooo1234@gmail.com">eskimooo1234@gmail.com</a></p>
+  </section>
+
+  <section id="collect">
+    <h2>2. ข้อมูลที่เราเก็บ</h2>
+    <p><strong>ข้อมูลบัญชี</strong> — เมื่อคุณเข้าสู่ระบบด้วยบัญชี Google เราได้รับเฉพาะ ชื่อ และอีเมล จาก Google (เราไม่นำรูปโปรไฟล์ Google ของคุณมาใช้หรือแสดงในแอป และไม่ได้รับรหัสผ่าน Google ของคุณ) <strong>ชื่อที่ได้รับจากบัญชี Google หรือชื่อที่กรอกตอนสมัครด้วยอีเมล จะไม่แสดงให้ผู้ใช้อื่นเห็น</strong> เราเก็บแยกไว้ในที่จัดเก็บที่จำกัดสิทธิ์ ซึ่งเข้าถึงได้เฉพาะผู้ควบคุมข้อมูลส่วนบุคคล (นายสมชาย แซ่ตั้ง) เพื่อตรวจสอบการละเมิดข้อกำหนดการใช้งาน หรือเมื่อกฎหมายกำหนดเท่านั้น บัญชีทีมงานบางบัญชีอาจเข้าสู่ระบบด้วยอีเมลและรหัสผ่าน ซึ่งเก็บแบบเข้ารหัสทางเดียว (hash) เท่านั้น</p>
+    <p><strong>ข้อมูลโปรไฟล์และพื้นที่</strong> — ชื่อที่แสดง (ค่าเริ่มต้นคือชื่อสัตว์ตามรูปประจำตัวตามด้วยเลข 4 หลัก เช่น "นกแก้ว 9482" ซึ่งคุณเปลี่ยนเป็นชื่อเล่นของคุณเองได้ทุก 14 วัน เราไม่แนะนำให้ใช้ชื่อจริงหรือข้อมูลที่ระบุตัวตนของคุณเป็นชื่อเล่น) คำแนะนำตัว รูปสัตว์ประจำตัวที่คุณเลือกจากรูปสัตว์ 9 แบบที่แอปจัดให้ (ไม่มีการอัปโหลดรูปโปรไฟล์หรือรูปปก โดยรูปปกโปรไฟล์เป็นภาพประจำภูมิภาคที่แอปจัดให้) และพื้นที่ที่คุณเลือก (ภาค จังหวัด อำเภอ)</p>
+    <p><strong>ตำแหน่งที่ตั้ง</strong> — ตำแหน่ง GPS ขณะใช้งานแอปเท่านั้น (ไม่เก็บตำแหน่งเบื้องหลัง) ใช้เพื่อแสดงแผนที่และสถานที่ใกล้เคียง และพิกัดของหมุดที่คุณปักเอง</p>
+    <p><strong>เนื้อหาที่คุณสร้าง</strong> — โพสต์ คอมเมนต์ รีวิว รูปภาพที่คุณแนบเองในโพสต์ แจ้งเหตุ รีวิว และหมุดสถานที่ (จากกล้องหรือคลังภาพที่คุณเลือก) หมุดสถานที่ การโหวต การบันทึก และการรายงานเนื้อหา</p>
+    <p><strong>ข้อมูลกิจกรรมในแอป</strong> — คะแนน/แต้ม (Points) และ EXP ประวัติการใช้แต้ม การนำทางไปยังสถานที่ และประวัติการตรวจสอบเนื้อหาโดยผู้ดูแลพื้นที่</p>
+    <p><strong>การแจ้งเตือน</strong> — รหัสอุปกรณ์สำหรับส่งการแจ้งเตือน (push token) เมื่อคุณอนุญาตการแจ้งเตือน</p>
+    <p><strong>ข้อมูลทางเทคนิคและรายงานข้อผิดพลาด</strong> — เมื่อแอปเกิดข้อผิดพลาด เราอาจเก็บรายงานข้อผิดพลาด (crash report) ซึ่งประกอบด้วยรุ่นอุปกรณ์ ระบบปฏิบัติการ เวอร์ชันแอป ลำดับการทำงานก่อนเกิดข้อผิดพลาด และรหัสผู้ใช้ (ไม่รวมชื่อหรืออีเมล) รวมถึงบันทึกการใช้งานของเซิร์ฟเวอร์ (เช่น เวลาเรียกใช้ระบบ) เพื่อความปลอดภัยและป้องกันการใช้งานผิดปกติ</p>
+  </section>
+
+  <section id="purpose">
+    <h2>3. วัตถุประสงค์และฐานทางกฎหมาย</h2>
+    <ul>
+      <li><strong>ให้บริการแอปตามข้อตกลงกับคุณ</strong> — สร้างและดูแลบัญชี แสดงแชท/โพสต์/แผนที่ตามพื้นที่ ส่งการแจ้งเตือน และระบบแต้ม</li>
+      <li><strong>ประโยชน์โดยชอบด้วยกฎหมาย</strong> — รักษาความปลอดภัย ป้องกันสแปมและการละเมิด ตรวจสอบเนื้อหาโดยผู้ดูแลพื้นที่ แก้ไขข้อผิดพลาดและปรับปรุงแอป</li>
+      <li><strong>ความยินยอม</strong> — การเข้าถึงตำแหน่ง กล้อง คลังภาพ และการแจ้งเตือน ซึ่งคุณเปิด/ปิดได้ในการตั้งค่าของอุปกรณ์</li>
+      <li><strong>การปฏิบัติตามกฎหมาย</strong> — เมื่อหน่วยงานรัฐร้องขอตามที่กฎหมายกำหนด</li>
+    </ul>
+    <div class="highlight-box">เราไม่ขายข้อมูลส่วนบุคคลของคุณ และไม่ใช้ข้อมูลของคุณเพื่อโฆษณาจากบุคคลภายนอก</div>
+  </section>
+
+  <section id="share">
+    <h2>4. การเปิดเผยข้อมูลและผู้ให้บริการภายนอก</h2>
+    <p>เราใช้ผู้ให้บริการต่อไปนี้ในการประมวลผลข้อมูลแทนเรา ข้อมูลบางส่วนอาจถูกจัดเก็บหรือประมวลผลนอกประเทศไทย ซึ่งเราเลือกผู้ให้บริการที่มีมาตรฐานคุ้มครองข้อมูลที่เหมาะสม</p>
+    <ul>
+      <li><strong>Supabase</strong> — ฐานข้อมูล ระบบเข้าสู่ระบบ และที่เก็บรูปภาพ (เซิร์ฟเวอร์ตั้งอยู่ที่ประเทศญี่ปุ่น)</li>
+      <li><strong>Google</strong> — การเข้าสู่ระบบด้วย Google, Google Maps (แสดงแผนที่) และ Google Places (ค้นหาสถานที่และรูปสถานที่) โดยพิกัดที่ใช้ค้นหาจะถูกส่งผ่านเซิร์ฟเวอร์ของเราไปยัง Google โดยไม่ระบุตัวตนของคุณ</li>
+      <li><strong>Expo / Firebase Cloud Messaging</strong> — ส่งการแจ้งเตือนไปยังอุปกรณ์ และส่งอัปเดตแอป</li>
+      <li><strong>Sentry</strong> — รับรายงานข้อผิดพลาดของแอป (ไม่ส่งชื่อหรืออีเมล)</li>
+    </ul>
+    <p>ชื่อที่ได้รับจากบัญชี Google หรือชื่อที่กรอกตอนสมัครด้วยอีเมลของคุณไม่ถูกเปิดเผยหรือแสดงให้ผู้ใช้อื่นและผู้ดูแลพื้นที่เห็น เข้าถึงได้เฉพาะผู้ควบคุมข้อมูลตามที่ระบุในข้อ 2 เว้นแต่กฎหมายกำหนดให้เปิดเผย</p>
+    <p>นอกจากนี้ เราอาจเปิดเผยข้อมูลเมื่อกฎหมายกำหนด หรือเพื่อปกป้องสิทธิ ความปลอดภัยของผู้ใช้และบุคคลอื่น</p>
+  </section>
+
+  <section id="visible">
+    <h2>5. ข้อมูลที่ผู้ใช้อื่นมองเห็น</h2>
+    <p>ผู้ใช้ที่เข้าสู่ระบบแล้วสามารถเห็น ชื่อที่แสดง (ชื่อสัตว์ตามเลข 4 หลัก หรือชื่อเล่นที่คุณตั้งเอง ไม่ใช่ชื่อจากบัญชี Google หรือชื่อที่กรอกตอนสมัคร) รูปสัตว์ประจำตัว พื้นที่ที่คุณเลือก โพสต์ คอมเมนต์ รีวิว รูปภาพ และหมุดสถานที่ที่คุณเผยแพร่ ผู้ที่ไม่ได้เข้าสู่ระบบไม่สามารถดูเนื้อหาในแอปได้</p>
+    <p><strong>ผู้ดูแลพื้นที่</strong> (ระดับภาค จังหวัด อำเภอ) สามารถเห็นและจัดการเนื้อหาในพื้นที่ที่ตนดูแล เช่น ซ่อนหรือนำเนื้อหาที่ผิดกฎออก และดูรายงานที่เกี่ยวข้อง</p>
+    <p>อีเมลของคุณไม่แสดงต่อผู้ใช้อื่น และชื่อที่ได้รับจากบัญชี Google หรือชื่อที่กรอกตอนสมัครด้วยอีเมลก็ไม่แสดงต่อผู้ใช้อื่นเช่นกัน ชื่อเล่นที่คุณตั้งเองจะแสดงต่อผู้ใช้อื่น โปรดหลีกเลี่ยงการใช้ชื่อจริงหรือข้อมูลที่ระบุตัวตนของคุณเป็นชื่อเล่น
+    <p><strong>5.1 รูปประจำตัวและความเป็นส่วนตัว</strong> — Siam Chat ไม่ใช้รูปถ่ายใบหน้าของผู้ใช้เป็นรูปโปรไฟล์ เพื่อปกป้องความเป็นส่วนตัว ผู้ใช้เลือกรูปสัตว์ประจำตัวแทน รูปโปรไฟล์และรูปปกที่ผู้ใช้เคยอัปโหลด รวมถึงลิงก์รูปจากบัญชี Google ถูกลบออกจากโปรไฟล์อย่างถาวรแล้วเมื่อวันที่ 1 พฤศจิกายน 2569</p>
+    <p>รูปภาพที่ยังจัดเก็บคือรูปที่ผู้ใช้แนบเองในหมุด โพสต์ แจ้งเหตุ และรีวิวเท่านั้น โปรดหลีกเลี่ยงการโพสต์รูปที่เห็นใบหน้าหรือข้อมูลส่วนบุคคลของผู้อื่นโดยไม่ได้รับอนุญาต</p>
+  </section>
+
+  <section id="retention">
+    <h2>6. ระยะเวลาเก็บรักษาและการลบบัญชี</h2>
+    <p>เราเก็บข้อมูลไว้ตลอดระยะเวลาที่คุณมีบัญชี คุณลบบัญชีได้ด้วยตนเองในแอปที่ <strong>โปรไฟล์ → แก้ไขโปรไฟล์ → ลบบัญชีถาวร</strong> หรือดูวิธีอื่นที่ <a href="delete-account.html">หน้าขอลบบัญชี</a></p>
+    <ul>
+      <li>เมื่อขอลบ บัญชีจะเข้าสู่ <strong>ช่วงรอ 7 วัน</strong> คุณยกเลิกได้โดยเข้าสู่ระบบกลับมาภายในช่วงนี้</li>
+      <li>เมื่อครบ 7 วัน ระบบจะลบบัญชีและข้อมูลที่ผูกกับบัญชี ได้แก่ โปรไฟล์ ชื่อจริงที่เก็บแยกไว้ (ชื่อที่ได้รับจากบัญชี Google หรือชื่อที่กรอกตอนสมัครด้วยอีเมล) โพสต์ คอมเมนต์ รีวิว การโหวต การบันทึก แต้ม/EXP การแจ้งเตือน และรหัสการแจ้งเตือน</li>
+      <li>หมุดสถานที่สาธารณะที่คุณเคยเพิ่มอาจยังคงอยู่บนแผนที่ <strong>โดยไม่ระบุว่าใครเป็นผู้เพิ่ม</strong></li>
+      <li>หากมีสำเนาสำรองข้อมูล (backup) ข้อมูลของคุณในสำเนานั้นจะถูกแทนที่ตามรอบภายใน 30 วันหลังการลบ</li>
+      <li>บันทึกการใช้งานของเซิร์ฟเวอร์และรายงานข้อผิดพลาดจะถูกลบตามรอบของผู้ให้บริการ (โดยทั่วไปไม่เกิน 90 วัน)</li>
+    </ul>
+  </section>
+
+  <section id="security">
+    <h2>7. ความปลอดภัยของข้อมูล</h2>
+    <p>เราใช้การเชื่อมต่อแบบเข้ารหัส (HTTPS) จำกัดสิทธิ์การเข้าถึงข้อมูลในฐานข้อมูลรายแถว (Row Level Security) ให้เฉพาะผู้ใช้ที่เข้าสู่ระบบและเจ้าของข้อมูล และจำกัดสิทธิ์ของทีมงานตามหน้าที่ อย่างไรก็ตาม ไม่มีระบบใดปลอดภัยได้ 100% หากเกิดเหตุละเมิดข้อมูลที่มีความเสี่ยงต่อสิทธิของคุณ เราจะแจ้งสำนักงานคณะกรรมการคุ้มครองข้อมูลส่วนบุคคลและผู้ที่ได้รับผลกระทบตามที่กฎหมายกำหนด</p>
+  </section>
+
+  <section id="rights">
+    <h2>8. สิทธิของเจ้าของข้อมูล</h2>
+    <p>ภายใต้ PDPA คุณมีสิทธิ: ขอเข้าถึงและขอรับสำเนาข้อมูล, ขอแก้ไขข้อมูลให้ถูกต้อง, ขอลบหรือทำลายข้อมูล, ขอระงับหรือคัดค้านการประมวลผล, ขอให้โอนย้ายข้อมูล และถอนความยินยอมได้ทุกเมื่อ (โดยไม่กระทบการประมวลผลที่ทำไปก่อนหน้า)</p>
+    <p>ส่งคำขอได้ที่ <a href="mailto:eskimooo1234@gmail.com">eskimooo1234@gmail.com</a> เราจะตอบกลับภายใน 30 วัน หากคุณเห็นว่าเราไม่ปฏิบัติตามกฎหมาย คุณมีสิทธิร้องเรียนต่อสำนักงานคณะกรรมการคุ้มครองข้อมูลส่วนบุคคล (สคส.)</p>
+  </section>
+
+  <section id="age">
+    <h2>9. อายุผู้ใช้</h2>
+    <p>แอปนี้สำหรับผู้ที่มีอายุ <strong>18 ปีขึ้นไป</strong> เราไม่ตั้งใจเก็บข้อมูลของผู้ที่อายุต่ำกว่า 18 ปี หากพบว่ามีบัญชีของผู้เยาว์ เราจะลบบัญชีนั้น</p>
+  </section>
+
+  <section id="changes">
+    <h2>10. การเปลี่ยนแปลงนโยบาย</h2>
+    <p>เราอาจปรับปรุงนโยบายนี้เป็นครั้งคราว (รวมถึงอีเมลติดต่อ) โดยจะแสดงวันที่มีผลบังคับใช้ไว้ด้านบน และแจ้งในแอปเมื่อมีการเปลี่ยนแปลงที่สำคัญ</p>
+  </section>
+
+  <section id="contact">
+    <h2>11. ติดต่อเรา</h2>
+    <p>นายสมชาย แซ่ตั้ง (Somchai Saetang) · จังหวัดเชียงใหม่ ประเทศไทย<br>อีเมล: <a href="mailto:eskimooo1234@gmail.com">eskimooo1234@gmail.com</a></p>
+  </section>
+</article>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div>© 2026 Siam Chat · เชียงใหม่</div>
+    <nav aria-label="เอกสารทางกฎหมาย">
+      <a href="privacy.html" class="on" aria-current="page">นโยบายความเป็นส่วนตัว</a>
+      <a href="terms.html">ข้อกำหนดการใช้งาน</a>
+      <a href="delete-account.html">ขอลบบัญชี</a>
+    </nav>
+  </div>
+</footer>
+</body>
+</html>
