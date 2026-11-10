@@ -68,6 +68,9 @@
     pinmap: '<path d="M18 8c0 3.613-3.869 7.429-5.393 8.795a1 1 0 0 1-1.214 0C9.87 15.429 6 11.613 6 8a6 6 0 0 1 12 0"/><circle cx="12" cy="8" r="2"/><path d="M8.714 14h-3.71a1 1 0 0 0-.948.683l-2.004 6A1 1 0 0 0 3 22h18a1 1 0 0 0 .948-1.316l-2-6a1 1 0 0 0-.949-.684h-3.712"/>',
     images: '<path d="M18 22H4a2 2 0 0 1-2-2V6"/><path d="m22 13-1.296-1.296a2.41 2.41 0 0 0-3.408 0L11 18"/><circle cx="12" cy="8" r="2"/><rect width="16" height="16" x="6" y="2" rx="2"/>',
     navc: '<circle cx="12" cy="12" r="10"/><path d="m16.2 7.8-5.6 1.8-1.1 4.9 4.9-1.1z"/>',
+    store: '<path d="m2 7 4.41-4.41A2 2 0 0 1 7.83 2h8.34a2 2 0 0 1 1.42.59L22 7"/><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><path d="M15 22v-4a2 2 0 0 0-2-2h-2a2 2 0 0 0-2 2v4"/><path d="M2 7h20"/><path d="M22 7v3a2 2 0 0 1-2 2 2.7 2.7 0 0 1-1.59-.63.7.7 0 0 0-.82 0A2.7 2.7 0 0 1 16 12a2.7 2.7 0 0 1-1.59-.63.7.7 0 0 0-.82 0A2.7 2.7 0 0 1 12 12a2.7 2.7 0 0 1-1.59-.63.7.7 0 0 0-.82 0A2.7 2.7 0 0 1 8 12a2.7 2.7 0 0 1-1.59-.63.7.7 0 0 0-.82 0A2.7 2.7 0 0 1 4 12a2 2 0 0 1-2-2V7"/>',
+    plane: '<path d="M17.8 19.2 16 11l3.5-3.5C21 6 21.5 4 21 3c-1-.5-3 0-4.5 1.5L13 8 4.8 6.2c-.5-.1-.9.1-1.1.5l-.3.5c-.2.5-.1 1 .3 1.3L9 12l-2 3H4l-1 1 3 2 2 3 1-1v-3l3-2 3.5 5.3c.3.4.8.5 1.3.3l.5-.2c.4-.3.6-.7.5-1.2z"/>',
+    layers: '<path d="M12.83 2.18a2 2 0 0 0-1.66 0L2.6 6.08a1 1 0 0 0 0 1.83l8.58 3.91a2 2 0 0 0 1.66 0l8.58-3.9a1 1 0 0 0 0-1.83z"/><path d="M2 12a1 1 0 0 0 .58.91l8.6 3.91a2 2 0 0 0 1.65 0l8.58-3.9A1 1 0 0 0 22 12"/><path d="M2 17a1 1 0 0 0 .58.91l8.6 3.91a2 2 0 0 0 1.65 0l8.58-3.9A1 1 0 0 0 22 17"/>',
     dots: '<circle cx="12" cy="12" r="1"/><circle cx="19" cy="12" r="1"/><circle cx="5" cy="12" r="1"/>'
   };
   (function () {
@@ -133,6 +136,9 @@
     { k: 'souvenir', n: 'ร้านของฝากบ้านไม้', km: 1.6, a: 165, open: 'เปิดอยู่ · ปิด 19:00' },
     { k: 'pharmacy', n: 'ร้านยาใจดี', km: 1.8, a: 235, open: 'เปิดอยู่ · ปิด 21:00' },
     { k: 'walkingstreet', n: 'ถนนคนเดินกลางเวียง', km: 2.2, a: 15, open: 'เปิดเฉพาะวันอาทิตย์' },
+    { k: 'temple', n: 'วัดตัวอย่าง', km: 1.7, a: 228, open: 'เปิดอยู่ · ปิด 18:00' },
+    { k: 'viewpoint', n: 'จุดชมวิวสันเขื่อน', km: 2.6, a: 112, open: 'เปิดตลอดวัน' },
+    { k: 'landmark', n: 'ลานวัฒนธรรมกลางเมือง', km: 2.8, a: 300, open: 'เปิดอยู่ · ปิด 21:00' },
     { k: 'gas', n: 'ปั๊มน้ำมันหน้าหมู่บ้าน', km: 2.6, a: 300, open: 'เปิด 24 ชม.' },
     { k: 'museum', n: 'พิพิธภัณฑ์ผ้าทอเมือง', km: 3.1, a: 140, open: 'เปิดอยู่ · ปิด 16:30' },
     { k: 'convenience', n: 'ร้านสะดวกซื้อหัวมุม', km: 3.4, a: 225, open: 'เปิด 24 ชม.' },
@@ -180,7 +186,7 @@
   }
   // มีแผ่น/ฟอร์มเปิดอยู่ → ล็อกการปัดสไลด์ (index.html ฟัง siamdemo:lock)
   function updateLock() {
-    var open = !!document.querySelector('.demo-host .d-shw.on, .demo-host .d-form.on, .demo-host .pv-ov');
+    var open = !!document.querySelector('.demo-host .d-shw.on, .demo-host .d-form.on, .demo-host .pv-ov, .demo-host .mp-full.on');
     document.dispatchEvent(new CustomEvent('siamdemo:lock', { detail: open }));
   }
   var SHEET = '<div class="d-shw" data-a="shclose" aria-hidden="true"><div class="d-sh" role="dialog"></div></div>';
@@ -190,7 +196,7 @@
       '<line x1="0" y1="0" x2="0" y2="10" stroke="#fff" stroke-width="2"/></pattern></defs><rect width="100%" height="100%" fill="url(#' + id + ')"/></svg>';
   }
   // แผนที่เมืองแบบวาดเรียบ ๆ (ไม่ใช่ Google) · viewBox 100x100 แบบ slice
-  function cityMap() {
+  function cityMap(labels) {
     return '<svg class="bg" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid slice" aria-hidden="true">' +
       '<rect width="100" height="100" fill="#eef2e8"/>' +
       '<path d="M-5 70 C10 62 22 80 38 72 S60 50 72 58 S95 70 105 62 L105 105 L-5 105Z" fill="#e6ecdf"/>' +
@@ -202,7 +208,9 @@
       '<path d="M-5 58 L105 50 M52 -5 L46 105 M-5 15 L105 30 M20 -5 L28 105 M80 -5 L74 105" stroke="#fff" stroke-width="2.4"/>' +
       '<path d="M-5 84 L105 90 M36 -5 L38 50 M62 54 L64 105 M88 30 L92 105 M5 30 L40 34" stroke="#fff" stroke-width="1.2"/>' +
       '<path d="M-5 50 C30 56 60 44 105 40" stroke="#fde68a" stroke-width="2.6" opacity=".9"/>' +
-      '</g></svg>';
+      '</g>' + (labels ? '<g font-weight="700" font-family="inherit" text-anchor="middle" paint-order="stroke" stroke="#fff" stroke-width=".8">' +
+      '<text x="16" y="40" font-size="3.3" fill="#64748b">ย่านเมืองเก่า</text><text x="64" y="78" font-size="3.3" fill="#64748b">ตลาดกลาง</text>' +
+      '<text x="80" y="24" font-size="2.6" fill="#94a3b8">ถ.หมายเลข 11</text><text x="30" y="94" font-size="2.6" fill="#94a3b8">ซอย 5</text></g>' : '') + '</svg>';
   }
   function placePin(p, extra, still) {
     var xy = pos(p.km, p.a), c = isTravel(p.k) ? '#185FA5' : '#15803d';
@@ -649,7 +657,30 @@
   };
 
   /* ---------- 4) แผนที่ชีวิตประจำวัน + ฟอร์มเพิ่มสถานที่ (AddPlaceSheet) ---------- */
-  var M = { km: 3, cat: null, group: 'daily', touched: false, fabSeen: false };
+  var M = { km: 3, cat: null, group: 'daily', touched: false, fabSeen: false, mode: 'daily', src: 'siam', full: false, zoom: 1 };
+  // หมุดตามโหมด: ชีวิตประจำวัน "ทั้งหมด" แสดงทั้ง 2 กลุ่ม (เหมือนแอป) · ท่องเที่ยว แสดงเฉพาะหมวดท่องเที่ยว
+  function mList(all) {
+    var mp = PLACES.filter(function (p) { return M.mode === 'daily' || isTravel(p.k); });
+    return all ? mp : mp.filter(function (p) { return p.km <= M.km && (!M.cat || p.k === M.cat); });
+  }
+  var RATES = [4.6, 5.0, 4.7, 4.2, 4.8, 4.9, 4.5, 4.3, 4.6, 5.0, 4.9, 4.7, 4.1, 4.8, 4.4, 4.0, 4.7, 5.0, 4.9, 4.6];
+  function rateOf(p) { var i = PLACES.indexOf(p); return p.rt || RATES[i] || 5.0; }
+  function fmtKm(km) { return km < 1 ? Math.round(km * 1000) + ' ม.' : km.toFixed(1) + ' กม.'; }
+  // ภาพวาดตามหมวด (วัด/อาหาร = ฉากวาด · หมวดอื่น = ไล่สี + ไอคอนหมวด)
+  function placePic(p, i) {
+    if (p.k === 'temple') return scene('temple', i);
+    if (p.k === 'food') return scene('food', i);
+    return drawnPic(PLACES.indexOf(p) + i, catIcon(p.k));
+  }
+  // แถบล่างแบบแอป (TabNavigator) · cur = เลขสไลด์ของแท็บที่เลือก
+  function navBar(cur) {
+    var T = [[2, '#1a56db', 'home', 'หน้าหลัก'], [3, '#10b981', 'map', 'แผนที่'], null, [4, '#e53935', 'alert', 'แจ้งเหตุ'], [5, '#0b3a9e', 'user', 'โปรไฟล์']];
+    return '<nav class="hm-nav">' + T.map(function (t) {
+      if (!t) return '<button class="fab3" data-a="plus" aria-label="สร้าง"><svg viewBox="0 0 54 54" aria-hidden="true">' + RING3 + '<circle cx="27" cy="27" r="21" fill="#1a56db"/><path d="M27 18.5 V35.5 M18.5 27 H35.5" stroke="#fff" stroke-width="4" stroke-linecap="round"/></svg></button>';
+      var on = t[0] === cur;
+      return '<button class="tb' + (on ? ' on' : '') + '" style="--c:' + t[1] + '" data-a="' + (on ? 'noop' : 'go') + '" data-i="' + t[0] + '"><span class="ti">' + ic(t[2]) + (t[0] === 2 ? '<i>3</i>' : '') + '</span>' + t[3] + '</button>';
+    }).join('') + '</nav>';
+  }
   var NAMETH = {
     toilet: 'ห้องน้ำใกล้ฉัน', food: 'ร้านอาหาร', drinks: 'เครื่องดื่ม', gas: 'ปั๊มน้ำมัน', atm: 'ATM/ธนาคาร', parking: 'ที่จอดรถ', transit: 'รถประจำทาง',
     market: 'ตลาดสด', convenience: 'สะดวกซื้อ', mechanic: 'ร้านซ่อมรถ', car_rental: 'รถเช่า', hospital: 'โรงพยาบาล/คลินิก', pharmacy: 'ร้านยา',
@@ -697,26 +728,77 @@
     return { done: done, ok: !miss, praise: praise, right: miss ? 'ต้องกรอก: ' + miss[2] : undone ? 'แนะนำ: ' + SG[undone[0]] : '🏆 พร้อมบันทึก' };
   }
   SC.map = {
+    // ── หน้าแท็บแผนที่ (ChatScreen: MapModeToggle · SourceTabs · การ์ดแผนที่ · RadiusChips · CategoryChips · แนะนำใกล้คุณ · ยอดนิยม)
     html: function () {
-      var list = inRadius(M.km, M.cat), lbl = M.cat ? CAT[M.cat][1] : 'ทั้งหมด', first = list[0];
-      var pins = PLACES.map(function (p) {
-        var vis = list.indexOf(p) >= 0;
-        return placePin(p, (vis ? '' : ' hid') + (!M.touched && M.fabSeen && p === first ? ' d-pulse-pin' : '') + (p.isNew ? ' new' : ''));
+      var tr = M.mode === 'travel', C = tr ? '#1a56db' : '#10b981', list = mList(), all = mList(true);
+      var srcs = '<div class="mt-src">' +
+        '<button data-a="src" data-v="all"' + (M.src === 'all' ? ' class="on"' : '') + ' style="--c:' + C + '">' + ic('layers') + 'ทั้งหมด <i>(' + list.length + ')</i></button>' +
+        '<button data-a="src" data-v="google" style="--c:' + C + '"><span class="dt g"></span>Google <i>(0)</i></button>' +
+        '<button data-a="src" data-v="siam"' + (M.src === 'siam' ? ' class="on"' : '') + ' style="--c:' + C + '"><span class="dt"></span>Siam <i>(' + list.length + ')</i></button></div>';
+      var hint = '<div class="mt-hint"><span>แสดง ' + (tr ? TRAVEL.length : 22) + ' หมวดที่คุณเลือก · <button data-a="cats" style="color:' + C + '">ปรับ ›</button></span>' +
+        (tr ? '' : '<span class="mt-leg"><span style="--c:#15803d"><i></i>ชีวิตประจำวัน</span><span style="--c:#185FA5"><i></i>ท่องเที่ยว</span></span>') + '</div>';
+      var rads = [1, 2, 3, 5, 10].map(function (k) { return '<button data-a="km" data-k="' + k + '"' + (M.km === k ? ' class="on"' : '') + ' style="--c:' + C + '">' + k + ' กม.</button>'; }).join('');
+      // ชิปวงกลม 1 แถว (ไม่เลื่อนแนวนอน) + "เพิ่มเติม"
+      var base = tr ? ['temple', 'viewpoint', 'nature', 'souvenir'] : ['gas', 'toilet', 'food', 'drinks'];
+      if (M.cat && base.indexOf(M.cat) < 0) base = base.slice(0, 3).concat([M.cat]);
+      var chips = [''].concat(base).map(function (k) {
+        var on = (M.cat || '') === k;
+        return '<button class="cc' + (on ? ' on' : '') + '" style="--c:' + C + '" data-a="chip" data-k="' + k + '"><span class="ci">' + (k ? catIcon(k) : ic('globe')) + '</span>' +
+          '<span class="cl">' + (k ? CAT[k][1].split(' / ')[0] : 'ทั้งหมด') + '</span></button>';
+      }).join('') + '<button class="cc" data-a="cats"><span class="ci more">' + ic('plus') + '</span><span class="cl">เพิ่มเติม</span></button>';
+      var rec = list.slice(0, 2).map(function (p) {
+        return '<button class="rc" data-a="pin" data-i="' + PLACES.indexOf(p) + '"><span class="im">' + placePic(p, 0) + '</span><b>' + esc(p.n) + '</b>' +
+          '<small><em>★ ' + rateOf(p).toFixed(1) + '</em> · ' + fmtKm(p.km) + '</small></button>';
+      }).join('') || '<div class="mt-empty">ยังไม่มีสถานที่ในหมวดนี้ใกล้คุณ</div>';
+      var pop = list.slice().sort(function (a, b) { return rateOf(b) - rateOf(a) || a.km - b.km; }).slice(0, 3).map(function (p, i) {
+        return '<button class="pp" data-a="pin" data-i="' + PLACES.indexOf(p) + '"><span class="rk r' + (i + 1) + '">' + (i + 1) + '</span><span class="im">' + placePic(p, i + 1) + '</span>' +
+          '<span class="tx"><b>' + esc(p.n) + '</b><small>' + CAT[p.k][1].split(' / ')[0] + ' · ' + fmtKm(p.km) + '</small></span><em>★ ' + rateOf(p).toFixed(1) + '</em></button>';
+      }).join('') || '<div class="mt-empty">ยังไม่มีสถานที่ยอดนิยมในระยะนี้</div>';
+      return '<div class="dm d-map2' + (tr ? ' tr' : '') + '">' +
+        '<div class="d-scroll mt-body">' +
+        '<div class="mt-mode"><button data-a="mode" data-v="daily"' + (tr ? '' : ' class="on"') + ' style="--c:#10b981">' + ic('store') + '<span><b>ชีวิตประจำวัน</b><small>สิ่งอำนวยความสะดวก</small></span></button>' +
+        '<button data-a="mode" data-v="travel"' + (tr ? ' class="on"' : '') + ' style="--c:#1a56db">' + ic('plane') + '<span><b>ท่องเที่ยว</b><small>แนะนำสถานที่เที่ยว</small></span></button></div>' +
+        '<div class="mt-pad">' + srcs + hint +
+        '<div class="mt-card d-mapc">' + this.mapLayer(list, all, M.zoom, true) +
+        '<button class="mt-exp" data-a="full" style="color:' + C + ';border-color:' + C + '">' + ic('maximize') + 'เต็มจอ</button>' +
+        '<div class="mz"><button data-a="mloc" aria-label="ตำแหน่งฉัน" style="color:#1a73e8">' + ic('locate') + '</button>' +
+        '<button data-a="mzin" aria-label="ขยาย">' + ic('plus') + '</button><button data-a="mzout" aria-label="ย่อ">' + ic('minus') + '</button></div></div>' +
+        '<div class="mt-rads">' + rads + '</div>' +
+        '<div class="mt-sec"><b>' + (tr ? 'หมวดท่องเที่ยว' : 'หมวดหมู่') + '</b><button data-a="cats" style="color:' + C + '">เลือกหมวดหมู่ ›</button></div>' +
+        '<div class="mt-chips">' + chips + '</div>' +
+        '<div class="mt-sec"><b class="big">' + (tr ? 'สถานที่ท่องเที่ยวใกล้คุณ' : 'แนะนำใกล้คุณ') + '</b></div><div class="mt-rec">' + rec + '</div>' +
+        '<div class="mt-sec"><b class="big">🏆 สถานที่ยอดนิยมใกล้คุณ</b></div><div class="mt-pop">' + pop + '</div></div></div>' +
+        '<button class="apf mt-fab" data-a="add" aria-label="ปักหมุดสถานที่ใหม่"><span class="orb"' + (tr ? ' style="border-color:rgba(46,139,255,.45)"' : '') + '></span>' +
+        '<span class="core' + (M.fabSeen ? '' : ' d-pulse') + '"' + (tr ? ' style="background:linear-gradient(135deg,#37C0FF,#1F6BFF)"' : '') + '>' + ic('pin-plus') + '</span></button>' +
+        navBar(3) +
+        '<div class="mp-full' + (M.full ? ' on' : '') + '" role="dialog" aria-label="แผนที่เต็มจอ">' + (M.full ? this.fullHtml() : '') + '</div>' +
+        SHEET + '<div class="d-form' + (F.open ? ' on' : '') + '" role="dialog" aria-label="เพิ่มสถานที่ใหม่">' + (F.open ? this.form() : '') + '</div>' + TOAST + '</div>';
+    },
+    // ชั้นแผนที่วาด + วง + หมุด (ใช้ทั้งการ์ดและเต็มจอ)
+    mapLayer: function (list, all, z, labels) {
+      var C = M.mode === 'travel' ? '#1a56db' : '#15803d';
+      var pins = all.map(function (p) {
+        var xy = pos(p.km, p.a), vis = list.indexOf(p) >= 0;
+        return '<button class="d-pin' + (vis ? '' : ' hid') + (p.isNew ? ' new' : '') + '" data-a="pin" data-i="' + PLACES.indexOf(p) + '" style="--pc:' + (isTravel(p.k) ? '#185FA5' : '#15803d') +
+          ';left:calc(50% + ' + (xy[0] * z).toFixed(1) + 'cqw);top:calc(50% + ' + (xy[1] * z).toFixed(1) + 'cqw)" aria-label="' + esc(p.n) + '"><span class="tl"></span><span class="hd">' + catIcon(p.k) + '</span></button>';
       }).join('');
+      return '<div class="zl" style="transform:scale(' + z + ')">' + cityMap(labels) + '</div>' +
+        '<span class="d-ring" style="--rc:' + C + ';left:50%;top:50%;width:' + (2 * rr(M.km) * z).toFixed(1) + 'cqw"></span>' +
+        '<span class="d-you" style="left:50%;top:50%"></span>' + pins;
+    },
+    // ── แผนที่เต็มจอ (FullMapModal / TravelMapModal) เป็นแผ่นทับ
+    fullHtml: function () {
+      var tr = M.mode === 'travel', list = mList(), all = mList(true), lbl = M.cat ? CAT[M.cat][1] : 'ทั้งหมด';
       PLACES.forEach(function (p) { p.isNew = false; });
       var rads = [1, 2, 3, 5, 10].map(function (k) { return '<button data-a="km" data-k="' + k + '"' + (M.km === k ? ' class="on"' : '') + '>' + k + ' กม.</button>'; }).join('');
-      return '<div class="dm d-map">' +
-        '<div class="d-hd mp-hd"><div class="row"><div class="tt"><b>แผนที่ชีวิตประจำวัน</b><small>' + ic('pin') + 'รอบตำแหน่งของคุณ · ' + list.length + ' จุด</small></div>' +
-        '<button class="d-x" data-a="close" aria-label="ปิดแผนที่">' + ic('x') + '</button></div></div>' +
-        '<div class="mp-ctl"><button class="mp-cat" data-a="cats"><span>หมวดหมู่: <b>' + esc(lbl) + '</b></span>' + ic('chev-d') + '</button>' +
+      return '<div class="d-hd mp-hd"' + (tr ? ' style="background:#1a56db"' : '') + '><div class="row"><div class="tt"><b>' + (tr ? 'แผนที่ท่องเที่ยว' : 'แผนที่ชีวิตประจำวัน') + '</b><small>' + ic('pin') + 'รอบตำแหน่งของคุณ · ' + list.length + ' จุด</small></div>' +
+        '<button class="d-x" data-a="fclose" aria-label="ปิดแผนที่">' + ic('x') + '</button></div></div>' +
+        '<div class="mp-ctl"><button class="mp-cat" data-a="cats"' + (tr ? ' style="color:#1a56db;border-color:#bfdbfe;background:#eff6ff"' : '') + '><span>หมวดหมู่: <b>' + esc(lbl) + '</b></span>' + ic('chev-d') + '</button>' +
         '<div class="mp-leg"><span style="--c:#15803d"><i></i>ชีวิตประจำวัน</span><span style="--c:#185FA5"><i></i>ท่องเที่ยว</span></div></div>' +
-        '<div class="mp-map d-mapc">' + cityMap() +
-        '<span class="d-ring" style="--rc:#15803d;left:50%;top:50%;width:' + (2 * rr(M.km)).toFixed(1) + 'cqw"></span>' +
-        '<span class="d-you" style="left:50%;top:50%"></span>' + pins +
+        '<div class="mp-map d-mapc">' + this.mapLayer(list, all, 1, true) +
         '<span class="mp-count">' + esc(dLabel()) + '</span>' +
-        '<button class="apf" data-a="add" aria-label="ปักหมุดสถานที่ใหม่"><span class="orb"></span><span class="core' + (M.fabSeen ? '' : ' d-pulse') + '">' + ic('pin-plus') + '</span></button></div>' +
-        '<div class="mp-rads">' + rads + '</div>' + SHEET +
-        '<div class="d-form' + (F.open ? ' on' : '') + '" role="dialog" aria-label="เพิ่มสถานที่ใหม่">' + (F.open ? this.form() : '') + '</div>' + TOAST + '</div>';
+        '<button class="apf" data-a="add" aria-label="ปักหมุดสถานที่ใหม่"><span class="orb"></span><span class="core">' + ic('pin-plus') + '</span></button></div>' +
+        '<div class="mp-rads' + (tr ? ' tr' : '') + '">' + rads + '</div>';
     },
     form: function () {
       var T = fTheme(), dim = !F.cat, st = fState(), room = F.cat ? NAMETH[F.cat] : null;
@@ -777,7 +859,7 @@
       var host = HOSTS.map, p = PLACES[i]; if (!host || !p) return;
       M.touched = true; if (p.km > M.km) M.km = [1, 2, 3, 5, 10].filter(function (k) { return k >= p.km; })[0] || 10;
       if (M.cat && M.cat !== p.k) M.cat = null;
-      render('map'); sheet(host, this.placeSheet(p));
+      render('map', true); sheet(host, this.placeSheet(p));
     },
     on: function (a, el, host) {
       var self = this;
@@ -786,13 +868,25 @@
       if (a === 'grp') { M.group = el.getAttribute('data-g'); return sheet(host, this.catSheet()); }
       if (a === 'cat') {
         M.cat = el.getAttribute('data-k') || null; sheet(host, null);
-        if (M.cat && !inRadius(M.km, M.cat).length) { var p = PLACES.filter(function (x) { return x.k === M.cat; })[0]; if (p) M.km = [1, 2, 3, 5, 10].filter(function (k) { return k >= p.km; })[0] || 10; }
-        setTimeout(function () { render('map'); if (M.cat && !inRadius(M.km, M.cat).length) toast(host, 'ยังไม่มีหมุดหมวดนี้ในตัวอย่าง'); }, 180);
+        if (M.cat && !isTravel(M.cat) && M.mode === 'travel') M.mode = 'daily';
+        if (M.cat && !mList().length) { var p = PLACES.filter(function (x) { return x.k === M.cat; })[0]; if (p) M.km = [1, 2, 3, 5, 10].filter(function (k) { return k >= p.km; })[0] || 10; }
+        setTimeout(function () { render('map', true); if (M.cat && !mList().length) toast(host, 'ยังไม่มีหมุดหมวดนี้ในตัวอย่าง'); }, 180);
         return;
       }
       if (a === 'pin') { M.touched = true; var pl = PLACES[+el.getAttribute('data-i')]; render('map'); return sheet(host, this.placeSheet(pl)); }
       if (a === 'shclose') return sheet(host, null);
-      if (a === 'close') return go(2);
+      if (a === 'close' || a === 'go') return go(a === 'go' ? +el.getAttribute('data-i') : 2);
+      if (a === 'plus') return toast(host, 'ในแอปจะเปิดเมนู "สร้างอะไรดีวันนี้?"');
+      if (a === 'mode') { M.mode = el.getAttribute('data-v'); M.group = M.mode === 'travel' ? 'travel' : 'daily'; M.cat = null; M.zoom = 1; return render('map', true); }
+      if (a === 'src') { var sv = el.getAttribute('data-v'); if (sv === 'google') return toast(host, 'ในแอปค้นหมุด Google ได้ (ใช้คะแนน)'); M.src = sv; return render('map', true); }
+      if (a === 'chip') { M.cat = el.getAttribute('data-k') || null; return render('map', true); }
+      if (a === 'mzin' || a === 'mzout' || a === 'mloc') { M.zoom = a === 'mloc' ? 1 : Math.max(0.6, Math.min(2.2, M.zoom * (a === 'mzin' ? 1.35 : 1 / 1.35))); return render('map', true); }
+      if (a === 'full') {
+        M.full = true; var fb = host.querySelector('.mp-full'); fb.innerHTML = this.fullHtml();
+        requestAnimationFrame(function () { fb.classList.add('on'); updateLock(); });
+        return;
+      }
+      if (a === 'fclose') { M.full = false; host.querySelector('.mp-full').classList.remove('on'); return updateLock(); }
       // ── ฟอร์มเพิ่มสถานที่ ──
       if (a === 'add') {
         M.fabSeen = true; F.open = true; F.picker = false; fReset();
@@ -811,11 +905,12 @@
       if (a === 'f-save') {
         var st = fState();
         if (!st.ok) return toast(host, st.right);
-        var np = { k: F.cat, n: F.name, km: 0.25, a: Math.round(Math.random() * 360), open: 'เพิ่งปักหมุด', isNew: true };
+        var np = { k: F.cat, n: F.name, km: 0.25, a: Math.round(Math.random() * 360), open: 'เพิ่งปักหมุด', isNew: true, rt: 5.0 };
+        if (isTravel(np.k) !== (M.mode === 'travel') && M.mode === 'travel') M.mode = 'daily';
         PLACES.push(np); M.touched = true; if (M.cat && M.cat !== np.k) M.cat = null;
         F.open = false; F.picker = false; fReset();
         host.querySelector('.d-form').classList.remove('on'); updateLock();
-        setTimeout(function () { render('map'); toast(host, 'ตัวอย่าง — ในแอปจะได้รับ +35 คะแนน'); if (built.home) render('home', true); }, 260);
+        setTimeout(function () { render('map', true); PLACES.forEach(function (p) { p.isNew = false; }); toast(host, 'ตัวอย่าง — ในแอปจะได้รับ +35 คะแนน'); if (built.home) render('home', true); }, 260);
         return;
       }
       var msg = { navi: 'ในแอปจะเปิดการนำทาง', detail: 'ในแอปดูรีวิว เวลาเปิด และรูปจากคนในพื้นที่' }[a];
@@ -1117,6 +1212,7 @@
       Array.prototype.forEach.call(h.querySelectorAll('.d-shw.on'), function (w) { w.classList.remove('on'); });
       var name = NAME[h.getAttribute('data-screen')], f = h.querySelector('.d-form.on');
       if (name === 'home' && H.pending) { H.pending = null; render('home', true); }
+      if (name === 'map' && M.full) { M.full = false; var mf = h.querySelector('.mp-full.on'); if (mf) mf.classList.remove('on'); }
       if (f) { f.classList.remove('on'); if (name === 'map') { F.open = false; F.picker = false; } if (name === 'alert') RF.open = false; }
     });
     updateLock();

@@ -657,3 +657,85 @@ button.pb-row.n{background:#fef2f2}
 .gp-act .up{color:#10b981;font-weight:700}
 .gp-act .dn{color:#ef4444;font-weight:700}
 .gp-act .ic.f{fill:currentColor;stroke:#fff}
+
+/* ===================== หน้าแท็บแผนที่ (ChatScreen) ===================== */
+.d-map2{background:#fff}
+.d-mapc .zl{position:absolute;inset:0;transition:transform .3s}
+.mt-body{padding-bottom:6em}
+.mt-mode{display:flex;padding-top:2.4em;border-bottom:1px solid #e5e7eb;background:#fff}
+.mt-mode button{flex:1;min-width:0;display:flex;align-items:center;gap:.55em;padding:1em .75em;background:#fff;text-align:left}
+.mt-mode button + button{border-left:1px solid #e5e7eb}
+.mt-mode button > .ic{width:1.6em;height:1.6em;color:var(--c)}
+.mt-mode button > span{min-width:0}
+.mt-mode b{display:block;font-size:1.1em;font-weight:700;color:#111827;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.mt-mode small{display:block;font-size:.76em;font-weight:500;color:#6b7280;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.mt-mode button.on{background:var(--c)}
+.mt-mode button.on > .ic,.mt-mode button.on b{color:#fff}
+.mt-mode button.on small{color:rgba(255,255,255,.85)}
+.mt-pad{padding:.6em .9em 0}
+.mt-src{display:flex;gap:.45em;padding:.5em;background:#F8FAFF;border-radius:.8em;border:1px solid rgba(0,0,0,.06)}
+.mt-src button{flex:1;min-width:0;display:flex;align-items:center;justify-content:center;gap:.3em;min-height:2.6em;border-radius:.5em;background:#fff;border:1px solid #D1D5DB;color:#374151;font-size:.88em;white-space:nowrap}
+.mt-src i{font-style:normal;font-size:.9em;color:#6B7280}
+.mt-src .dt{width:.6em;height:.6em;border-radius:50%;background:var(--c);flex:none}
+.mt-src .dt.g{background:#E24B4A}
+.mt-src .ic{width:1em;height:1em}
+.mt-src button.on{background:var(--c);border-color:var(--c);color:#fff;font-weight:600}
+.mt-src button.on i{color:rgba(255,255,255,.85)}
+.mt-src button.on .dt{background:#fff}
+.mt-hint{display:flex;flex-wrap:wrap;align-items:center;gap:.25em .7em;padding:.55em .2em 0;font-size:.86em;color:#6b7280}
+.mt-hint > span:first-child{white-space:nowrap}
+.mt-hint button{font-weight:800}
+.mt-leg{display:flex;gap:.6em;font-size:.95em}
+.mt-leg span{display:flex;align-items:center;gap:.25em;white-space:nowrap}
+.mt-leg i{width:.65em;height:.65em;border-radius:50%;background:var(--c)}
+.mt-card{position:relative;height:18em;margin-top:.6em;border-radius:1.08em;border:1.5px solid #cbd5e1;overflow:hidden}
+.mt-card .d-pin{transition:left .3s,top .3s,opacity .25s}
+.mt-card .d-ring{transition:width .3s}
+.mt-exp{position:absolute;top:.77em;left:.77em;z-index:4;display:flex;align-items:center;gap:.3em;padding:.45em .8em;border-radius:1.08em;border:1px solid;background:#fff;font-size:.9em;font-weight:700;box-shadow:0 .1em .25em rgba(0,0,0,.18);white-space:nowrap}
+.mt-exp .ic{width:1.2em;height:1.2em}
+.mt-card .mz button:last-child{margin-top:0;color:#334155}
+.mt-card .mz button:first-child{margin-bottom:.3em}
+.mt-rads{display:flex;gap:.4em;padding:.7em 0 .2em}
+.mt-rads button{flex:1;min-width:0;padding:.42em 0;border-radius:1.25em;border:1px solid #D1D5DB;font-size:.9em;font-weight:500;color:#6B7280;text-align:center;white-space:nowrap}
+.mt-rads button.on{background:var(--c);border-color:var(--c);color:#fff;font-weight:600}
+.mt-sec{display:flex;align-items:center;justify-content:space-between;gap:.5em;padding:.9em .2em .45em}
+.mt-sec b{font-size:1em;font-weight:700;color:#6b7280;white-space:nowrap}
+.mt-sec b.big{font-size:1.2em;color:#111827}
+.mt-sec button{font-size:.9em;font-weight:600;white-space:nowrap}
+.mt-chips{display:flex;justify-content:space-between;gap:.15em}
+.cc{flex:1;min-width:0;display:flex;flex-direction:column;align-items:center}
+.cc .ci{width:3.3em;height:3.3em;border-radius:50%;display:grid;place-items:center;background:#f8fafc;border:2px solid #e5e7eb}
+.cc .ci .d-emoji{font-size:1.55em}
+.cc .ci img{width:1.8em;height:1.8em}
+.cc .ci .ic{width:1.5em;height:1.5em;color:#64748b}
+.cc .cl{margin-top:.3em;max-width:100%;font-size:.8em;font-weight:500;color:#6b7280;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.cc.on .ci{background:color-mix(in srgb,var(--c) 14%,#fff);border-color:var(--c);box-shadow:0 0 .55em var(--c)}
+.cc.on .ci .ic{color:var(--c)}
+.cc.on .cl{color:var(--c);font-weight:700;text-decoration:underline}
+.mt-rec{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.77em}
+.rc{display:block;min-width:0;text-align:left}
+.rc .im{display:block;height:7.1em;border-radius:.92em;overflow:hidden;background:#E6F1FB}
+.rc .im > svg{display:block;width:100%;height:100%}
+.rc .im .ph > i{font-size:2.4em}
+.rc b{display:block;margin-top:.45em;font-size:1em;font-weight:700;color:#111827;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.rc small{display:block;font-size:.9em;color:#6b7280;white-space:nowrap}
+.rc small em,.pp > em{font-style:normal;font-weight:600;color:#BA7517}
+.mt-pop{display:flex;flex-direction:column;gap:.5em}
+.pp{width:100%;display:flex;align-items:center;gap:.6em;padding:.5em;border-radius:.92em;border:1px solid #eef2f7;background:#fff;text-align:left}
+.pp .rk{flex:none;width:1.7em;height:1.7em;border-radius:50%;display:grid;place-items:center;font-size:.88em;font-weight:800;color:#fff}
+.pp .r1{background:#f59e0b}.pp .r2{background:#94a3b8}.pp .r3{background:#b45309}
+.pp .im{flex:none;width:3.6em;height:3.6em;border-radius:.7em;overflow:hidden}
+.pp .im > svg{display:block;width:100%;height:100%}
+.pp .im .ph > i{font-size:1.4em}
+.pp .tx{flex:1;min-width:0}
+.pp b{display:block;font-size:.98em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.pp small{display:block;font-size:.8em;color:#6b7280;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.pp > em{flex:none;font-size:.9em}
+.mt-empty{padding:.8em .2em;font-size:.9em;color:#9ca3af}
+.apf.mt-fab{right:1.4em;bottom:6.7em;z-index:8}
+/* แผนที่เต็มจอ = แผ่นทับ */
+.mp-full{position:absolute;inset:0;z-index:20;display:flex;flex-direction:column;background:#fff;transform:translateY(102%);visibility:hidden;
+  transition:transform .3s cubic-bezier(.2,.8,.2,1),visibility 0s .3s}
+.mp-full.on{transform:none;visibility:visible;transition:transform .3s cubic-bezier(.2,.8,.2,1),visibility 0s}
+.mp-full .mp-map{flex:1;min-height:0}
+.mp-rads.tr button.on{background:#1a56db;border-color:#1a56db}
