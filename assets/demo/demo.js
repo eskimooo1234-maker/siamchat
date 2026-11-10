@@ -66,6 +66,8 @@
     pen: '<path d="M12 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.375 2.625a1 1 0 0 1 3 3l-9.013 9.014a2 2 0 0 1-.853.505l-2.873.84a.5.5 0 0 1-.62-.62l.84-2.873a2 2 0 0 1 .506-.852z"/>',
     file: '<path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/><path d="M10 9H8"/><path d="M16 13H8"/><path d="M16 17H8"/>',
     pinmap: '<path d="M18 8c0 3.613-3.869 7.429-5.393 8.795a1 1 0 0 1-1.214 0C9.87 15.429 6 11.613 6 8a6 6 0 0 1 12 0"/><circle cx="12" cy="8" r="2"/><path d="M8.714 14h-3.71a1 1 0 0 0-.948.683l-2.004 6A1 1 0 0 0 3 22h18a1 1 0 0 0 .948-1.316l-2-6a1 1 0 0 0-.949-.684h-3.712"/>',
+    images: '<path d="M18 22H4a2 2 0 0 1-2-2V6"/><path d="m22 13-1.296-1.296a2.41 2.41 0 0 0-3.408 0L11 18"/><circle cx="12" cy="8" r="2"/><rect width="16" height="16" x="6" y="2" rx="2"/>',
+    navc: '<circle cx="12" cy="12" r="10"/><path d="m16.2 7.8-5.6 1.8-1.1 4.9 4.9-1.1z"/>',
     dots: '<circle cx="12" cy="12" r="1"/><circle cx="19" cy="12" r="1"/><circle cx="5" cy="12" r="1"/>'
   };
   (function () {
@@ -117,7 +119,7 @@
     lost_item: { e: '🔍', n: 'ของหาย', c: '#14b8a6', w: 'หากพบเห็น โปรดแจ้งเจ้าของโพสต์' },
     other: { e: '❓', n: 'อื่นๆ', c: '#475569', w: 'ตรวจสอบรายละเอียดก่อนตัดสินใจ' }
   };
-  var AV = { elephant: '#dbeafe', dog: '#ffe7c7', cat: '#fde2e4', owl: '#ede9fe' };
+  var AV = { elephant: '#dbeafe', dog: '#ffe7c7', cat: '#ffe0e6', owl: '#ece3d6', parrot: '#d9f5e3' };
   function av(k) { return '<span class="d-av" style="background:' + AV[k] + '"><img src="' + BASE + 'avatars/' + k + '.png" alt=""></span>'; }
 
   // หมุดตัวอย่าง (ชื่อสมมติทั้งหมด) · a = มุม (องศา) · km = ระยะจากตำแหน่งฉัน
@@ -178,7 +180,7 @@
   }
   // มีแผ่น/ฟอร์มเปิดอยู่ → ล็อกการปัดสไลด์ (index.html ฟัง siamdemo:lock)
   function updateLock() {
-    var open = !!document.querySelector('.demo-host .d-shw.on, .demo-host .d-form.on');
+    var open = !!document.querySelector('.demo-host .d-shw.on, .demo-host .d-form.on, .demo-host .pv-ov');
     document.dispatchEvent(new CustomEvent('siamdemo:lock', { detail: open }));
   }
   var SHEET = '<div class="d-shw" data-a="shclose" aria-hidden="true"><div class="d-sh" role="dialog"></div></div>';
@@ -417,11 +419,42 @@
   }
 
   /* ---------- 3) หน้าหลัก (HomeScreen) ---------- */
-  var H = { tab: 'd', voted: {}, like: {}, save: {}, hot: 0, votes: {}, zoom: 1, filter: 'all', nudgeMap: false };
+  var H = { tab: 'd', voted: {}, save: {}, vote: {}, pending: null, hot: 0, votes: {}, zoom: 1, filter: 'all', nudgeMap: false };
   var POLL = {
-    d: { q: function () { return 'ควรมีตลาดนัดวันอาทิตย์ที่สวนสาธารณะใน' + dLabel() + 'ไหม'; }, y: 64, n: 36, votes: 312, left: 'เหลือ 2 วัน', by: ['dog', 'สุนัข 1313'] },
-    p: { q: function () { return 'ควรเพิ่มรถสองแถวเส้นรอบเมือง' + (S.bkk ? 'ใน' + S.pn : 'จังหวัด' + S.pn) + 'ไหม'; }, y: 71, n: 29, votes: 1840, left: 'เหลือ 5 ชม.', by: ['owl', 'นกฮูก 5521'] }
+    d: { title: 'ตลาดนัดวันอาทิตย์', q: function () { return 'ควรมีตลาดนัดวันอาทิตย์ที่สวนสาธารณะใน ' + dLabel() + ' ไหม'; },
+      desc: 'ถ้าส่วนใหญ่เห็นด้วย จะรวบรวมเสนอเทศบาลต้นเดือนหน้า', y: 64, votes: 312, left: '5 ชม. 58 นาที', ago: '6 ชั่วโมงที่แล้ว', icon: '🛍️', by: ['dog', 'สุนัข 1313'] },
+    p: { title: 'รถสองแถวรอบเมือง', q: function () { return 'ควรเพิ่มรถสองแถวเส้นรอบเมือง' + (S.bkk ? 'ใน' + S.pn : 'จังหวัด' + S.pn) + 'ไหม'; },
+      desc: 'เส้นทางใหม่จะวิ่งผ่านโรงพยาบาลและตลาดกลาง', y: 71, votes: 1840, left: '28 ชม. 10 นาที', ago: '1 วันที่แล้ว', icon: '🚌', by: ['owl', 'นกฮูก 5521'] }
   };
+  var PCARD = {
+    temple: { by: ['parrot', 'นกแก้ว 9482'], ago: '13 นาทีที่แล้ว', n: 'วัดตัวอย่าง', scene: 'temple', rate: '5.0 (1)', photos: 13, km: '1.7 กม.', cat: 'temple',
+      desc: 'บรรยากาศสงบ, ที่จอดรถกว้าง, ห้องน้ำสะอาด, เปิดทุกวัน' },
+    food: { by: ['owl', 'นกฮูก 5521'], ago: '2 ชั่วโมงที่แล้ว', n: 'ร้านข้าวซอยตัวอย่าง', scene: 'food', rate: '4.5 (8)', photos: 6, km: '0.6 กม.', cat: 'food',
+      desc: 'ราคาประหยัด, รสชาติอร่อย, เปิดเช้าตรู่, มีที่จอดรถ' }
+  };
+  // ภาพวาดแทนรูปถ่าย: วัด / อาหาร (ไม่มีคน) · i = มุมภาพ 0–3
+  var SCN = 0;
+  function scene(kind, i) {
+    var id = 'scn' + (++SCN);
+    if (kind === 'temple') {
+      var sky = [['#fde68a', '#fca5a5'], ['#bae6fd', '#e0f2fe'], ['#fbcfe8', '#fde68a'], ['#c7d2fe', '#fef3c7']][i % 4], dx = [0, -22, 20, 6][i % 4], sc = [1, .8, .9, 1.2][i % 4];
+      return '<svg viewBox="0 0 120 80" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><defs><linearGradient id="' + id + '" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="' + sky[0] + '"/><stop offset="1" stop-color="' + sky[1] + '"/></linearGradient></defs>' +
+        '<rect width="120" height="80" fill="url(#' + id + ')"/><circle cx="96" cy="18" r="8" fill="#fff" opacity=".75"/>' +
+        '<path d="M0 58 Q30 46 60 54 T120 50 V80 H0Z" fill="#86efac"/>' +
+        '<g transform="translate(' + (60 + dx) + ' 62) scale(' + sc + ')"><path d="M0 -50 L3 -33 Q12 -27 12 -12 H-12 Q-12 -27 -3 -33Z" fill="#f59e0b"/><rect x="-16" y="-12" width="32" height="6" fill="#d97706"/>' +
+        '<path d="M-44 -6 L-30 -18 L-16 -6Z" fill="#b45309"/><rect x="-40" y="-6" width="20" height="10" fill="#fde68a"/>' +
+        '<path d="M16 -6 L30 -18 L44 -6Z" fill="#b45309"/><rect x="20" y="-6" width="20" height="10" fill="#fde68a"/></g>' +
+        '<circle cx="10" cy="56" r="8" fill="#16a34a"/><circle cx="112" cy="54" r="9" fill="#15803d"/><rect y="68" width="120" height="12" fill="#bef264" opacity=".55"/></svg>';
+    }
+    var wood = [['#fcd34d', '#d97706'], ['#fde68a', '#f59e0b'], ['#fed7aa', '#ea580c'], ['#fef3c7', '#d97706']][i % 4], soup = ['#f97316', '#fb923c', '#ea580c', '#f59e0b'][i % 4], sc2 = [1, 1.25, .9, 1.1][i % 4];
+    return '<svg viewBox="0 0 120 80" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><defs><linearGradient id="' + id + '" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="' + wood[0] + '"/><stop offset="1" stop-color="' + wood[1] + '"/></linearGradient></defs>' +
+      '<rect width="120" height="80" fill="url(#' + id + ')"/><path d="M0 20 H120 M0 44 H120 M0 68 H120" stroke="#fff" stroke-opacity=".18" stroke-width="2"/>' +
+      '<g transform="translate(60 46) scale(' + sc2 + ')"><ellipse rx="34" ry="20" fill="#fff"/><ellipse cy="-3" rx="24" ry="12" fill="' + soup + '"/>' +
+      '<path d="M-16 -3 q8 -6 16 0 t16 0" stroke="#fde68a" stroke-width="3" fill="none"/><path d="M-12 2 q8 -5 16 0 t12 0" stroke="#fef3c7" stroke-width="2.5" fill="none"/>' +
+      '<circle cx="-6" cy="-7" r="3" fill="#16a34a"/><circle cx="8" cy="-6" r="2.5" fill="#22c55e"/>' +
+      '<path d="M-8 -24 q-4 -6 0 -12 M0 -26 q-4 -6 0 -12 M8 -24 q-4 -6 0 -12" stroke="#fff" stroke-width="2" fill="none" opacity=".85"/></g>' +
+      '<path d="M90 14 L102 64 M96 12 L106 62" stroke="#78350f" stroke-width="2.5" stroke-linecap="round"/></svg>';
+  }
   var HOT = [
     { t: 'fire', ti: 'ไฟไหม้หญ้าข้างทางเลี่ยงเมือง ควันหนาเห็นได้จากถนนใหญ่', at: '2 วันที่แล้ว', more: 9 },
     { t: 'flood', ti: 'น้ำท่วมขังทางลอดหน้าตลาด รถเล็กผ่านไม่ได้', at: '5 ชม.ที่แล้ว', more: 4 },
@@ -443,7 +476,6 @@
       }).join('');
       var feed = this.feed(), near = inRadius(2).length, fl = FILTERS.filter(function (f) { return f[0] === H.filter; })[0];
       return '<div class="dm d-home">' +
-        '<div class="d-scroll hm-body">' +
         '<div class="hm-hd"><div class="hm-top"><span class="lb"><span class="lc"><img src="' + ASSETS + 'logo-128.png" alt=""></span><i></i></span>' +
         '<div class="ttl"><b>Siam Chat</b><small>เชื่อมโยงคนไทย ทั้ง 77 จังหวัด</small></div>' +
         '<button class="lang" data-a="lang">' + ic('languages') + 'TH' + ic('chev-d') + '</button>' +
@@ -452,6 +484,8 @@
         '<button data-a="change">' + ic('compass') + 'เปลี่ยน</button></div>' +
         '<div class="hm-scope">' + tabs + '</div>' +
         '<button class="hm-fund" data-a="fund">' + ic('leaf') + '<span>กองทุน' + REG[S.r].n + ' <b>669.3</b> คะแนน</span>' + ic('chev-r') + '</button></div>' +
+        // หัวน้ำเงินอยู่กับที่ (นอก FlatList ในแอป) · เลื่อนเฉพาะฟีด
+        '<div class="d-scroll hm-body">' +
         // เหตุการณ์เร่งด่วน
         '<div class="hm-hot">' + banner('#dc2626', '#ef4444', 'megaphone', 'เหตุการณ์เร่งด่วนในพื้นที่', 'pinmap', 'ดูทั้งหมด', '#dc2626', 'data-a="go" data-i="4"') +
         '<div class="hc-wrap"><div class="hc-row">' + this.hotCard(H.hot, false) + this.hotCard((H.hot + 1) % HOT.length, true) + '</div></div></div>' +
@@ -465,7 +499,7 @@
         '<button class="fab3" data-a="plus" aria-label="สร้าง"><svg viewBox="0 0 54 54" aria-hidden="true">' + RING3 + '<circle cx="27" cy="27" r="21" fill="#1a56db"/><path d="M27 18.5 V35.5 M18.5 27 H35.5" stroke="#fff" stroke-width="4" stroke-linecap="round"/></svg></button>' +
         '<button class="tb" style="--c:#e53935" data-a="go" data-i="4"><span class="ti">' + ic('alert') + '</span>แจ้งเหตุ</button>' +
         '<button class="tb" style="--c:#0b3a9e" data-a="go" data-i="5"><span class="ti">' + ic('user') + '</span>โปรไฟล์</button></nav>' +
-        SHEET + TOAST + '</div>';
+        SHEET + (H.pending ? this.confirm() : '') + TOAST + '</div>';
     },
     hotCard: function (i, peek) {
       var x = HOT[i], T = INC[x.t], v = H.votes[i] || { u: 0, d: 0 };
@@ -489,64 +523,86 @@
         '<span class="d-you" style="left:50%;top:50%"></span>' + pins +
         '<div class="mz"><button data-a="zin" aria-label="ขยาย">' + ic('plus') + '</button><button data-a="zout" aria-label="ย่อ">' + ic('minus') + '</button><button data-a="zloc" aria-label="ตำแหน่งฉัน">' + ic('locate') + '</button></div></div>';
     },
+    // ลำดับฟีดตามแอป (HomeScreen รวมโพสต์ + หมุด · โพลยังไม่หมดเวลาปักบนสุด)
     feed: function () {
       var tab = H.tab, f = H.filter, items = [];
       if ((f === 'all' || f === 'poll') && tab !== 'c') items.push(this.poll(tab));
       if (f === 'alert') HOT.slice(0, 2).forEach(function (x, i) { items.push(SC.home.alertPost(x, i)); });
-      if ((f === 'all' || f === 'map') && tab === 'd') items.push(this.placePost());
-      if (f === 'all') (tab === 'd' ? ['g1'] : tab === 'p' ? ['p1', 'p2'] : ['c1', 'c2']).forEach(function (id) { items.push(SC.home.post(id)); });
+      if (f === 'all' || f === 'map') {
+        var seq = f === 'map' ? ['temple', 'food'] : tab === 'd' ? ['temple', 'g1', 'food'] : tab === 'p' ? ['temple', 'p1', 'food'] : ['c1', 'temple', 'c2'];
+        seq.forEach(function (k) { items.push(PCARD[k] ? SC.home.placeCard(k) : SC.home.post(k)); });
+      }
       return { n: items.length, html: items.join('') || '<div class="hm-empty">ยังไม่มีโพสต์ในพื้นที่นี้</div>' };
     },
-    head: function (a, name, sub, badge) {
-      return '<div class="ph-h">' + av(a) + '<div class="nm"><b>' + name + '</b><small>' + ic('clock') + sub + '</small></div>' +
-        (badge || '') + '<button class="more" data-a="more" aria-label="เมนู">' + ic('dots') + '</button></div>';
-    },
+    // โพลชุมชน (PollCard + PollBlock)
     poll: function (tab) {
-      var P = POLL[tab], v = H.voted[tab], body;
-      if (!v) {
-        body = '<div class="poll-btns"><button class="y d-pulse" data-a="vote" data-v="y">ใช่</button><button class="n" data-a="vote" data-v="n">ไม่ใช่</button></div>' +
-          '<div class="poll-meta">โหวตก่อนเพื่อดูผล · ' + P.votes.toLocaleString('th-TH') + ' โหวต</div>';
-      } else {
-        var tot = P.votes + 1, y = P.y * P.votes / 100 + (v === 'y' ? 1 : 0), py = Math.round(100 * y / tot), pn = 100 - py;
-        body = '<div class="poll-res"><div class="opt y"><i data-w="' + py + '"></i><span>' + (v === 'y' ? ic('check') : '') + 'ใช่</span><span>' + py + '%</span></div>' +
-          '<div class="opt n"><i data-w="' + pn + '"></i><span>' + (v === 'n' ? ic('check') : '') + 'ไม่ใช่</span><span>' + pn + '%</span></div></div>' +
-          '<div class="poll-meta">' + tot.toLocaleString('th-TH') + ' โหวต · โหวตได้เฉพาะคนใน ' + esc(pLabel()) + '</div>';
-      }
-      return '<div class="card"><div class="ribbon">' + ic('pinned') + 'ปักบนสุด · ' + P.left + '</div>' +
-        this.head(P.by[0], P.by[1], '3 ชม. · ' + (tab === 'd' ? dLabel() : pLabel()), '<span class="cat" style="--c:#6d28d9">' + ic('chart') + 'โพลชุมชน</span>') +
-        '<div class="poll-q">' + esc(P.q()) + '</div>' + body + '</div>';
+      var P = POLL[tab], v = H.voted[tab], saved = H.save['poll' + tab];
+      var tot = P.votes + (v ? 1 : 0), ny = Math.round(P.votes * P.y / 100) + (v === 'y' ? 1 : 0), nn = tot - ny;
+      var pct = function (n) { return Math.round(100 * n / (tot || 1)); };
+      var bar = function (k, n, icon, label) {
+        var chosen = v === k;
+        return '<' + (v ? 'div' : 'button data-a="vote" data-v="' + k + '"') + ' class="pb-row ' + k + (chosen ? ' chosen' : '') + '">' +
+          '<i style="width:' + (v ? pct(n) : 0) + '%"></i><span class="lb">' + icon + ' ' + label + (chosen ? ' (คุณเลือก)' : '') + '</span>' +
+          (v ? '<span class="nm">' + pct(n) + '% · ' + n + '</span>' : '') + '</' + (v ? 'div' : 'button') + '>';
+      };
+      return '<div class="pc-card pinned"><div class="pc-rib"><span>📌 ปักบนสุด · เหลือ ' + P.left + '</span><span>👥 ' + esc(pLabel()) + '</span></div>' +
+        '<div class="pc-row">' + av(P.by[0]) + '<div class="mt"><b>' + P.by[1] + '</b><small>📍 ' + esc(tab === 'd' ? S.dn : S.pn) + ' · ' + P.ago + '</small></div>' +
+        '<span class="pc-chip">' + ic('chart') + 'โพลชุมชน</span>' +
+        '<button class="ib' + (saved ? ' on' : '') + '" data-a="save" data-id="poll' + tab + '" aria-label="บันทึก">' + ic('bookmark', saved ? 'f' : '') + '</button>' +
+        '<button class="ib" data-a="more" aria-label="เมนู">' + ic('dots') + '</button></div>' +
+        '<div class="pc-title">' + P.title + '</div><div class="pc-q">' + esc(P.q()) + '</div><div class="pc-desc">' + P.desc + '</div>' +
+        '<div class="pc-img">' + drawnPic(tab === 'd' ? 0 : 3, em(P.icon)) + '<span class="cnt">📷 3</span></div>' +
+        '<div class="pb">' + bar('y', ny, '✓', 'ใช่') + bar('n', nn, '✕', 'ไม่ใช่') +
+        '<div class="pb-foot"><span class="pot">🏆 ' + (v ? 97 : 98) + '/100' + (v ? '' : ' · โหวตรับ +1') + '</span><span class="vt">🗳️ ' + tot.toLocaleString('th-TH') + ' โหวต</span>' +
+        '<button data-a="share">' + ic('share') + 'แชร์</button></div></div>' +
+        (H.pending ? '' : '') + '</div>';
     },
-    acts: function (id, likes, comments) {
-      var l = H.like[id], s = H.save[id];
-      return '<div class="acts"><button data-a="like" data-id="' + id + '"' + (l ? ' class="on-like"' : '') + '>' + ic('heart') + (likes + (l ? 1 : 0)) + '</button>' +
-        '<button data-a="comment">' + ic('msg') + comments + '</button><span class="sp"></span>' +
-        '<button data-a="save" data-id="' + id + '"' + (s ? ' class="on-save"' : '') + ' aria-label="บันทึก">' + ic('bookmark') + '</button>' +
-        '<button data-a="share" aria-label="แชร์">' + ic('share') + '</button></div>';
+    confirm: function () {
+      var c = H.pending;
+      return '<div class="pv-ov" data-a="vcancel"><div class="pv-dlg" role="dialog"><b>ยืนยันเลือก ' + (c === 'y' ? '✓ ใช่' : '✕ ไม่ใช่') + '?</b>' +
+        '<small>โหวตแล้วเปลี่ยนไม่ได้</small><em>รับ +1 คะแนน</em><div class="bt"><button class="g" data-a="vcancel">ยกเลิก</button><button class="m" data-a="vok">ยืนยัน</button></div></div></div>';
+    },
+    // การ์ดหมุดสถานที่ (PlaceFeedCard · refined)
+    placeCard: function (k) {
+      var P = PCARD[k], saved = H.save['pl' + k], g = '';
+      for (var i = 1; i <= 3; i++) g += '<span class="th">' + scene(P.scene, i) + (i === 3 && P.photos > 4 ? '<b>+' + (P.photos - 4) + '</b>' : '') + '</span>';
+      return '<div class="pf-card"><div class="pf-h">' + av(P.by[0]) + '<div class="mt"><b>' + P.by[1] + '</b>' +
+        '<small>📍 ' + esc(dLabel() + ' ' + pLabel()) + '<em> · ' + P.ago + '</em></small></div>' +
+        '<button class="ib' + (saved ? ' on' : '') + '" data-a="save" data-id="pl' + k + '" aria-label="' + (saved ? 'ยกเลิกบันทึกสถานที่นี้' : 'บันทึกสถานที่นี้') + '">' + ic('bookmark', saved ? 'f' : '') + '</button></div>' +
+        '<div class="pf-name">' + P.n + '</div>' +
+        '<div class="pf-gal"><span class="main">' + scene(P.scene, 0) + '<span class="rt"><i>★</i> ' + P.rate + '</span><span class="ct">' + ic('images') + '1/' + P.photos + '</span></span>' +
+        '<span class="thr">' + g + '</span></div>' +
+        '<div class="pf-info"><span class="c"><i style="background:#eef3ff;color:#2563EB">' + ic('navc') + '</i><b>' + P.km + '</b></span>' +
+        '<span class="c"><i style="background:#e8f8ee;color:#16a34a">' + ic('clock') + '</i><b style="color:#16a34a">เปิดอยู่</b></span>' +
+        '<span class="c"><i style="background:#f1ecff">' + catIcon(P.cat) + '</i><b>' + CAT[P.cat][1] + '</b></span>' +
+        '<button class="c map" data-a="go" data-i="3"><i>' + ic('map') + '</i><span class="pill">แผนที่ ›</span></button></div>' +
+        '<div class="pf-desc">' + P.desc + '</div></div>';
+    },
+    // โพสต์ทั่วไป (PostCard)
+    post: function (id) {
+      var T = {
+        g1: ['cat', 'แมว 2047', '5 ชั่วโมงที่แล้ว', 'พรุ่งนี้เช้ามีกิจกรรมเก็บขยะริมคลอง 7 โมง ใครว่างมาช่วยกันนะ นัดเจอที่ศาลาหน้าวัด', 31, 9, 1, '🌿'],
+        p1: ['elephant', 'ช้าง 3568', '1 วันที่แล้ว', 'งานกาชาดปีนี้จัดที่สนามกลางเมือง เปิดถึงสามทุ่มทุกวัน', 58, 14, 4, '🎡'],
+        c1: ['dog', 'สุนัข 8801', '1 วันที่แล้ว', 'ช่วงนี้ฝนตกหลายภาค เช็กแจ้งเหตุในอำเภอตัวเองก่อนออกเดินทางกันนะ', 205, 41, -1, ''],
+        c2: ['owl', 'นกฮูก 4410', '2 วันที่แล้ว', 'ใครมีจุดชมวิวที่ชอบในจังหวัดตัวเอง ปักหมุดแนะนำกันได้เลย', 132, 77, 3, '🌄']
+      }[id];
+      return this.generalCard(id, T[0], T[1], T[2], T[3], T[4], T[5], T[6] >= 0 ? drawnPic(T[6], em(T[7])) : '', '<span class="gp-chip" style="--c:#1a56db">💬 โพสต์ทั่วไป</span>', '');
     },
     alertPost: function (x, i) {
       var T = INC[x.t];
-      return '<div class="card">' + this.head(i ? 'cat' : 'elephant', i ? 'แมว 2047' : 'ช้าง 3568', x.at + ' · ' + dLabel(), '<span class="cat" style="--c:' + T.c + '">' + em(T.e) + T.n + '</span>') +
-        '<div class="post-txt">' + esc(x.ti) + '</div><div class="post-pic">' + drawnPic(i + 2, em(T.e)) + '</div>' +
-        '<div class="acts"><button data-a="go" data-i="4" style="color:#dc2626">' + ic('map') + 'ดูแผนที่</button><span class="sp"></span><button data-a="share" aria-label="แชร์">' + ic('share') + '</button></div></div>';
+      return this.generalCard('al' + i, i ? 'cat' : 'elephant', i ? 'แมว 2047' : 'ช้าง 3568', x.at, x.ti, 12, 3, drawnPic(i + 2, em(T.e)), '',
+        '<span class="gp-al" style="background:' + T.c + '">' + T.e + ' ' + T.n + '</span>');
     },
-    placePost: function () {
-      return '<div class="card">' + this.head('dog', 'สุนัข 1313', '2 ชม. · ' + dLabel(), '<span class="cat" style="--c:#dc2626">' + em('🍜') + 'ร้านอาหาร</span>') +
-        '<div class="post-txt">ข้าวซอยไก่น้ำข้น ร้านเปิดใหม่ใกล้ตลาด รสชาติดี ราคาไม่แพง ที่จอดรถพอมี</div>' +
-        '<div class="post-pic">' + drawnPic(2, em('🍜')) + '</div>' +
-        '<div class="place-row"><span>0.6 กม.</span><span class="open">เปิดอยู่</span><span>' + em('🍜') + 'อาหาร</span><button data-a="hpin" data-i="1">แผนที่ ›</button></div>' +
-        this.acts('pp', 24, 6) + '</div>';
-    },
-    post: function (id) {
-      var T = {
-        g1: ['cat', 'แมว 2047', dLabel(), 'พรุ่งนี้เช้ามีกิจกรรมเก็บขยะริมคลอง 7 โมง ใครว่างมาช่วยกันนะ', 31, 9, 1, '🌿'],
-        p1: ['elephant', 'ช้าง 3568', pLabel(), 'งานกาชาดปีนี้จัดที่สนามกลางเมือง เปิดถึงสามทุ่มทุกวัน', 58, 14, 4, '🎡'],
-        p2: ['owl', 'นกฮูก 5521', pLabel(), 'ถนนสายหลักขาเข้าเมืองเปิดเลนเพิ่มแล้ว รถไม่ค่อยติดเหมือนก่อน', 19, 4, -1, ''],
-        c1: ['dog', 'สุนัข 8801', 'ทั่วประเทศไทย', 'ช่วงนี้ฝนตกหลายภาค เช็กแจ้งเหตุในอำเภอตัวเองก่อนออกเดินทางกันนะ', 205, 41, -1, ''],
-        c2: ['cat', 'แมว 4410', 'ทั่วประเทศไทย', 'ใครมีจุดชมวิวที่ชอบในจังหวัดตัวเอง ปักหมุดแนะนำกันได้เลย', 132, 77, 3, '🌄']
-      }[id];
-      return '<div class="card">' + this.head(T[0], T[1], (id === 'g1' ? '5 ชม.' : '1 วัน') + ' · ' + esc(T[2]), '<span class="cat" style="--c:#1a56db">' + ic('msg') + 'โพสต์ทั่วไป</span>') +
-        '<div class="post-txt">' + T[3] + '</div>' + (T[6] >= 0 ? '<div class="post-pic">' + drawnPic(T[6], em(T[7])) + '</div>' : '') +
-        this.acts(id, T[4], T[5]) + '</div>';
+    generalCard: function (id, a, name, ago, text, up, cm, pic, chip, badge) {
+      var u = H.vote[id], saved = H.save[id];
+      return '<div class="gp-card"><div class="gp-h">' + av(a) + '<div class="mt"><b>' + name + '</b>' + chip +
+        '<small>' + ic('pin', 'f') + esc(S.pn + ' / ' + S.dn) + '<em>·</em>' + ago + '</small></div>' +
+        '<div class="rt"><div class="bt"><button class="ib' + (saved ? ' on' : '') + '" data-a="save" data-id="' + id + '" aria-label="บันทึก">' + ic('bookmark', saved ? 'f' : '') + '</button>' +
+        '<button class="ib" data-a="more" aria-label="เมนู">' + ic('dots') + '</button></div>' + badge + '</div></div>' +
+        '<div class="gp-txt">' + esc(text) + '</div>' + (pic ? '<div class="gp-pic">' + pic + '</div>' : '') +
+        '<div class="gp-act"><button data-a="pvote" data-id="' + id + '" data-v="u"' + (u === 'u' ? ' class="up"' : '') + '>' + ic('up', u === 'u' ? 'f' : '') + (up + (u === 'u' ? 1 : 0)) + '</button>' +
+        '<button data-a="pvote" data-id="' + id + '" data-v="d"' + (u === 'd' ? ' class="dn"' : '') + '>' + ic('down', u === 'd' ? 'f' : '') + (u === 'd' ? 1 : 0) + '</button>' +
+        '<button data-a="comment">' + ic('msg') + cm + '</button><button data-a="share">' + ic('share') + 'แชร์</button></div></div>';
     },
     filterSheet: function () {
       return '<h4>เลือกหมวดหมู่</h4>' + FILTERS.map(function (f) {
@@ -563,8 +619,11 @@
     on: function (a, el, host) {
       var i = +el.getAttribute('data-i');
       if (a === 'tab') { H.tab = el.getAttribute('data-t'); return render('home', true); }
-      if (a === 'vote') { H.voted[H.tab] = el.getAttribute('data-v'); return render('home', true); }
-      if (a === 'like' || a === 'save') { var o = a === 'like' ? H.like : H.save, id = el.getAttribute('data-id'); o[id] = !o[id]; return render('home', true); }
+      if (a === 'vote') { H.pending = el.getAttribute('data-v'); render('home', true); return updateLock(); }
+      if (a === 'vcancel') { H.pending = null; render('home', true); return updateLock(); }
+      if (a === 'vok') { H.voted[H.tab] = H.pending; H.pending = null; render('home', true); updateLock(); return toast(host, '+1 คะแนน 🎉'); }
+      if (a === 'pvote') { var pid = el.getAttribute('data-id'), pv = el.getAttribute('data-v'); H.vote[pid] = H.vote[pid] === pv ? null : pv; return render('home', true); }
+      if (a === 'save') { var id = el.getAttribute('data-id'); H.save[id] = !H.save[id]; return render('home', true); }
       if (a === 'hotnext') { H.hot = (H.hot + 1) % HOT.length; render('home', true); var c = host.querySelector('.hc'); if (c && !reduce) c.classList.add('in'); return; }
       if (a === 'vup' || a === 'vdn') {
         var v = H.votes[i] || (H.votes[i] = { u: 0, d: 0, my: null }), k = a === 'vup' ? 'u' : 'd';
@@ -1035,7 +1094,7 @@
       if (!el || !host.contains(el)) return;
       var a = el.getAttribute('data-a');
       // แตะพื้นหลังแผ่นล่าง = ปิด · แตะในแผ่นไม่ปิด
-      if (el.classList.contains('d-shw') && e.target !== el) return;
+      if ((el.classList.contains('d-shw') || el.classList.contains('pv-ov')) && e.target !== el) return;
       if (a === 'noop') return;
       SC[name].on(a, el, host);
     });
@@ -1057,6 +1116,7 @@
       if (i === e.detail) return;
       Array.prototype.forEach.call(h.querySelectorAll('.d-shw.on'), function (w) { w.classList.remove('on'); });
       var name = NAME[h.getAttribute('data-screen')], f = h.querySelector('.d-form.on');
+      if (name === 'home' && H.pending) { H.pending = null; render('home', true); }
       if (f) { f.classList.remove('on'); if (name === 'map') { F.open = false; F.picker = false; } if (name === 'alert') RF.open = false; }
     });
     updateLock();
