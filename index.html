@@ -155,19 +155,21 @@ h2{font-size:21px;line-height:1.35;color:var(--navy);margin:0 0 18px;font-weight
   background:rgba(15,23,42,.6);color:#fff;font-size:max(8px,.85em);font-weight:700;line-height:1.35;white-space:nowrap}
 .notch{position:absolute;top:.55em;left:50%;width:6em;height:1.3em;margin-left:-3em;border-radius:1em;background:#111;z-index:50;pointer-events:none}
 
-/* ---------- 3) มีอะไรในแอป ---------- */
-.feats{list-style:none;margin:0;padding:0;display:grid;gap:18px}
-.feats li{display:flex;gap:14px;align-items:flex-start}
-.fi{flex:none;width:44px;height:44px;border-radius:12px;display:grid;place-items:center}
-.fi .ic{width:22px;height:22px}
-.feats b{display:block;color:var(--navy);font-size:16px;line-height:1.4}
-.feats span{display:block;color:var(--muted);font-size:14px;line-height:1.5;margin-top:1px}
-
-/* ---------- 5) ความเป็นส่วนตัว ---------- */
-.privacy{display:flex;gap:14px;align-items:flex-start;border:1px solid #d6dbe1;border-radius:16px;padding:16px;background:#fff}
-.privacy .fi{background:#dbeafe;color:var(--blue)}
-.privacy b{display:block;color:var(--navy);font-size:16px}
-.privacy p{margin:2px 0 0;color:var(--muted);font-size:14px}
+/* ---------- 3) มีอะไรในแอป (รวม "เป็นส่วนตัว") — พื้นกรมท่าต่อจากส่วนบนทันที ---------- */
+.feat-sec{background:#0f2a5c;color:#fff;padding:30px 0 30px}
+.feat-hd{text-align:center;margin-bottom:20px}
+.feat-hd .k{margin:0;font-size:12.5px;font-weight:700;color:#f5d27a;letter-spacing:.3px}
+.feat-hd h2{margin:2px 0 0;font-size:23px;line-height:1.3;color:#fff;font-weight:800}
+.feat-hd .bar{display:block;width:40px;height:3px;border-radius:2px;background:#f5d27a;margin:10px auto 0}
+.feat-hd .sub{margin:10px 0 0;font-size:14px;color:#cbd5e1}
+.feat-grid{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;align-items:stretch}
+.fc{position:relative;overflow:hidden;min-width:0;padding:14px 13px 15px 16px;border-radius:14px;
+  background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.11)}
+.fc::before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--line)}
+.fc .fi2{width:40px;height:40px;border-radius:50%;border:2px solid var(--soft);color:var(--soft);display:grid;place-items:center}
+.fc .fi2 .ic{width:19px;height:19px}
+.fc b{display:block;margin-top:10px;font-size:15px;line-height:1.35;font-weight:700;color:var(--soft);overflow-wrap:anywhere}
+.fc p{margin:4px 0 0;font-size:12.5px;line-height:1.55;color:#cbd5e1;overflow-wrap:anywhere}
 
 /* ---------- 6) ติดตั้ง ---------- */
 .install{background:var(--bg-2)}
@@ -204,6 +206,8 @@ footer nav a:hover{text-decoration:underline}
   h2{font-size:24px}
   .hero{padding:48px 0 52px}
   .carousel{--pw:300px;--gap:28px}
+  .feat-sec .wrap{max-width:760px}
+  .feat-grid{grid-template-columns:repeat(3,minmax(0,1fr))}
 }
 @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{transition:none!important}}
 </style>
@@ -311,32 +315,29 @@ footer nav a:hover{text-decoration:underline}
     </div>
   </div>
 
-  <!-- 3) มีอะไรในแอป -->
-  <section>
+  <!-- 3) มีอะไรในแอป (6 การ์ด รวม "เป็นส่วนตัว") -->
+  <section class="feat-sec">
     <div class="wrap">
-      <h2>มีอะไรในแอป</h2>
-      <ul class="feats">
-        <li><div class="fi" style="background:#dcfce7;color:#15803d"><svg class="ic"><use href="#i-map"/></svg></div>
-          <div><b>แผนที่ใกล้คุณ</b><span>หมุดร้าน ตลาด ที่เที่ยว ที่คนในพื้นที่ปักเอง</span></div></li>
-        <li><div class="fi" style="background:#fee2e2;color:#dc2626"><svg class="ic"><use href="#i-alert"/></svg></div>
-          <div><b>แจ้งเหตุ</b><span>อุบัติเหตุ น้ำท่วม ไฟไหม้ เห็นก่อนใครในอำเภอ</span></div></li>
-        <li><div class="fi" style="background:#fef3c7;color:#1d4ed8"><svg class="ic"><use href="#i-chart"/></svg></div>
-          <div><b>โพลชุมชน</b><span>ถามเพื่อนบ้านทั้งจังหวัด ใช่หรือไม่ ในแตะเดียว</span></div></li>
-        <li><div class="fi" style="background:#dbeafe;color:#1e3a8a"><svg class="ic"><use href="#i-users"/></svg></div>
-          <div><b>ฟีดอำเภอ · จังหวัด</b><span>เรื่องในพื้นที่ ไม่ปนกับที่อื่น</span></div></li>
-        <li><div class="fi" style="background:#fef3c7;color:#b45309"><svg class="ic"><use href="#i-landmark"/></svg></div>
-          <div><b>คะแนนและกองทุนภาค</b><span>ได้คะแนนจากการมีส่วนร่วม ร่วมสร้างกองทุน 4 ภาค</span></div></li>
-      </ul>
-    </div>
-  </section>
-
-  <!-- 5) ความเป็นส่วนตัว -->
-  <section>
-    <div class="wrap">
-      <div class="privacy">
-        <div class="fi"><svg class="ic"><use href="#i-shield"/></svg></div>
-        <div><b>เป็นส่วนตัว</b><p>ใช้รูปสัตว์และชื่อสัตว์ + เลข 4 หลัก ไม่แสดงชื่อจริงหรืออีเมล</p></div>
+      <div class="feat-hd">
+        <p class="k">ฟีเจอร์หลัก</p>
+        <h2>มีอะไรในแอป</h2>
+        <span class="bar" aria-hidden="true"></span>
+        <p class="sub">ทุกอย่างผูกกับพื้นที่จริงของคุณ</p>
       </div>
+      <ul class="feat-grid">
+        <li class="fc" style="--line:#16a34a;--soft:#4ade80"><span class="fi2"><svg class="ic" aria-hidden="true"><use href="#i-map"/></svg></span>
+          <b>แผนที่ใกล้คุณ</b><p>หมุดร้าน ตลาด ที่เที่ยว ที่คนในพื้นที่ปักเอง</p></li>
+        <li class="fc" style="--line:#ef4444;--soft:#f87171"><span class="fi2"><svg class="ic" aria-hidden="true"><use href="#i-alert"/></svg></span>
+          <b>แจ้งเหตุ</b><p>อุบัติเหตุ น้ำท่วม ไฟไหม้ เห็นก่อนใครในอำเภอ</p></li>
+        <li class="fc" style="--line:#d9b45a;--soft:#f5d27a"><span class="fi2"><svg class="ic" aria-hidden="true"><use href="#i-chart"/></svg></span>
+          <b>โพลชุมชน</b><p>ถามเพื่อนบ้านทั้งจังหวัด ใช่หรือไม่ ในแตะเดียว</p></li>
+        <li class="fc" style="--line:#2563eb;--soft:#60a5fa"><span class="fi2"><svg class="ic" aria-hidden="true"><use href="#i-users"/></svg></span>
+          <b>ฟีดอำเภอ · จังหวัด</b><p>เรื่องในพื้นที่ ไม่ปนกับที่อื่น</p></li>
+        <li class="fc" style="--line:#d97706;--soft:#fbbf24"><span class="fi2"><svg class="ic" aria-hidden="true"><use href="#i-landmark"/></svg></span>
+          <b>คะแนนและกองทุนภาค</b><p>ได้คะแนนจากการมีส่วนร่วม ร่วมสร้างกองทุน 4 ภาค</p></li>
+        <li class="fc" style="--line:#0e7490;--soft:#22d3ee"><span class="fi2"><svg class="ic" aria-hidden="true"><use href="#i-shield"/></svg></span>
+          <b>เป็นส่วนตัว</b><p>ใช้รูปสัตว์และชื่อสัตว์ + เลข 4 หลัก ไม่แสดงชื่อจริงหรืออีเมล</p></li>
+      </ul>
     </div>
   </section>
 
