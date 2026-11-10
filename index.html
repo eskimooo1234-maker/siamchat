@@ -118,6 +118,7 @@ h2{font-size:21px;line-height:1.35;color:var(--navy);margin:0 0 18px;font-weight
 .track{display:flex;gap:var(--gap);overflow-x:auto;overscroll-behavior-x:contain;scroll-snap-type:x mandatory;
   -webkit-overflow-scrolling:touch;scrollbar-width:none;padding:6px calc(50% - var(--pw) / 2) 30px;outline:none}
 .track::-webkit-scrollbar{display:none}
+.track.locked{overflow-x:hidden}
 .track:focus-visible{outline:2px solid rgba(255,255,255,.7);outline-offset:-2px;border-radius:12px}
 .slide{flex:none;width:var(--pw);scroll-snap-align:center;scroll-snap-stop:always}
 .nav-btn{position:absolute;top:calc(50% - 30px);width:38px;height:38px;margin-top:-19px;border-radius:50%;border:1px solid rgba(255,255,255,.35);
@@ -422,6 +423,8 @@ footer nav a:hover{text-decoration:underline}
         if (k === i) d.setAttribute('aria-current', 'true'); else d.removeAttribute('aria-current');
       });
       prev.hidden = i === 0; next.hidden = i === slides.length - 1;
+      // บอกเดโมว่าเปลี่ยนหน้าแล้ว (ปิดแผ่นที่เปิดค้างในหน้าอื่น)
+      document.dispatchEvent(new CustomEvent('siamdemo:slide', { detail: i }));
     }
     function go(i){
       i = Math.max(0, Math.min(slides.length - 1, i)); markTouched();
@@ -442,6 +445,8 @@ footer nav a:hover{text-decoration:underline}
     ['pointerdown', 'touchstart', 'wheel'].forEach(function(ev){ track.addEventListener(ev, function(){ interacted = true; }, { passive: true }); });
     // ปุ่มในเดโม (เช่น เข้าสู่ระบบ → เลือกพื้นที่) สั่งเปลี่ยนหน้า
     document.addEventListener('siamdemo:go', function(e){ go(+e.detail); });
+    // เดโมเปิดแผ่น/ฟอร์มอยู่ → ล็อกการปัดสไลด์ (ปุ่ม ‹ › และจุดยังใช้ได้)
+    document.addEventListener('siamdemo:lock', function(e){ track.classList.toggle('locked', !!e.detail); });
     prev.addEventListener('click', function(){ go(cur - 1); });
     next.addEventListener('click', function(){ go(cur + 1); });
     Array.prototype.forEach.call(dots, function(d, k){ d.addEventListener('click', function(){ go(k); }); });
