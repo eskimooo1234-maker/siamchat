@@ -4,8 +4,8 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Siam Chat — คุยกับคนในพื้นที่เดียวกัน</title>
-<meta name="description" content="Siam Chat แชทชุมชน 77 จังหวัด 928 อำเภอ เลือกพื้นที่ของคุณ แล้วคุยกับคนแถวบ้านจริง ๆ แลกเปลี่ยนข่าวสาร แนะนำสถานที่ และแจ้งเหตุใกล้ตัว ฟรี">
-<meta name="theme-color" content="#0b2a5b">
+<meta name="description" content="Siam Chat แอปแชทชุมชน 77 จังหวัด 928 อำเภอ คุยกับคนในพื้นที่เดียวกัน มีแชท แผนที่ แจ้งเหตุ และโพลของอำเภอคุณ ติดตั้งฟรีบน Android">
+<meta name="theme-color" content="#0f2a5c">
 <link rel="canonical" href="https://eskimooo1234-maker.github.io/siamchat/">
 
 <!-- แชร์ลิงก์ LINE / Facebook / X -->
@@ -13,7 +13,7 @@
 <meta property="og:site_name" content="Siam Chat">
 <meta property="og:locale" content="th_TH">
 <meta property="og:title" content="Siam Chat — คุยกับคนในพื้นที่เดียวกัน">
-<meta property="og:description" content="แชทชุมชน 77 จังหวัด เลือกอำเภอของคุณ แล้วคุยกับคนแถวบ้านจริง ๆ แลกเปลี่ยนข่าวสาร แนะนำสถานที่ และแจ้งเหตุใกล้ตัว">
+<meta property="og:description" content="แอปแชทชุมชน 77 จังหวัด 928 อำเภอ — แชท แผนที่ แจ้งเหตุ และโพล ของอำเภอคุณ ติดตั้งฟรีบน Android">
 <meta property="og:url" content="https://eskimooo1234-maker.github.io/siamchat/">
 <meta property="og:image" content="https://eskimooo1234-maker.github.io/siamchat/assets/og.png">
 <meta property="og:image:width" content="1200">
@@ -21,7 +21,7 @@
 <meta property="og:image:alt" content="Siam Chat — คุยกับคนในพื้นที่เดียวกัน">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Siam Chat — คุยกับคนในพื้นที่เดียวกัน">
-<meta name="twitter:description" content="แชทชุมชน 77 จังหวัด เลือกอำเภอของคุณ แล้วคุยกับคนแถวบ้านจริง ๆ">
+<meta name="twitter:description" content="แอปแชทชุมชน 77 จังหวัด — แชท แผนที่ แจ้งเหตุ และโพล ของอำเภอคุณ">
 <meta name="twitter:image" content="https://eskimooo1234-maker.github.io/siamchat/assets/og.png">
 
 <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png">
@@ -56,306 +56,164 @@ const DOWNLOAD = {
   // ขั้นที่ 3 — หน้าแอปใน Play Store
   step3:     'ติดตั้งแอปจาก Google Play',
   storeUrl:  'https://play.google.com/store/apps/details?id=com.siamchat.app',
-  storeBtn:  'ติดตั้งจาก Google Play',
+  storeBtn:  'ติดตั้งฟรีบน Google Play',
   // หมายเหตุใต้ขั้นตอน
   note:      'ใช้ Gmail เดียวกับที่ล็อกอินใน Play Store บนมือถือ · ถ้าขึ้นว่าไม่พบแอป ให้รอ 5–10 นาทีแล้วลองใหม่'
-};
-
-// แผนที่ Google (Maps JavaScript API) — กุญแจนี้จำกัดให้ใช้ได้เฉพาะเว็บ eskimooo1234-maker.github.io/* และ localhost:8765/*
-// เพดาน Map loads/วัน ตั้งไว้ที่ Google Cloud · หน้าเว็บโหลดแผนที่ 1 ครั้งต่อการเปิดหน้า (ตอนเลื่อนถึงการ์ด)
-// ถ้าโหลดไม่ได้ (ชนเพดาน / ไม่มีเน็ต / กุญแจผิด) หน้าเว็บจะแสดงกล่อง "ดูแผนที่จริงได้ในแอป" แทน
-const MAPS = {
-  key: 'AIzaSyBiNCmwReRvv_BQZaRpoGG48fVd2pHeZyA'
 };
 </script>
 
 <style>
 :root{
-  --green:#0f6a3d; --green-2:#13a463; --green-soft:#e8f6ee;
-  --navy:#0b2a5b; --ink:#16202e; --muted:#5b6676; --line:#e3e8ee;
-  --bg:#ffffff; --bg-2:#f5f8f6;
-  --max:1000px;
+  --navy:#0f2a5c; --green:#15803d; --green-soft:#dcfce7;
+  --red:#dc2626; --blue:#1d4ed8; --ink:#16202e; --muted:#5b6676; --line:#e3e8ee;
+  --bg:#ffffff; --bg-2:#f4f6f8; --col:520px;
 }
 *{box-sizing:border-box}
 html{scroll-behavior:smooth;-webkit-text-size-adjust:100%;scroll-padding-top:72px}
 body{margin:0;background:var(--bg);color:var(--ink);
   font-family:'Noto Sans Thai',system-ui,-apple-system,'Segoe UI',sans-serif;
-  font-size:15px;line-height:1.6}
+  font-size:15px;line-height:1.6;overflow-x:hidden}
 a{color:inherit}
 img{display:block;max-width:100%}
-button,input{font:inherit;color:inherit}
-.wrap{max-width:var(--max);margin:0 auto;padding:0 16px}
-section{padding:36px 0}
-h2{font-size:20px;line-height:1.35;color:var(--navy);margin:0 0 14px}
-.muted{color:var(--muted)}
+.wrap{max-width:var(--col);margin:0 auto;padding:0 16px}
+section{padding:40px 0}
+h2{font-size:21px;line-height:1.35;color:var(--navy);margin:0 0 18px;font-weight:800}
 
-/* ปุ่ม */
-.btn{display:flex;align-items:center;justify-content:center;gap:8px;min-height:48px;
-  padding:0 20px;border-radius:12px;border:0;text-decoration:none;font-weight:700;font-size:15px;
-  cursor:pointer;transition:background .15s, transform .1s}
+/* ไอคอนเส้นแบบ lucide (stroke 2) — ใช้จาก sprite <symbol> ด้านล่าง <body> */
+.ic{width:20px;height:20px;flex:none;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+
+/* ปุ่ม: ไม่ตัด 2 บรรทัด */
+.btn{display:flex;align-items:center;justify-content:center;gap:8px;min-height:50px;padding:0 18px;
+  border-radius:12px;border:0;text-decoration:none;font-weight:700;font-size:15px;white-space:nowrap;
+  cursor:pointer;transition:background .15s,transform .1s}
 .btn:active{transform:scale(.98)}
-.btn-green{background:var(--green-2);color:#fff}
-.btn-green:hover{background:#0f9257}
+.btn-green{background:var(--green);color:#fff}
+.btn-green:hover{background:#116a32}
+.btn-white{background:#fff;color:var(--green)}
+.btn-white:hover{background:#f0fdf4}
 .btn-dark{background:#000;color:#fff}
-.btn-outline{background:#fff;color:var(--green);border:1.5px solid #bfe3cf}
-.btn-outline:hover{background:var(--green-soft)}
+.btn-outline{background:#fff;color:var(--green);border:1.5px solid #bbf7d0}
+.btn-outline:hover{background:#f0fdf4}
+.btn-full{width:100%}
 .gp{width:20px;height:22px;flex:none}
 
-/* ---------- 1) แถบบน ---------- */
-.top{position:sticky;top:0;z-index:20;background:rgba(255,255,255,.95);
-  backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
-.top .wrap{display:flex;align-items:center;justify-content:space-between;height:64px}
-.brand{display:flex;align-items:center;gap:10px;text-decoration:none;font-weight:800;color:var(--navy);font-size:17px}
-.brand img{width:36px;height:36px;border-radius:9px;box-shadow:0 1px 3px rgba(0,0,0,.12)}
-.top .btn{min-height:48px;padding:0 18px;border-radius:999px;font-size:14px;background:var(--green);color:#fff}
-.top .btn:hover{background:#0c5832}
+/* ---------- 1) หัวเว็บ (ชุดเดียวกับหน้า privacy / terms / delete-account) ---------- */
+.top{position:sticky;top:0;z-index:20;background:var(--navy);color:#fff}
+.top .wrap{display:flex;align-items:center;justify-content:space-between;height:60px;max-width:1000px}
+.brand{display:flex;align-items:center;gap:10px;text-decoration:none;font-weight:800;color:#fff;font-size:17px}
+.brand img{width:34px;height:34px;border-radius:9px}
+.top-btn{display:inline-flex;align-items:center;min-height:40px;padding:0 18px;border-radius:999px;
+  border:1.5px solid #fff;color:#fff;text-decoration:none;font-weight:700;font-size:14px;white-space:nowrap}
+.top-btn:hover{background:rgba(255,255,255,.12)}
 
-/* ---------- 2) Hero ---------- */
-.hero{background:linear-gradient(160deg,var(--navy) 0%,#0d4a58 55%,var(--green) 100%);color:#fff;padding:20px 0 24px}
-.kicker{font-size:13px;font-weight:600;color:#cfe8dc;margin:0}
-/* หัวข้อบรรทัดเดียว: ไม่ตัดบรรทัด ขนาดตามความกว้างจอ (360px ≈ 22px) */
-.hero h1{font-size:clamp(20px,6.1vw,30px);line-height:1.3;margin:6px 0 14px;font-weight:800;white-space:nowrap}
-.hero h1 span{color:#7ee2b0}
+/* ---------- 2) ส่วนบน ---------- */
+.hero{background:linear-gradient(180deg,#0f2a5c 0%,#15803d 100%);color:#fff;text-align:center;padding:28px 0 32px}
+.kicker{margin:0;font-size:13px;font-weight:600;color:#d1fae5;letter-spacing:.2px}
+.hero h1{margin:6px 0 6px;font-size:clamp(24px,7.4vw,34px);line-height:1.3;font-weight:800;text-wrap:balance}
+.lead{margin:0 0 24px;font-size:15px;color:#e2f3ea}
+.hero .phone{width:236px;margin:0 auto 26px}
+.hero .btn{font-size:16px;min-height:54px}
 
-.search{position:relative}
-.search input{width:100%;height:50px;border-radius:12px;border:0;padding:0 14px 0 42px;
-  font-size:15px;background:#fff;color:var(--ink);box-shadow:0 6px 20px rgba(0,0,0,.18);outline:none}
-.search input:focus{box-shadow:0 0 0 3px #7ee2b0, 0 6px 20px rgba(0,0,0,.18)}
-.search .mag{position:absolute;left:14px;top:50%;transform:translateY(-50%);font-size:16px;pointer-events:none}
-.results{list-style:none;margin:8px 0 0;padding:4px;background:#fff;border-radius:12px;color:var(--ink);
-  box-shadow:0 8px 24px rgba(0,0,0,.18)}
-.results:empty,.results[hidden]{display:none}
-.results li button{width:100%;min-height:48px;display:flex;align-items:center;justify-content:space-between;gap:8px;
-  padding:6px 12px;border:0;background:none;border-radius:8px;text-align:left;cursor:pointer}
-.results li button:hover,.results li button:focus{background:var(--green-soft);outline:none}
-.results b{font-weight:600;color:var(--navy)}
-.results small{color:var(--muted);font-size:13px;white-space:nowrap}
-.results .more{padding:8px 12px;color:var(--muted);font-size:13px}
-.found{margin-top:10px;background:#fff;color:var(--ink);border-radius:14px;padding:16px;
-  box-shadow:0 8px 24px rgba(0,0,0,.18)}
-.found[hidden]{display:none}
-.found p{margin:0 0 12px;font-size:15px}
-.found strong{color:var(--green)}
+/* ---------- กรอบมือถือ ----------
+   หน้าจอข้างในใช้หน่วย em ทั้งหมด · 1em = ความกว้างจอ / 24 (กรอบใหญ่ 1em ≈ 9px)
+   เปลี่ยนเป็นภาพจริง: ใส่ <img src="assets/screens/<name>.png" alt="..."> เป็นลูกแรกของ .screen
+   แล้วลบ .mock ทิ้ง (CSS .screen > img ด้านล่างจัด object-fit: cover ให้แล้ว) */
+.phone{position:relative;background:#111;border-radius:15% / 7%;padding:3.6%;
+  box-shadow:0 22px 44px -16px rgba(0,0,0,.55),0 0 0 1px rgba(255,255,255,.08) inset;container-type:inline-size}
+.screen{position:relative;aspect-ratio:9/19;border-radius:11% / 5.2%;overflow:hidden;background:#f1f5f9;
+  font-size:calc(100cqw / 24);line-height:1.35;color:#16202e;text-align:left}
+.screen > img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:top center}
+.mock{position:absolute;inset:0;display:flex;flex-direction:column}
+.sample{position:absolute;right:.6em;bottom:.6em;z-index:5;padding:.25em .7em;border-radius:999px;
+  background:rgba(15,23,42,.72);color:#fff;font-size:max(8px,1em);font-weight:600;line-height:1.3;white-space:nowrap}
+.sample.up{bottom:4.4em}
+.notch{position:absolute;top:.55em;left:50%;width:6em;height:1.3em;margin-left:-3em;border-radius:1em;background:#111;z-index:6}
+.sbar{height:2.4em;flex:none}
 
-/* เลือกพื้นที่ 3 ขั้น: ภูมิภาค → จังหวัด → อำเภอ (แบบในแอป) */
-.picker{display:grid;gap:8px;margin-top:14px}
-.pick{position:relative}
-.pick label{position:absolute;left:14px;top:6px;font-size:11px;font-weight:600;color:var(--muted);pointer-events:none}
-.pick select{width:100%;min-height:52px;padding:18px 40px 4px 14px;border-radius:12px;border:0;background:#fff;color:var(--navy);
-  font-size:15px;font-weight:600;appearance:none;-webkit-appearance:none;cursor:pointer;
-  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' fill='none' stroke='%230b2a5b' stroke-width='2'/%3E%3C/svg%3E");
-  background-repeat:no-repeat;background-position:right 14px center}
-.pick select:disabled{opacity:.55;cursor:not-allowed}
-.pick select:focus{outline:3px solid #7ee2b0;outline-offset:0}
-.pick .n{position:absolute;right:36px;top:50%;transform:translateY(-50%);font-size:11px;color:var(--muted);pointer-events:none}
-
-/* ---------- 3) แผนที่ (Google Maps) — หน้าตาแบบ FullMapModal / TravelMapModal ของแอป ---------- */
-.mapcard{--ac:#10b981;--abg:#dcfce7;--hd:#10b981;--rc:#10b981;background:#fff;border:1px solid var(--line);border-radius:20px;overflow:hidden;
-  box-shadow:0 10px 30px -14px rgba(11,42,91,.35);color:var(--ink)}
-.mapcard.travel{--ac:#1a56db;--abg:#e8f0fe;--hd:#185FA5;--rc:#185FA5}
-/* แท็บแบบ MapModeToggle */
-.modes{display:flex;border-bottom:1px solid #e5e7eb}
-.mode{flex:1;display:flex;align-items:center;gap:8px;min-height:52px;padding:6px 12px;border:0;background:#fff;cursor:pointer;text-align:left}
-.mode + .mode{border-left:1px solid #e5e7eb}
-.mode .mi{font-size:18px;line-height:1}
-.mode b{display:block;font-size:14px;color:#111827;line-height:1.25}
-.mode small{display:block;font-size:10px;font-weight:500;color:#6b7280;line-height:1.3}
-.mode[aria-pressed="true"]{background:var(--c)}
-.mode[aria-pressed="true"] b{color:#fff}
-.mode[aria-pressed="true"] small{color:rgba(255,255,255,.85)}
-/* หัว modal: พื้นเขียว/น้ำเงิน ตัวขาว */
-.mhead{display:flex;align-items:center;gap:10px;padding:12px 16px;background:var(--hd);color:#fff}
-.mhead .t{flex:1;min-width:0}
-.mhead b{display:block;font-size:18px;font-weight:800;line-height:1.3;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.mhead small{display:block;font-size:12px;line-height:1.4;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.mhead .badge{background:rgba(255,255,255,.2);color:#fff;border:0}
-.badge{flex:none;background:#fff4d6;color:#8a5a00;border:1px solid #f1d58a;font-size:12px;font-weight:700;padding:4px 10px;border-radius:999px}
-/* แถวแหล่ง (SourceTabs) */
-.srcs{display:flex;gap:6px;padding:8px;background:#F8FAFF;border-bottom:.5px solid rgba(0,0,0,.08)}
-.src{flex:1;display:flex;align-items:center;justify-content:center;gap:4px;min-height:34px;border-radius:6px;font-size:12px;
-  background:#fff;border:.5px solid #D1D5DB;color:#374151;white-space:nowrap}
-.src i{font-style:normal;font-size:11px;color:#6B7280}
-.src .dot{width:8px;height:8px;border-radius:4px;background:var(--hd)}
-.src.g .dot{background:#E24B4A}
-.src.on{background:var(--hd);border-color:var(--hd);color:#fff;font-weight:500}
-.src.on i{color:rgba(255,255,255,.8)}
-.src.on .dot{background:#fff}
-.src.off{opacity:.45}
-.src svg{width:12px;height:12px}
-/* หมวดหมู่ (CategoryChips): วงกลม 48 · ระยะ 62 · ป้าย 11px */
-.cats-head{display:flex;justify-content:space-between;align-items:center;padding:8px 14px 1px}
-.cats-head span{font-size:12px;font-weight:700;color:#6b7280}
-.cats-head .cats-pick{font:inherit;font-size:12px;font-weight:600;color:var(--ac);background:none;border:0;padding:4px 0;cursor:pointer}
-.cats-wrap{position:relative;border-bottom:1px solid #e5e7eb;padding-bottom:4px}
-.cats-wrap::after{content:"";position:absolute;right:0;top:0;bottom:0;width:16px;background:linear-gradient(90deg,rgba(255,255,255,0),#fff);pointer-events:none}
-.cats{display:flex;gap:10px;overflow-x:auto;padding:4px;scrollbar-width:none;-webkit-overflow-scrolling:touch}
-.cats::-webkit-scrollbar{display:none}
-.cat{flex:none;width:52px;display:flex;flex-direction:column;align-items:center;border:0;background:none;padding:2px 0;cursor:pointer}
-.cat .ci{width:48px;height:48px;border-radius:50%;display:grid;place-items:center;font-size:22px;line-height:1;
-  background:#f8fafc;border:2px solid #e5e7eb;box-sizing:border-box}
-.cat .ci img{width:26px;height:26px}
-.cat .cl{font-size:11px;margin-top:4px;color:#6b7280;font-weight:500;white-space:nowrap;max-width:60px;overflow:hidden;text-overflow:ellipsis}
-.cat[aria-pressed="true"] .ci{background:var(--abg);border-color:var(--ac);box-shadow:0 0 8px var(--ac)}
-.cat[aria-pressed="true"] .cl{color:var(--ac);font-weight:700;text-decoration:underline}
+/* หน้าจอตัวอย่าง (วาดด้วย HTML/CSS · ข้อมูลตัวอย่างทั้งหมด ไม่ดึง DB) */
+.m-ic{width:1.5em;height:1.5em;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;flex:none}
+.m-head{color:#fff;padding:0 1.1em .8em}
+.m-head .row{display:flex;align-items:center;gap:.6em}
+.m-head img{width:2.4em;height:2.4em;border-radius:.6em;background:#fff}
+.m-head b{display:block;font-size:1.3em;font-weight:800;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.m-head small{display:block;font-size:.95em;opacity:.85;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.m-tabs{display:flex;margin-top:.8em;border-radius:.7em;background:rgba(255,255,255,.16);padding:.25em}
+.m-tabs span{flex:1;text-align:center;font-size:1em;font-weight:600;padding:.35em 0;border-radius:.55em;white-space:nowrap}
+.m-tabs .on{background:#fff;color:#1d4ed8}
+.m-body{flex:1;padding:.9em;display:flex;flex-direction:column;gap:.7em;overflow:hidden}
+.m-bar{display:flex;align-items:center;gap:.6em;padding:.75em .9em;border-radius:.8em;color:#fff;font-weight:700;font-size:1.05em;white-space:nowrap}
+.m-bar span{flex:1;overflow:hidden;text-overflow:ellipsis}
+.m-bar i{font-style:normal;font-size:.85em;background:rgba(255,255,255,.25);padding:.1em .55em;border-radius:1em}
+.m-red{background:#dc2626}
+.m-blue{background:#1d4ed8}
+.m-card{position:relative;background:#fff;border-radius:.9em;padding:.9em;box-shadow:0 .1em .4em rgba(15,23,42,.08)}
+.m-ribbon{display:inline-flex;align-items:center;gap:.35em;margin:-.9em 0 .55em -.9em;padding:.3em .8em;border-radius:.9em 0 .8em 0;
+  background:linear-gradient(90deg,#f59e0b,#fbbf24);color:#422006;font-size:.9em;font-weight:800;white-space:nowrap}
+.m-ribbon .m-ic{width:1.1em;height:1.1em}
+.m-q{font-size:1.1em;font-weight:700;margin:0 0 .3em}
+.m-meta{font-size:.85em;color:#64748b;margin:0 0 .6em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.m-opt{position:relative;display:flex;justify-content:space-between;align-items:center;height:2.2em;padding:0 .7em;margin-top:.35em;
+  border-radius:.6em;background:#f1f5f9;overflow:hidden;font-size:.95em;font-weight:700}
+.m-opt::before{content:"";position:absolute;left:0;top:0;bottom:0;width:var(--p);background:var(--c)}
+.m-opt span{position:relative}
+.m-yes{--c:#bbf7d0;color:#14532d}
+.m-no{--c:#fecaca;color:#7f1d1d}
+.m-line{height:.6em;border-radius:.3em;background:#e2e8f0;margin-top:.45em}
+.m-who{display:flex;align-items:center;gap:.5em;font-size:.95em;font-weight:700}
+.m-av{width:2em;height:2em;border-radius:50%;display:grid;place-items:center;flex:none;color:#fff;font-size:.85em;font-weight:800}
+.m-nav{display:flex;justify-content:space-around;align-items:center;height:4.2em;flex:none;background:#fff;border-top:1px solid #e2e8f0;color:#94a3b8;padding-bottom:.8em}
+.m-nav .on{color:#1d4ed8}
 /* แผนที่ */
-.map-box{position:relative;height:min(350px,55vh);height:min(350px,55dvh);background:#e5e3df}
-#map{position:absolute;inset:0}
-.map-msg{position:absolute;inset:0;display:grid;place-items:center;align-content:center;gap:12px;padding:20px;text-align:center;
-  color:var(--muted);font-size:14px;background:#f2f5f3;z-index:3}
-.map-msg[hidden]{display:none}
-.map-msg b{color:var(--navy);font-size:16px}
-.map-msg .btn{min-width:200px}
-/* ปุ่มตำแหน่ง (แบบปุ่ม my-location ของ Google ในแอป) */
-.locbtn{width:40px;height:40px;margin:10px;border-radius:4px;background:#fff;border:0;box-shadow:0 1px 4px rgba(0,0,0,.3);
-  display:grid;place-items:center;cursor:pointer;padding:0}
-.locbtn svg{width:22px;height:22px}
-/* ปุ่มปักหมุดลอย (AddPlaceFab) — ย่อจาก 72 เป็น 60 ให้พอดีการ์ด */
-.fab{position:absolute;left:18px;bottom:44px;width:60px;height:60px;z-index:2;display:block;padding:0;border:0;background:none;cursor:pointer;-webkit-tap-highlight-color:transparent}
-.fab .ring{position:absolute;inset:-12px;border-radius:50%;border:1.5px dashed rgba(46,139,255,.35)}
-.fab .pulse{position:absolute;inset:0;border-radius:50%;background:#2E8BFF;animation:fabPulse 2s ease-out infinite}
-.fab .core{position:absolute;inset:0;border-radius:50%;display:grid;place-items:center;
-  background:linear-gradient(135deg,#37C0FF,#1F6BFF);box-shadow:0 3px 6px rgba(0,0,0,.3)}
-.fab .core svg{width:30px;height:30px}
-.mapcard.daily .fab .ring{border-color:rgba(46,191,90,.35)}
-.mapcard.daily .fab .pulse{background:#2EBF5A}
-.mapcard.daily .fab .core{background:linear-gradient(135deg,#2E9E52,#1A7A3A)}
-@keyframes fabPulse{0%{transform:scale(1);opacity:.45}100%{transform:scale(1.6);opacity:0}}
-@media (prefers-reduced-motion:reduce){.fab .pulse{animation:none;opacity:0}}
-/* แถบระยะ (RadiusChips) */
-.rads{display:flex;gap:8px;overflow-x:auto;padding:8px;border-top:1px solid #e5e7eb;scrollbar-width:none}
-.rads::-webkit-scrollbar{display:none}
-.rad{flex:none;padding:6px 16px;border-radius:16px;border:1px solid #D1D5DB;background:#fff;font-size:13px;font-weight:500;color:#6B7280;cursor:pointer}
-.rad[aria-pressed="true"]{background:var(--rc);border-color:var(--rc);color:#fff;font-weight:600}
-.map-note{margin:10px 2px 0;font-size:12px;color:var(--muted);line-height:1.55}
-.map-note a{color:inherit}
-/* หมุดแบบในแอป (useMapPinIcons): หัววงกลมขาว 36px ขอบ 2px สีหมวด + หางสี่เหลี่ยมหมุน 45° · จุดยึด = ปลายหาง */
-.gpin{position:absolute;width:38px;height:46px;margin:-46px 0 0 -19px;cursor:pointer;-webkit-tap-highlight-color:transparent}
-.gpin .tail{position:absolute;top:29px;left:12px;width:14px;height:14px;border-radius:2px;transform:rotate(45deg);background:var(--c,#1a56db)}
-.gpin .head{position:absolute;top:0;left:1px;width:36px;height:36px;border-radius:50%;background:#fff;border:2px solid var(--c,#1a56db);
-  box-sizing:border-box;display:grid;place-items:center;font-size:18px;line-height:1;box-shadow:0 2px 3px rgba(0,0,0,.25)}
-.gpin .head img{width:22px;height:22px}
-.gpin.on .head{border-width:3px;transform:scale(1.08)}
-.youdot{position:absolute;width:16px;height:16px;margin:-8px 0 0 -8px;border-radius:50%;background:#1a73e8;border:3px solid #fff;
-  box-shadow:0 0 0 1px rgba(0,0,0,.15),0 1px 4px rgba(0,0,0,.3);pointer-events:none}
-/* ---- แผ่นในการ์ด (เลื่อนขึ้นจากด้านล่าง "ภายในการ์ด") ---- */
-.mapcard{position:relative}
-.csheet{position:absolute;inset:0;z-index:20;display:flex;align-items:flex-end;background:rgba(0,0,0,0);pointer-events:none;transition:background .22s}
-.csheet.on{background:rgba(0,0,0,.35);pointer-events:auto}
-.cs-panel{width:100%;max-height:88%;display:flex;flex-direction:column;background:#fff;border-radius:20px 20px 0 0;overflow:hidden;
-  box-shadow:0 -2px 10px rgba(0,0,0,.15);transform:translateY(105%);transition:transform .26s cubic-bezier(.2,.8,.2,1)}
-.csheet.on .cs-panel{transform:none}
-.cs-panel.drag{transition:none}
-.cs-handle{width:40px;height:4px;border-radius:2px;background:#e5e7eb;margin:10px auto 4px;flex:none}
-.cs-scroll{overflow-y:auto;-webkit-overflow-scrolling:touch;overscroll-behavior:contain}
-.cs-x{width:28px;height:28px;border-radius:14px;border:0;background:rgba(0,0,0,.55);color:#fff;display:grid;place-items:center;cursor:pointer;padding:0}
-.cs-x svg{width:18px;height:18px}
-/* แผ่นหมุด (SiamPlaceOverlayModal) */
-.pl-photo{position:relative;height:120px;display:grid;place-items:center;font-size:52px;background:linear-gradient(135deg,#e8f0fe,#dcfce7)}
-.mapcard.travel .pl-photo{background:linear-gradient(135deg,#e8f0fe,#dbeafe)}
-.pl-photo img{width:60px;height:60px}
-.pl-photo .cs-x{position:absolute;top:10px;right:10px}
-.pl-badge{position:absolute;display:flex;align-items:center;gap:5px;padding:6px 10px;border-radius:14px;background:rgba(0,0,0,.55);color:#fff;font-size:12px;font-weight:600;line-height:1.2;white-space:nowrap;width:max-content;max-width:60%;overflow:hidden;text-overflow:ellipsis}
-.pl-badge img{width:16px;height:16px}
-.pl-badge.cat{top:10px;left:10px}
-.pl-badge.src{bottom:10px;left:10px}
-.pl-badge .d{width:8px;height:8px;border-radius:4px;background:#185FA5}
-.pl-badge.demo{bottom:10px;right:10px;background:#fff4d6;color:#8a5a00}
-.pl-info{padding:12px 16px 16px}
-.pl-name{font-size:17px;font-weight:700;color:#111827;line-height:1.35}
-.pl-addr{margin-top:5px;font-size:13px;color:#6b7280;line-height:18px}
-.pl-hours{display:flex;align-items:center;gap:5px;margin-top:5px;font-size:12.5px;font-weight:700}
-.pl-hours.open{color:#15803d}
-.pl-hours.closed{color:#b91c1c}
-.pl-hours i{font-style:normal;font-size:9px}
-.pl-dist{font-size:13px;color:#6b7280;margin-top:4px}
-.pl-acts{display:flex;gap:10px;margin-top:12px}
-.pl-acts button{display:flex;align-items:center;justify-content:center;gap:6px;min-height:42px;padding:0 8px;border:0;border-radius:10px;
-  font:inherit;font-size:14px;font-weight:600;cursor:pointer;flex:1;white-space:nowrap;min-width:0}
-.pl-acts .nav{background:#16A34A;color:#fff}
-.pl-acts .info{background:#f8fafc;color:#1a56db}
-.pl-acts .save{flex:none;width:48px;padding:0;background:#f8fafc;color:#374151}
-.pl-acts svg{width:18px;height:18px}
-/* แผ่นจัดลำดับหมวดหมู่ (CategoryOrderPopup) */
-.co-head{display:flex;align-items:center;justify-content:space-between;padding:12px 20px;background:var(--ac);color:#fff}
-.co-top{background:var(--ac)}
-.co-top .cs-handle{background:rgba(255,255,255,.55)}
-.co-head b{font-size:20px;font-weight:700}
-.co-head .cs-x{background:transparent}
-.co-hint{display:flex;justify-content:space-between;gap:8px;padding:10px 20px 2px;font-size:12px;color:#6b7280}
-.co-hint b{color:var(--ac);font-weight:700}
-.co-grid{display:grid;grid-template-columns:repeat(4,1fr);padding:4px 12px 8px}
-.co-item{display:flex;flex-direction:column;align-items:center;padding:10px 0;border:0;background:none;cursor:pointer;font:inherit}
-.co-item .w{position:relative}
-.co-item .ci{width:56px;height:56px;border-radius:50%;display:grid;place-items:center;font-size:24px;background:#f8fafc;border:2px solid #e5e7eb;box-sizing:border-box;transition:transform .15s}
-.co-item .ci img{width:28px;height:28px}
-.co-item .n{position:absolute;top:-4px;right:-4px;min-width:20px;height:20px;border-radius:10px;background:var(--ac);color:#fff;font-size:11px;font-weight:700;
-  display:grid;place-items:center;padding:0 4px;border:2px solid #fff}
-.co-item .l{font-size:11px;margin-top:4px;color:#6b7280;font-weight:500;white-space:nowrap;max-width:76px;overflow:hidden;text-overflow:ellipsis}
-.co-item.on .ci{background:var(--abg);border-color:var(--ac);box-shadow:0 0 8px var(--ac)}
-.co-item.on .l{color:var(--ac);font-weight:700;text-decoration:underline}
-.co-foot{flex:none;padding:10px 20px 16px;border-top:1px solid #f3f4f6}
-.co-foot small{display:block;text-align:center;font-size:12px;color:#dc2626;margin-bottom:6px}
-.co-save{width:100%;min-height:48px;border:0;border-radius:12px;background:var(--ac);color:#fff;font:inherit;font-size:16px;font-weight:700;cursor:pointer}
-.co-save:disabled{opacity:.45;cursor:not-allowed}
-/* แผ่นเพิ่มสถานที่ใหม่ (หัวฟอร์ม AddPlaceSheet) */
-.ap-head{display:flex;align-items:center;justify-content:space-between;padding:14px 16px 12px;background:#10b981;color:#fff;border-bottom:1px solid #1A7A3A}
-.mapcard.travel .ap-head{background:#1a56db;border-bottom-color:#1240a8}
-.ap-head span{display:flex;align-items:center;gap:8px;font-size:16px;font-weight:700}
-.ap-head svg{width:20px;height:20px}
-.ap-head .cs-x{background:transparent}
-.ap-body{padding:4px 16px 16px}
-.ap-sep{display:flex;align-items:center;gap:8px;margin-top:16px;margin-bottom:8px}
-.ap-sep b{font-size:10px;font-weight:800;color:#6b7280;letter-spacing:.5px}
-.ap-sep i{flex:1;height:1px;background:#e5e7eb}
-.ap-sep small{font-size:10px;color:#9ca3af}
-.ap-thumb{width:72px;height:72px;border-radius:10px;background:#f8fafc;border:1px dashed #e5e7eb;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px}
-.ap-thumb span{font-size:24px;line-height:1;position:relative}
-.ap-thumb span::after{content:"+";position:absolute;top:-2px;right:-8px;width:14px;height:14px;border-radius:7px;background:#22c55e;color:#fff;font-size:11px;font-weight:700;line-height:14px;text-align:center}
-.ap-thumb b{font-size:10px;font-weight:700;color:#111827}
-.ap-thumb small{font-size:9px;color:#6b7280}
-.ap-label{font-size:13px;color:#6b7280;margin:10px 0 6px}
-.ap-label em{font-style:normal;color:#ef4444}
-.ap-field{display:flex;align-items:center;justify-content:space-between;height:44px;padding:0 12px;border:1px solid #d1d5db;border-radius:8px;font-size:14px;color:#9ca3af;background:#fafafa}
-.ap-note{font-size:12px;color:#6b7280;margin:12px 0 10px;line-height:1.5}
-.ap-go{display:flex;align-items:center;justify-content:center;min-height:50px;border-radius:12px;background:#13a463;color:#fff;font-size:15px;font-weight:700;text-decoration:none}
-/* toast ในการ์ด */
-.ctoast{position:absolute;left:50%;bottom:62px;z-index:30;transform:translate(-50%,12px);opacity:0;pointer-events:none;transition:opacity .2s,transform .2s;
-  display:flex;align-items:center;gap:10px;max-width:calc(100% - 24px);padding:10px 14px;border-radius:12px;background:rgba(17,24,39,.92);color:#fff;font-size:13px;white-space:nowrap}
-.ctoast.on{opacity:1;transform:translate(-50%,0);pointer-events:auto}
-.ctoast a{color:#7ee2b0;font-weight:700;text-decoration:none}
-/* กดแล้วยุบเล็กน้อย (ให้รู้สึกเหมือนแอป) */
-.mapcard button,.mapcard .fab,.mapcard .ap-go{transition:transform .12s}
-.mapcard button:active,.mapcard .fab:active,.mapcard .ap-go:active{transform:scale(.95)}
-.mapcard .cat:active .ci,.co-item:active .ci{transform:scale(.9)}
-/* หมุดเข้า/ออกแบบมี animation เวลา กรองหมวด/ระยะ */
-.gpin{transition:opacity .22s,transform .22s cubic-bezier(.3,1.4,.5,1);transform-origin:50% 100%}
-.gpin.hid{opacity:0;transform:scale(.3);pointer-events:none}
+.m-map{position:relative;flex:1;background:#e7efe3;overflow:hidden}
+.m-road{position:absolute;background:#fff;box-shadow:0 0 0 .12em #d6dde4}
+.m-pin{position:absolute;width:2.6em;height:2.6em;margin:-2.4em 0 0 -1.3em;filter:drop-shadow(0 .12em .15em rgba(0,0,0,.3))}
+.m-you{position:absolute;width:1.3em;height:1.3em;margin:-.65em 0 0 -.65em;border-radius:50%;background:#1a73e8;border:.25em solid #fff;
+  box-shadow:0 0 0 .5em rgba(26,115,232,.18)}
+.m-chips{display:flex;gap:.45em;padding:.7em .8em 1.2em;background:#fff;flex:none}
+.m-chips span{flex:1;text-align:center;padding:.35em 0;border-radius:1em;border:1px solid #d1d5db;font-size:.9em;color:#6b7280;white-space:nowrap}
+.m-chips .on{background:#15803d;border-color:#15803d;color:#fff;font-weight:700}
+/* แจ้งเหตุ */
+.m-tag{display:inline-block;padding:.15em .6em;border-radius:1em;background:#fee2e2;color:#b91c1c;font-size:.85em;font-weight:700;margin-bottom:.4em}
+.m-photo{height:8.5em;border-radius:.7em;background:#cbd5e1;display:grid;place-items:center;color:#64748b;margin:.2em 0 .7em}
+.m-photo .m-ic{width:2.6em;height:2.6em;stroke-width:1.6}
+.m-btns{display:flex;gap:.5em}
+.m-btn{flex:1;display:flex;align-items:center;justify-content:center;gap:.35em;height:2.6em;border-radius:.6em;font-size:.95em;font-weight:700;white-space:nowrap}
+.m-btn .m-ic{width:1.2em;height:1.2em}
+.m-btn.p{background:#1d4ed8;color:#fff}
+.m-btn.o{border:1px solid #1d4ed8;color:#1d4ed8;background:#fff}
 
+/* ---------- 3) มีอะไรในแอป ---------- */
+.feats{list-style:none;margin:0;padding:0;display:grid;gap:18px}
+.feats li{display:flex;gap:14px;align-items:flex-start}
+.fi{flex:none;width:44px;height:44px;border-radius:12px;display:grid;place-items:center}
+.fi .ic{width:22px;height:22px}
+.feats b{display:block;color:var(--navy);font-size:16px;line-height:1.4}
+.feats span{display:block;color:var(--muted);font-size:14px;line-height:1.5;margin-top:1px}
 
-/* ---------- 4) ปุ่มใหญ่ ---------- */
-.cta{padding:20px 16px 4px}
-.cta .btn{width:100%;font-size:16px;min-height:54px}
-.cta p{text-align:center;margin:8px 0 0;font-size:13px;color:var(--muted)}
+/* ---------- 4) มือถือเล็ก 3 เครื่อง ---------- */
+.trio{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;padding-top:0}
+.trio figure{margin:0;min-width:0}
+.trio .phone{padding:4.5%}
+.trio figcaption{text-align:center;font-size:13px;font-weight:700;color:var(--navy);margin-top:8px;white-space:nowrap}
 
-/* ---------- 5) ทำไม ---------- */
-.why{list-style:none;margin:0;padding:0;display:grid;gap:14px}
-.why li{display:flex;gap:12px;align-items:flex-start}
-.why .i{flex:none;width:40px;height:40px;border-radius:10px;background:var(--green-soft);display:grid;place-items:center;font-size:19px}
-.why b{display:block;color:var(--navy);font-size:15px}
-.why span{color:var(--muted);font-size:14px}
+/* ---------- 5) ความเป็นส่วนตัว ---------- */
+.privacy{display:flex;gap:14px;align-items:flex-start;border:1px solid #d6dbe1;border-radius:16px;padding:16px;background:#fff}
+.privacy .fi{background:#dbeafe;color:var(--blue)}
+.privacy b{display:block;color:var(--navy);font-size:16px}
+.privacy p{margin:2px 0 0;color:var(--muted);font-size:14px}
 
 /* ---------- 6) ติดตั้ง ---------- */
 .install{background:var(--bg-2)}
 .steps{list-style:none;margin:0;padding:0;display:grid;gap:12px}
 .step{background:#fff;border:1px solid var(--line);border-radius:14px;padding:14px;display:flex;gap:12px}
-.num{flex:none;width:32px;height:32px;border-radius:50%;background:var(--green);color:#fff;display:grid;place-items:center;font-weight:800;font-size:15px}
+.num{flex:none;width:32px;height:32px;border-radius:50%;background:var(--blue);color:#fff;display:grid;place-items:center;font-weight:800;font-size:15px}
 .step-body{flex:1;min-width:0}
 .step p{margin:3px 0 10px;font-weight:600;color:var(--navy)}
-.note{margin:12px 0 0;font-size:13px;color:var(--muted);line-height:1.55}
+.note{margin:14px 0 0;font-size:13px;color:var(--muted);line-height:1.55}
 
 /* ---------- 7) FAQ ---------- */
 .faq details{border:1px solid var(--line);border-radius:12px;background:#fff;margin-bottom:10px}
-.faq summary{min-height:48px;display:flex;align-items:center;justify-content:space-between;gap:10px;
+.faq summary{min-height:50px;display:flex;align-items:center;justify-content:space-between;gap:10px;
   padding:10px 14px;font-weight:600;color:var(--navy);cursor:pointer;list-style:none}
 .faq summary::-webkit-details-marker{display:none}
 .faq summary::after{content:"+";font-size:20px;color:var(--green);line-height:1;flex:none}
@@ -363,154 +221,225 @@ h2{font-size:20px;line-height:1.35;color:var(--navy);margin:0 0 14px}
 .faq details p{margin:0;padding:0 14px 14px;color:var(--muted);font-size:14px}
 .faq a{color:var(--green);font-weight:600}
 
-/* ---------- 8) โซเชียล + ท้ายหน้า ---------- */
-.social{display:flex;justify-content:center;gap:14px;padding:8px 0 24px}
+/* ---------- 8) ท้ายเว็บ (ชุดเดียวกับหน้า privacy / terms / delete-account) ---------- */
+.social{display:flex;justify-content:center;gap:14px;padding:0 0 18px}
 .social:empty{display:none}
-.social a{width:48px;height:48px;border-radius:50%;display:grid;place-items:center;color:#fff}
-.social svg{width:22px;height:22px;fill:currentColor}
-footer{border-top:1px solid var(--line);padding:22px 0 30px;text-align:center;color:var(--muted);font-size:13px}
-footer nav{display:flex;flex-wrap:wrap;justify-content:center;gap:4px 16px;margin-top:6px}
-footer nav a{color:var(--navy);text-decoration:none;min-height:32px;display:inline-flex;align-items:center}
+.social a{width:44px;height:44px;border-radius:50%;display:grid;place-items:center;color:#fff}
+.social svg{width:20px;height:20px;fill:currentColor}
+footer{background:#0f172a;color:#94a3b8;padding:26px 0 32px;text-align:center;font-size:13px}
+footer nav{display:flex;flex-wrap:wrap;justify-content:center;gap:4px 18px;margin-bottom:8px}
+footer nav a{color:#e2e8f0;text-decoration:none;min-height:36px;display:inline-flex;align-items:center}
 footer nav a:hover{text-decoration:underline}
 
-/* ---------- จอคอม ---------- */
-@media (min-width:900px){
-  body{font-size:15px}
+/* ---------- จอคอม: คอลัมน์กลาง กว้างไม่เกิน 520px ---------- */
+@media (min-width:768px){
   section{padding:56px 0}
   h2{font-size:24px}
   .hero{padding:48px 0 52px}
-  .hero-grid{display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:center}
-  .hero-grid > *{min-width:0}
-  .hero h1{font-size:30px}
-  .cta{max-width:480px;margin:0 auto}
-  .why{grid-template-columns:1fr 1fr;gap:20px 32px}
-  .steps{grid-template-columns:repeat(3,1fr)}
-  .step{flex-direction:column}
-  .faq{max-width:720px;margin:0 auto}
-  .map-box{height:min(380px,55vh);height:min(380px,55dvh)}
-  .map-sec{display:none}
-  .hero .map-note{color:#cfe8dc}
+  .hero .phone{width:260px}
+  .trio{gap:16px}
 }
 @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{transition:none!important}}
 </style>
 </head>
 <body>
 
-<!-- 1) แถบบน -->
+<!-- ไอคอนเส้นแบบ lucide (stroke 2) -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <symbol id="i-map" viewBox="0 0 24 24"><path d="M14.106 5.553a2 2 0 0 0 1.788 0l3.659-1.83A1 1 0 0 1 21 4.619v12.764a1 1 0 0 1-.553.894l-4.553 2.277a2 2 0 0 1-1.788 0l-4.212-2.106a2 2 0 0 0-1.788 0l-3.659 1.83A1 1 0 0 1 3 19.381V6.618a1 1 0 0 1 .553-.894l4.553-2.277a2 2 0 0 1 1.788 0z"/><path d="M15 5.764v15"/><path d="M9 3.236v15"/></symbol>
+  <symbol id="i-alert" viewBox="0 0 24 24"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3"/><path d="M12 9v4"/><path d="M12 17h.01"/></symbol>
+  <symbol id="i-chart" viewBox="0 0 24 24"><path d="M3 3v16a2 2 0 0 0 2 2h16"/><path d="M18 17V9"/><path d="M13 17V5"/><path d="M8 17v-3"/></symbol>
+  <symbol id="i-users" viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></symbol>
+  <symbol id="i-landmark" viewBox="0 0 24 24"><path d="M3 22h18"/><path d="M6 18v-7"/><path d="M10 18v-7"/><path d="M14 18v-7"/><path d="M18 18v-7"/><path d="M12 2 20 7H4z"/></symbol>
+  <symbol id="i-shield" viewBox="0 0 24 24"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/><path d="m9 12 2 2 4-4"/></symbol>
+  <symbol id="i-download" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="m7 10 5 5 5-5"/><path d="M12 15V3"/></symbol>
+  <symbol id="i-nav" viewBox="0 0 24 24"><path d="M3 11 22 2l-9 19-2-8z"/></symbol>
+  <symbol id="i-image" viewBox="0 0 24 24"><rect width="18" height="18" x="3" y="3" rx="2"/><circle cx="9" cy="9" r="2"/><path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/></symbol>
+  <symbol id="i-home" viewBox="0 0 24 24"><path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8"/><path d="M3 10a2 2 0 0 1 .709-1.528l7-6a2 2 0 0 1 2.582 0l7 6A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></symbol>
+  <symbol id="i-bell" viewBox="0 0 24 24"><path d="M10.268 21a2 2 0 0 0 3.464 0"/><path d="M3.262 15.326A1 1 0 0 0 4 17h16a1 1 0 0 0 .74-1.673C19.41 13.956 18 12.499 18 8A6 6 0 0 0 6 8c0 4.499-1.411 5.956-2.738 7.326"/></symbol>
+  <symbol id="i-plus" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M8 12h8"/><path d="M12 8v8"/></symbol>
+  <!-- หมุดทึบสำหรับหน้าจอแผนที่ตัวอย่าง -->
+  <symbol id="i-pin" viewBox="0 0 24 24"><path fill="#15803d" stroke="#fff" stroke-width="1.5" d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0"/><circle cx="12" cy="10" r="3" fill="#fff"/></symbol>
+</svg>
+
+<!-- 1) หัวเว็บ -->
 <header class="top">
   <div class="wrap">
-    <a class="brand" href="#top" aria-label="Siam Chat หน้าแรก"><img src="assets/logo-64.png" alt="" width="36" height="36">Siam Chat</a>
-    <a class="btn" href="#install">ติดตั้ง</a>
+    <a class="brand" href="./" aria-label="Siam Chat หน้าแรก"><img src="assets/logo-64.png" alt="" width="34" height="34">Siam Chat</a>
+    <a class="top-btn" href="#install">ติดตั้ง</a>
   </div>
 </header>
 
-<main id="top">
-  <!-- 2) Hero -->
+<main>
+  <!-- 2) ส่วนบน -->
   <div class="hero">
-    <div class="wrap hero-grid">
-      <div>
-        <p class="kicker">🇹🇭 77 จังหวัด · 928 อำเภอ</p>
-        <h1>คุยกับคนรอบตัว <span>ผ่านหมุด</span> 📍</h1>
+    <div class="wrap">
+      <p class="kicker">77 จังหวัด · 928 อำเภอ</p>
+      <h1>คุยกับคนในพื้นที่เดียวกัน</h1>
+      <p class="lead">แชท แผนที่ แจ้งเหตุ และโพล ของอำเภอคุณ</p>
 
-        <!-- ค้นหาจากรายชื่อในไฟล์ assets/districts.json เท่านั้น ไม่ส่งข้อมูลไปที่ไหน ไม่เก็บสิ่งที่พิมพ์ -->
-        <div class="search" role="search">
-          <span class="mag" aria-hidden="true">🔍</span>
-          <input id="q" type="search" inputmode="search" autocomplete="off" enterkeyhint="search"
-                 placeholder="พิมพ์ชื่ออำเภอ เช่น เมืองเชียงใหม่" aria-label="ค้นหาอำเภอ" aria-controls="results">
-        </div>
-        <ul class="results" id="results" role="listbox" hidden></ul>
-        <div class="found" id="found" hidden aria-live="polite">
-          <p id="foundText"></p>
-          <a class="btn btn-green" href="#install">ติดตั้งแอปเพื่อเข้าห้อง</a>
-        </div>
-
-        <!-- เลือกพื้นที่ 3 ขั้นแบบในแอป: ภูมิภาค → จังหวัด → อำเภอ (ข้อมูลจาก assets/districts.json) -->
-        <div class="picker" aria-label="เลือกพื้นที่">
-          <div class="pick"><label for="selR">1 · ภูมิภาค</label>
-            <select id="selR"><option>ภาคเหนือ</option></select><span class="n" id="nR"></span></div>
-          <div class="pick"><label for="selP">2 · จังหวัด</label>
-            <select id="selP" disabled><option>เชียงใหม่</option></select><span class="n" id="nP"></span></div>
-          <div class="pick"><label for="selD">3 · อำเภอ</label>
-            <select id="selD" disabled><option>เมืองเชียงใหม่</option></select><span class="n" id="nD"></span></div>
+      <!-- SCREEN:home -->
+      <div class="phone" role="img" aria-label="ภาพตัวอย่างหน้าแรกของแอป Siam Chat">
+        <div class="screen">
+          <div class="mock" aria-hidden="true">
+            <div class="m-head" style="background:#1d4ed8">
+              <div class="sbar"></div>
+              <div class="row"><img src="assets/logo-64.png" alt=""><div style="min-width:0"><b>Siam Chat</b><small>เชียงใหม่ · เมืองเชียงใหม่</small></div></div>
+              <div class="m-tabs"><span class="on">อำเภอฉัน</span><span>จังหวัด</span><span>ประเทศ</span></div>
+            </div>
+            <div class="m-body">
+              <div class="m-bar m-red"><svg class="m-ic"><use href="#i-alert"/></svg><span>เหตุการณ์เร่งด่วนในพื้นที่</span><i>2</i></div>
+              <div class="m-bar m-blue"><svg class="m-ic"><use href="#i-map"/></svg><span>แผนที่ใกล้คุณ</span><i>24 หมุด</i></div>
+              <div class="m-card">
+                <div class="m-ribbon"><svg class="m-ic"><use href="#i-chart"/></svg>โพลชุมชน</div>
+                <p class="m-q">ควรมีตลาดนัดวันอาทิตย์ที่สวนสาธารณะไหม</p>
+                <p class="m-meta">สุนัข 1313 · 312 คนตอบ · เหลือ 2 วัน</p>
+                <div class="m-opt m-yes" style="--p:68%"><span>ใช่</span><span>68%</span></div>
+                <div class="m-opt m-no" style="--p:32%"><span>ไม่</span><span>32%</span></div>
+              </div>
+              <div class="m-card">
+                <div class="m-who"><span class="m-av" style="background:#b45309">ช</span>ช้าง 3568</div>
+                <div class="m-line" style="width:92%"></div><div class="m-line" style="width:70%"></div>
+              </div>
+            </div>
+            <div class="m-nav"><svg class="m-ic on"><use href="#i-home"/></svg><svg class="m-ic"><use href="#i-map"/></svg><svg class="m-ic"><use href="#i-plus"/></svg><svg class="m-ic"><use href="#i-bell"/></svg></div>
+          </div>
+          <div class="notch"></div>
+          <span class="sample">ภาพตัวอย่าง</span>
         </div>
       </div>
+      <!-- /SCREEN:home -->
 
-      <!-- จอคอม: การ์ดแผนที่ย้ายมาอยู่ขวามือ (สคริปต์ย้ายให้) -->
-      <div class="hero-map" id="slotDesktop"></div>
+      <a class="btn btn-white btn-full" href="#install"><svg class="ic"><use href="#i-download"/></svg>ติดตั้งฟรีบน Google Play</a>
     </div>
   </div>
 
-  <!-- 3) แผนที่จำลอง — หมุดทั้งหมดเป็นตัวอย่าง ไม่ใช่ข้อมูลจริงจากแอป -->
-  <section class="map-sec" style="padding:20px 0 0">
-    <div class="wrap" id="slotMobile">
-      <div id="mapWrap">
-        <div class="mapcard daily" id="mapCard">
-          <div class="modes" role="group" aria-label="โหมดแผนที่">
-            <button class="mode" type="button" data-mode="daily" aria-pressed="true" style="--c:#10b981">
-              <span class="mi">🏪</span><span><b>ชีวิตประจำวัน</b><small>สิ่งอำนวยความสะดวก</small></span></button>
-            <button class="mode" type="button" data-mode="travel" aria-pressed="false" style="--c:#1a56db">
-              <span class="mi">✈️</span><span><b>ท่องเที่ยว</b><small>แนะนำสถานที่เที่ยว</small></span></button>
-          </div>
-          <div class="mhead">
-            <div class="t"><b id="mapTitle">แผนที่ชีวิตประจำวัน</b><small id="mapSub">📍 อ.เมืองเชียงใหม่ จ.เชียงใหม่ · 0 จุด</small></div>
-            <span class="badge">ตัวอย่าง</span>
-          </div>
-          <div class="srcs" aria-label="แหล่งหมุด">
-            <span class="src"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3 2 8l10 5 10-5-10-5zM2 13l10 5 10-5M2 17.5l10 5 10-5"/></svg>ทั้งหมด <i id="cAll">0</i></span>
-            <span class="src g off" title="ตัวอย่างนี้ไม่มีหมุด Google"><span class="dot"></span>Google <i>0</i></span>
-            <span class="src on"><span class="dot"></span>Siam <i id="cSiam">0</i></span>
-          </div>
-          <div class="cats-head"><span id="catLabel">หมวดหมู่</span><button type="button" class="cats-pick" data-act="order">เลือกหมวดหมู่ &gt;</button></div>
-          <div class="cats-wrap"><div class="cats" id="cats" aria-label="หมวดหมู่"></div></div>
-          <div class="map-box">
-            <div id="map" role="region" aria-label="แผนที่ตัวอย่าง"></div>
-            <button class="fab" type="button" data-act="add" aria-label="ปักหมุดสถานที่">
-              <span class="ring"></span><span class="pulse"></span>
-              <span class="core"><svg viewBox="0 0 24 24" fill="#fff"><path d="M12 2a7 7 0 0 0-7 7c0 5.2 7 13 7 13s7-7.8 7-13a7 7 0 0 0-7-7zm3.5 8H13v2.5h-2V10H8.5V8H11V5.5h2V8h2.5v2z"/></svg></span>
-            </button>
-            <div class="map-msg" id="mapLoading">กำลังโหลดแผนที่…</div>
-            <div class="map-msg" id="mapFail" hidden>
-              <span style="font-size:32px">🗺️</span>
-              <b>ดูแผนที่จริงได้ในแอป Siam Chat</b>
-              <a class="btn btn-green" href="#install">ติดตั้งแอป</a>
-            </div>
-          </div>
-          <div class="rads" id="radChips" aria-label="ระยะ">
-            <button class="rad" type="button" data-km="1" aria-pressed="false">1 กม.</button>
-            <button class="rad" type="button" data-km="2" aria-pressed="false">2 กม.</button>
-            <button class="rad" type="button" data-km="3" aria-pressed="true">3 กม.</button>
-            <button class="rad" type="button" data-km="5" aria-pressed="false">5 กม.</button>
-            <button class="rad" type="button" data-km="10" aria-pressed="false">10 กม.</button>
-          </div>
-          <!-- แผ่นในการ์ด (หมุด / จัดลำดับหมวด / เพิ่มสถานที่) + toast -->
-          <div class="csheet" id="cSheet" aria-hidden="true"><div class="cs-panel" role="dialog" aria-label="รายละเอียด"></div></div>
-          <div class="ctoast" id="cToast" role="status">ใช้งานได้จริงในแอป · ติดตั้งฟรี <a href="#install">ติดตั้ง ›</a></div>
-        </div>
-        <p class="map-note">หมุดในแผนที่นี้เป็นตัวอย่าง ดาวน์โหลดแอปเพื่อดูหมุดจริงที่คนในพื้นที่ช่วยกันปัก
-          · พิกัดอำเภอ: <a href="https://github.com/chingchai/OpenGISData-Thailand" target="_blank" rel="noopener">OpenGISData-Thailand</a> (CC BY 4.0)</p>
-      </div>
+  <!-- 3) มีอะไรในแอป -->
+  <section>
+    <div class="wrap">
+      <h2>มีอะไรในแอป</h2>
+      <ul class="feats">
+        <li><div class="fi" style="background:#dcfce7;color:#15803d"><svg class="ic"><use href="#i-map"/></svg></div>
+          <div><b>แผนที่ใกล้คุณ</b><span>หมุดร้าน ตลาด ที่เที่ยว ที่คนในพื้นที่ปักเอง</span></div></li>
+        <li><div class="fi" style="background:#fee2e2;color:#dc2626"><svg class="ic"><use href="#i-alert"/></svg></div>
+          <div><b>แจ้งเหตุ</b><span>อุบัติเหตุ น้ำท่วม ไฟไหม้ เห็นก่อนใครในอำเภอ</span></div></li>
+        <li><div class="fi" style="background:#fef3c7;color:#1d4ed8"><svg class="ic"><use href="#i-chart"/></svg></div>
+          <div><b>โพลชุมชน</b><span>ถามเพื่อนบ้านทั้งจังหวัด ใช่หรือไม่ ในแตะเดียว</span></div></li>
+        <li><div class="fi" style="background:#dbeafe;color:#1e3a8a"><svg class="ic"><use href="#i-users"/></svg></div>
+          <div><b>ฟีดอำเภอ · จังหวัด</b><span>เรื่องในพื้นที่ ไม่ปนกับที่อื่น</span></div></li>
+        <li><div class="fi" style="background:#fef3c7;color:#b45309"><svg class="ic"><use href="#i-landmark"/></svg></div>
+          <div><b>คะแนนและกองทุนภาค</b><span>ได้คะแนนจากการมีส่วนร่วม ร่วมสร้างกองทุน 4 ภาค</span></div></li>
+      </ul>
     </div>
   </section>
 
-  <!-- 4) ปุ่มใหญ่ -->
-  <div class="wrap cta">
-    <a class="btn btn-green" href="#install">
-      <svg class="gp" viewBox="0 0 24 26" aria-hidden="true"><path fill="#fff" d="M1.2.6 13.4 13 1.2 25.4c-.4-.3-.7-.8-.7-1.4V2c0-.6.3-1.1.7-1.4z"/><path fill="#fff" opacity=".85" d="m17.5 17.1-4.1-4.1 4.1-4.1 4.7 2.7c1.4.8 1.4 2.1 0 2.9z"/><path fill="#fff" opacity=".7" d="M17.5 17.1 13.4 13 1.2 25.4c.5.4 1.2.4 2 0z"/><path fill="#fff" opacity=".9" d="M17.5 8.9 3.2.6C2.4.2 1.7.2 1.2.6L13.4 13z"/></svg>
-      ติดตั้งฟรีบน Google Play
-    </a>
-    <p>ช่วงทดสอบ · 3 ขั้น ใช้เวลา 1 นาที</p>
+  <!-- 4) มือถือเล็ก 3 เครื่อง -->
+  <div class="wrap trio">
+    <figure>
+      <!-- SCREEN:map -->
+      <div class="phone" role="img" aria-label="ภาพตัวอย่างหน้าแผนที่">
+        <div class="screen">
+          <div class="mock" aria-hidden="true">
+            <div class="m-head" style="background:#15803d">
+              <div class="sbar"></div>
+              <b>แผนที่ใกล้คุณ</b><small>อ.เมืองเชียงใหม่ · 24 หมุด</small>
+            </div>
+            <div class="m-map">
+              <div class="m-road" style="left:-10%;right:-10%;top:38%;height:1.1em;transform:rotate(-8deg)"></div>
+              <div class="m-road" style="top:-5%;bottom:-5%;left:58%;width:1em;transform:rotate(6deg)"></div>
+              <div class="m-road" style="left:-10%;right:-10%;top:72%;height:.7em;transform:rotate(14deg)"></div>
+              <div class="m-road" style="top:-5%;bottom:-5%;left:22%;width:.6em"></div>
+              <svg class="m-pin" style="left:30%;top:24%"><use href="#i-pin"/></svg>
+              <svg class="m-pin" style="left:74%;top:30%"><use href="#i-pin"/></svg>
+              <svg class="m-pin" style="left:44%;top:56%"><use href="#i-pin"/></svg>
+              <svg class="m-pin" style="left:80%;top:64%"><use href="#i-pin"/></svg>
+              <svg class="m-pin" style="left:18%;top:82%"><use href="#i-pin"/></svg>
+              <span class="m-you" style="left:52%;top:44%"></span>
+            </div>
+            <div class="m-chips"><span>1 กม.</span><span class="on">3 กม.</span><span>5 กม.</span></div>
+          </div>
+          <div class="notch"></div>
+          <span class="sample up">ภาพตัวอย่าง</span>
+        </div>
+      </div>
+      <!-- /SCREEN:map -->
+      <figcaption>แผนที่</figcaption>
+    </figure>
+
+    <figure>
+      <!-- SCREEN:alert -->
+      <div class="phone" role="img" aria-label="ภาพตัวอย่างหน้าแจ้งเหตุ">
+        <div class="screen">
+          <div class="mock" aria-hidden="true">
+            <div class="m-head" style="background:#dc2626">
+              <div class="sbar"></div>
+              <b>แจ้งเหตุ</b><small>อ.เมืองเชียงใหม่ · 2 เรื่อง</small>
+            </div>
+            <div class="m-body">
+              <div class="m-card">
+                <span class="m-tag">อุบัติเหตุ</span>
+                <p class="m-q">รถชนกัน ถนนห้วยแก้ว ขาเข้าเมือง</p>
+                <p class="m-meta">ช้าง 3568 · 5 นาที · ห่าง 1.2 กม.</p>
+                <div class="m-photo"><svg class="m-ic"><use href="#i-image"/></svg></div>
+                <div class="m-btns"><span class="m-btn p"><svg class="m-ic"><use href="#i-nav"/></svg>นำทาง</span><span class="m-btn o"><svg class="m-ic"><use href="#i-map"/></svg>ดูบนแผนที่</span></div>
+              </div>
+              <div class="m-card">
+                <span class="m-tag">น้ำท่วม</span>
+                <p class="m-q">น้ำท่วมขัง ซอย 7</p>
+                <p class="m-meta">สุนัข 1313 · 40 นาที</p>
+              </div>
+            </div>
+          </div>
+          <div class="notch"></div>
+          <span class="sample">ภาพตัวอย่าง</span>
+        </div>
+      </div>
+      <!-- /SCREEN:alert -->
+      <figcaption>แจ้งเหตุ</figcaption>
+    </figure>
+
+    <figure>
+      <!-- SCREEN:poll -->
+      <div class="phone" role="img" aria-label="ภาพตัวอย่างหน้าโพลชุมชน">
+        <div class="screen">
+          <div class="mock" aria-hidden="true">
+            <div class="m-head" style="background:#1d4ed8">
+              <div class="sbar"></div>
+              <b>โพลชุมชน</b><small>จ.เชียงใหม่</small>
+            </div>
+            <div class="m-body">
+              <div class="m-card">
+                <div class="m-ribbon"><svg class="m-ic"><use href="#i-chart"/></svg>โพลชุมชน</div>
+                <p class="m-q">ควรสร้างสะพานลอยหน้าโรงเรียนไหม</p>
+                <p class="m-meta">นกฮูก 2047 · 518 คนตอบ</p>
+                <div class="m-opt m-yes" style="--p:81%"><span>สร้าง</span><span>81%</span></div>
+                <div class="m-opt m-no" style="--p:19%"><span>ไม่สร้าง</span><span>19%</span></div>
+              </div>
+              <div class="m-card">
+                <div class="m-ribbon"><svg class="m-ic"><use href="#i-chart"/></svg>โพลชุมชน</div>
+                <p class="m-q">ตลาดเช้าย้ายที่ใหม่ ดีไหม</p>
+                <p class="m-meta">แมว 7720 · 204 คนตอบ</p>
+                <div class="m-opt m-yes" style="--p:57%"><span>ดี</span><span>57%</span></div>
+                <div class="m-opt m-no" style="--p:43%"><span>ไม่ดี</span><span>43%</span></div>
+              </div>
+            </div>
+          </div>
+          <div class="notch"></div>
+          <span class="sample">ภาพตัวอย่าง</span>
+        </div>
+      </div>
+      <!-- /SCREEN:poll -->
+      <figcaption>โพล</figcaption>
+    </figure>
   </div>
 
-  <!-- 5) ทำไมต้อง Siam Chat -->
+  <!-- 5) ความเป็นส่วนตัว -->
   <section>
     <div class="wrap">
-      <h2>ทำไมต้อง Siam Chat</h2>
-      <ul class="why">
-        <li><div class="i">📍</div><div><b>ผูกกับพื้นที่จริง</b><span>ทุกอำเภอมีห้องของตัวเอง คุยกับคนที่อยู่ใกล้กันจริง</span></div></li>
-        <li><div class="i">⚠️</div><div><b>รู้เรื่องแถวบ้านก่อนใคร</b><span>อุบัติเหตุ น้ำท่วม รถติด แจ้งและเห็นได้ทันที</span></div></li>
-        <li><div class="i">💬</div><div><b>ไม่วุ่นวายเหมือนกลุ่มใหญ่</b><span>เรื่องในห้องเป็นเรื่องของพื้นที่นั้น ไม่ปนกับที่อื่น</span></div></li>
-        <li><div class="i">🛡️</div><div><b>เป็นส่วนตัว</b><span>ใช้รูปสัตว์แทนรูปจริง</span></div></li>
-      </ul>
+      <div class="privacy">
+        <div class="fi"><svg class="ic"><use href="#i-shield"/></svg></div>
+        <div><b>เป็นส่วนตัว</b><p>ใช้รูปสัตว์และชื่อสัตว์ + เลข 4 หลัก ไม่แสดงชื่อจริงหรืออีเมล</p></div>
+      </div>
     </div>
   </section>
 
@@ -521,7 +450,7 @@ footer nav a:hover{text-decoration:underline}
       <ol class="steps">
         <li class="step"><div class="num">1</div><div class="step-body">
           <p class="js-step1">เข้าร่วมกลุ่มผู้ทดสอบ (กด 'เข้าร่วมกลุ่ม')</p>
-          <a class="btn btn-outline js-group" href="https://groups.google.com/g/siamchat-testers" target="_blank" rel="noopener">👥 <span class="js-group-btn">เข้าร่วมกลุ่มผู้ทดสอบ</span></a>
+          <a class="btn btn-outline js-group" href="https://groups.google.com/g/siamchat-testers" target="_blank" rel="noopener"><svg class="ic"><use href="#i-users"/></svg><span class="js-group-btn">เข้าร่วมกลุ่มผู้ทดสอบ</span></a>
         </div></li>
         <li class="step"><div class="num">2</div><div class="step-body">
           <p class="js-step2">กด 'เป็นผู้ทดสอบ'</p>
@@ -531,8 +460,8 @@ footer nav a:hover{text-decoration:underline}
         </div></li>
         <li class="step"><div class="num">3</div><div class="step-body">
           <p class="js-step3">ติดตั้งแอปจาก Google Play</p>
-          <a class="btn btn-green js-store" href="https://play.google.com/store/apps/details?id=com.siamchat.app" target="_blank" rel="noopener">
-            <span class="js-store-text">ติดตั้งจาก Google Play</span></a>
+          <a class="btn btn-green btn-full js-store" href="https://play.google.com/store/apps/details?id=com.siamchat.app" target="_blank" rel="noopener">
+            <svg class="ic"><use href="#i-download"/></svg><span class="js-store-text">ติดตั้งฟรีบน Google Play</span></a>
         </div></li>
       </ol>
       <p class="note js-note">ใช้ Gmail เดียวกับที่ล็อกอินใน Play Store บนมือถือ · ถ้าขึ้นว่าไม่พบแอป ให้รอ 5–10 นาทีแล้วลองใหม่</p>
@@ -544,25 +473,25 @@ footer nav a:hover{text-decoration:underline}
     <div class="wrap faq">
       <h2>คำถามที่พบบ่อย</h2>
       <details><summary>ใช้ฟรีไหม</summary><p>ฟรี ไม่มีค่าใช้จ่าย</p></details>
+      <details><summary>ใช้บนเว็บได้ไหม</summary><p>ยังไม่ได้ เว็บนี้เป็นหน้าแนะนำแอปเท่านั้น แชท แผนที่ แจ้งเหตุ และโพล ใช้ได้ในแอป Siam Chat</p></details>
       <details><summary>iPhone ใช้ได้ไหม</summary><p>ตอนนี้เปิดให้ใช้บน Android ก่อน iPhone กำลังตามมา</p></details>
-      <details><summary>ข้อมูลส่วนตัวปลอดภัยไหม</summary><p>ในแอปใช้รูปสัตว์แทนรูปจริง และไม่แสดงอีเมลของคุณให้ผู้อื่นเห็น อ่านรายละเอียดได้ที่ <a href="privacy.html">นโยบายความเป็นส่วนตัว</a></p></details>
+      <details><summary>ข้อมูลส่วนตัวปลอดภัยไหม</summary><p>ในแอปใช้รูปสัตว์และชื่อสัตว์ + เลข 4 หลักแทนตัวคุณ ไม่แสดงชื่อจริงหรืออีเมลให้ผู้อื่นเห็น อ่านรายละเอียดได้ที่ <a href="privacy.html">นโยบายความเป็นส่วนตัว</a></p></details>
       <details><summary>ทำไมต้องเข้ากลุ่ม Google</summary><p>ช่วงทดสอบ Google กำหนดให้ผู้ทดสอบเข้ากลุ่มก่อน จึงจะติดตั้งแอปจาก Google Play ได้</p></details>
-      <details><summary>ลบบัญชีได้ไหม</summary><p>ได้ ดูวิธีได้ที่หน้า <a href="delete-account.html">ลบบัญชี</a></p></details>
+      <details><summary>ลบบัญชีได้ไหม</summary><p>ได้ ดูวิธีได้ที่หน้า <a href="delete-account.html">ขอลบบัญชี</a></p></details>
     </div>
   </section>
-
-  <!-- 8) โซเชียล (แสดงเฉพาะที่ใส่ลิงก์ใน LINKS) -->
-  <div class="wrap social" id="social"></div>
 </main>
 
+<!-- 8) ท้ายเว็บ -->
 <footer>
   <div class="wrap">
-    <div>© 2026 Siam Chat · เชียงใหม่</div>
-    <nav>
+    <div class="social" id="social"></div>
+    <nav aria-label="เอกสารทางกฎหมาย">
       <a href="privacy.html">นโยบายความเป็นส่วนตัว</a>
       <a href="terms.html">ข้อกำหนดการใช้งาน</a>
-      <a href="delete-account.html">ลบบัญชี</a>
+      <a href="delete-account.html">ขอลบบัญชี</a>
     </nav>
+    <div>© 2569 Siam Chat</div>
   </div>
 </footer>
 
@@ -579,543 +508,7 @@ footer nav a:hover{text-decoration:underline}
   setText('.js-step3', D.step3); setHref('.js-store', D.storeUrl); setText('.js-store-text', D.storeBtn);
   setText('.js-note', D.note);
 
-  // ---- ค้นหาอำเภอ (ข้อมูลจาก assets/districts.json เท่านั้น ไม่เรียก API ไม่เก็บสิ่งที่พิมพ์) ----
-  var q = document.getElementById('q'), list = document.getElementById('results'),
-      found = document.getElementById('found'), foundText = document.getElementById('foundText');
-  var DATA = null, PROV = null, loading = null, MAX = 6;
-
-  // districts.json: r = [ชื่อภาค] · p = [ชื่อจังหวัด, lat, lng, ลำดับภาค] (ศูนย์กลาง = อ.เมือง / เขตพระนคร)
-  //                 d = [ชื่ออำเภอ, ลำดับจังหวัด, lat, lng]
-  var REG = null;
-  function load(){
-    if (DATA || loading) return loading;
-    loading = fetch('assets/districts.json').then(function(r){ return r.json(); }).then(function(j){
-      REG = j.r.slice();
-      PROV = j.p.map(function(x, i){ return { i: i, n: x[0], lat: x[1], lng: x[2], r: x[3] }; });
-      DATA = j.d.map(function(x, i){
-        var p = PROV[x[1]];
-        return { i: i, n: x[0], p: p.n, pi: p.i, lat: x[2] != null ? x[2] : p.lat, lng: x[3] != null ? x[3] : p.lng };
-      });
-    }).catch(function(){ DATA = []; PROV = []; REG = []; });
-    return loading;
-  }
-  function norm(s){
-    return (s || '').replace(/\s+/g, '').replace(/^(อำเภอ|อ\.|เขต|จังหวัด|จ\.)/, '')
-      .replace(/กรุงเทพฯ?/, 'กรุงเทพ');
-  }
-  function label(d){
-    var bkk = d.p === 'กรุงเทพมหานคร';
-    return { name: bkk ? d.n : 'อ.' + d.n, prov: bkk ? d.p : 'จ.' + d.p };
-  }
-  function search(raw){
-    var t = norm(raw); if (!t || !DATA) return { items: [], total: 0 };
-    var a = [], b = [], c = [];
-    DATA.forEach(function(d){
-      var n = d.n.replace(/^เขต/, ''), p = d.p;
-      if (n.indexOf(t) === 0) a.push(d);
-      else if (n.indexOf(t) > 0) b.push(d);
-      else if (p.indexOf(t) === 0) c.push(d);   // พิมพ์ชื่อจังหวัด → แสดงอำเภอในจังหวัดนั้น (อ.เมือง ก่อน)
-    });
-    c.sort(function(x, y){ return (y.n.indexOf('เมือง') === 0) - (x.n.indexOf('เมือง') === 0); });
-    var all = a.concat(b, c);
-    return { items: all.slice(0, MAX), total: all.length };
-  }
-  function render(){
-    found.hidden = true;
-    var r = search(q.value);
-    list.innerHTML = '';
-    if (!q.value.trim()) { list.hidden = true; return; }
-    if (!r.items.length) {
-      list.innerHTML = '<li class="more">ไม่พบชื่อนี้ ลองพิมพ์ชื่ออำเภอหรือจังหวัดอีกครั้ง</li>';
-      list.hidden = false; return;
-    }
-    r.items.forEach(function(d){
-      var L = label(d), li = document.createElement('li'), bt = document.createElement('button');
-      bt.type = 'button'; bt.setAttribute('role', 'option');
-      var b = document.createElement('b'); b.textContent = L.name;
-      var s = document.createElement('small'); s.textContent = L.prov;
-      bt.appendChild(b); bt.appendChild(s);
-      bt.addEventListener('click', function(){ pick(d); });
-      li.appendChild(bt); list.appendChild(li);
-    });
-    if (r.total > MAX) {
-      var m = document.createElement('li'); m.className = 'more';
-      m.textContent = 'และอีก ' + (r.total - MAX) + ' แห่ง · พิมพ์เพิ่มเพื่อให้แคบลง';
-      list.appendChild(m);
-    }
-    list.hidden = false;
-  }
-  function pick(d){
-    var L = label(d);
-    list.hidden = true; list.innerHTML = '';
-    foundText.innerHTML = '';
-    var s = document.createElement('strong'); s.textContent = 'ห้องแชท ' + L.name + ' ' + L.prov;
-    foundText.appendChild(s);
-    foundText.appendChild(document.createTextNode(' พร้อมแล้ว — ติดตั้งแอปเพื่อเข้าห้อง'));
-    found.hidden = false;
-    q.value = d.n;
-    PICK.set(d);            // ตั้ง 3 ช่องให้ตรง + ย้ายแผนที่
-  }
-  function ready(){ return load() || Promise.resolve(); }
-  q.addEventListener('focus', load);
-  q.addEventListener('input', function(){ ready().then(render); });
-
-  // ---- เลือกพื้นที่ 3 ขั้น: ภูมิภาค → จังหวัด → อำเภอ ----
-  var PICK = (function(){
-    var sR = document.getElementById('selR'), sP = document.getElementById('selP'), sD = document.getElementById('selD');
-    var nR = document.getElementById('nR'), nP = document.getElementById('nP'), nD = document.getElementById('nD');
-    function opt(sel, items, val, ph){
-      sel.innerHTML = '';
-      var o0 = document.createElement('option'); o0.value = ''; o0.textContent = ph; o0.disabled = true; sel.appendChild(o0);
-      items.forEach(function(it){ var o = document.createElement('option'); o.value = it.v; o.textContent = it.t; sel.appendChild(o); });
-      sel.value = val == null ? '' : String(val);
-      sel.disabled = false;
-    }
-    function fillP(r, pv){
-      var ps = PROV.filter(function(p){ return p.r === r; });
-      opt(sP, ps.map(function(p){ return { v: p.i, t: p.n }; }), pv, 'เลือกจังหวัด');
-      nP.textContent = ps.length + ' จังหวัด';
-    }
-    function fillD(pi, dv){
-      var ds = DATA.filter(function(d){ return d.pi === pi; });
-      opt(sD, ds.map(function(d){ return { v: d.i, t: d.n }; }), dv, PROV[pi].n === 'กรุงเทพมหานคร' ? 'เลือกเขต' : 'เลือกอำเภอ');
-      nD.textContent = ds.length + (PROV[pi].n === 'กรุงเทพมหานคร' ? ' เขต' : ' อำเภอ');
-    }
-    function clearD(){ sD.innerHTML = '<option value="">เลือกจังหวัดก่อน</option>'; sD.disabled = true; nD.textContent = ''; }
-    function go(d){
-      var L = label(d);
-      MAP.show({ place: L.name + ' ' + L.prov, lat: d.lat, lng: d.lng, seed: d.p + '/' + d.n });
-    }
-    function set(d){
-      var p = PROV[d.pi];
-      sR.value = String(p.r); fillP(p.r, p.i); fillD(p.i, d.i); go(d);
-    }
-    sR.addEventListener('change', function(){
-      fillP(+sR.value, null); clearD();
-    });
-    sP.addEventListener('change', function(){
-      var pi = +sP.value, ds = DATA.filter(function(d){ return d.pi === pi; });
-      // เลือกจังหวัดแล้ว → ตั้งอำเภอเป็น อ.เมือง ให้ก่อน (เปลี่ยนได้) และย้ายแผนที่ทันที
-      var m = ds.filter(function(d){ return d.n.indexOf('เมือง') === 0 || d.n === PROV[pi].n || d.n === 'เขตพระนคร'; })[0] || ds[0];
-      fillD(pi, m.i); go(m);
-    });
-    sD.addEventListener('change', function(){ go(DATA[+sD.value]); });
-    ready().then(function(){
-      if (!DATA.length) return;
-      opt(sR, REG.map(function(n, i){ return { v: i, t: n }; }), null, 'เลือกภูมิภาค');
-      nR.textContent = REG.length + ' ภาค';
-      // ค่าเริ่มต้น: ภาคเหนือ › เชียงใหม่ › เมืองเชียงใหม่ (ไม่ย้ายแผนที่ — แผนที่เริ่มที่จุดนี้อยู่แล้ว)
-      var d0 = DATA.filter(function(d){ return d.n === 'เมืองเชียงใหม่'; })[0];
-      if (d0) { var p0 = PROV[d0.pi]; sR.value = String(p0.r); fillP(p0.r, p0.i); fillD(p0.i, d0.i); }
-    });
-    return { set: set };
-  })();
-
-  // ---- แผนที่ Google (Maps JavaScript API) — โหลดครั้งเดียวตอนการ์ดใกล้เข้าจอ · เปลี่ยนพื้นที่ = ย้ายกล้อง ไม่สร้างแผนที่ใหม่ ----
-  // หมุดทั้งหมดสร้างขึ้นในเครื่อง (สุ่มแบบคงที่ตามชื่ออำเภอ) เป็นตัวอย่าง ไม่ใช่ข้อมูลจริงจากแอป/DB
-  var ICON_IMG = { 'svg:drinks': 'assets/icons/drinks-thai-tea.svg', 'svg:market': 'assets/icons/market-stall.svg' };
-  // หมวดตาม rooms.ts ของแอป (ลำดับเดียวกัน) · [slug, ไอคอน, ชื่อสั้นในวงกลม (CategoryChips/TourismChips), ชื่อหมวดใน popup (ROOM_META), ชื่อหมุดตัวอย่าง…]
-  // หมุดแรกของทุกหมวดอยู่ในรัศมี 3 กม. (ค่าเริ่มต้น) — แตะหมวดไหนก็เห็นหมุดอย่างน้อย 1 อัน
-  var CATS = {
-    daily: [
-      ['toilet', '🚻', 'ห้องน้ำ', 'ห้องน้ำ', 'ห้องน้ำสาธารณะ'],
-      ['food', '🍜', 'อาหาร', 'ร้านอาหาร', 'ร้านก๋วยเตี๋ยว', 'ร้านข้าวแกง'],
-      ['drinks', 'svg:drinks', 'เครื่องดื่ม', 'เครื่องดื่ม', 'ร้านชาไทย'],
-      ['gas', '⛽', 'ปั๊ม', 'ปั๊มน้ำมัน', 'ปั๊มน้ำมัน', 'ปั๊มน้ำมัน'],
-      ['atm', '🏦', 'ATM', 'ATM', 'ตู้ ATM'],
-      ['parking', '🅿️', 'จอดรถ', 'ที่จอดรถ', 'ลานจอดรถ'],
-      ['transit', '🚌', 'รถเมล์', 'รถประจำทาง', 'ป้ายรถสองแถว'],
-      ['market', 'svg:market', 'ตลาดสด', 'ตลาดสด', 'ตลาดสด'],
-      ['convenience', '🏪', 'สะดวกซื้อ', 'สะดวกซื้อ', 'ร้านสะดวกซื้อ'],
-      ['mechanic', '🔧', 'ซ่อมรถ', 'ซ่อมรถ', 'ร้านซ่อมรถ'],
-      ['car_rental', '🚙', 'รถเช่า', 'รถเช่า', 'ร้านรถเช่า'],
-      ['hospital', '🏥', 'รพ.', 'โรงพยาบาล', 'คลินิก'],
-      ['pharmacy', '💊', 'ร้านยา', 'ร้านยา', 'ร้านขายยา'],
-      ['dental', '🦷', 'ทันตกรรม', 'ทันตกรรม', 'คลินิกทันตกรรม'],
-      ['fitness', '🏃', 'ออกกำลังกาย', 'ออกกำลังกาย', 'สวนสาธารณะ'],
-      ['cafe', '☕', 'คาเฟ่', 'คาเฟ่', 'ร้านกาแฟ', 'คาเฟ่']
-    ],
-    travel: [
-      ['temple', '🏯', 'วัด', 'วัด', 'วัด', 'ศาลเจ้า'],
-      ['beach', '🏖️', 'ทะเล', 'ทะเล', 'ชายหาด'],
-      ['viewpoint', '🌄', 'จุดชมวิว', 'จุดชมวิว', 'จุดชมวิว', 'จุดชมพระอาทิตย์ตก'],
-      ['nature', '🌿', 'ธรรมชาติ', 'ธรรมชาติ', 'น้ำตก'],
-      ['walkingstreet', '🛍️', 'ถนนคนเดิน', 'ถนนคนเดิน', 'ถนนคนเดิน'],
-      ['museum', '🏛️', 'พิพิธภัณฑ์', 'พิพิธภัณฑ์', 'พิพิธภัณฑ์'],
-      ['themepark', '🎢', 'สวนสนุก', 'สวนสนุก', 'สวนสนุก'],
-      ['landmark', '🎭', 'กิจกรรม', 'แลนด์มาร์ก', 'แลนด์มาร์ก'],
-      ['spa', '💆', 'สปา', 'สปา', 'ร้านนวดไทย'],
-      ['nightlife', '🍸', 'ไนท์ไลฟ์', 'ไนท์ไลฟ์', 'บาร์'],
-      ['farm', '🌾', 'ฟาร์ม', 'ฟาร์ม', 'สวนเกษตร'],
-      ['camping', '🏕️', 'ที่พัก', 'ที่พัก', 'ลานกางเต็นท์']
-    ]
-  };
-  var PIN_BORDER = '#1a56db';           // colors.primary ของแอป (ขอบหมุดค่าเริ่มต้น)
-
-  var MAP = (function(){
-    var state = { place: 'อ.เมืองเชียงใหม่ จ.เชียงใหม่', lat: 18.7883, lng: 98.9853, seed: 'เชียงใหม่/เมืองเชียงใหม่' };
-    var km = 3, mode = 'daily', cat = 'all', map = null, G = null, layer = null, ring = null, started = false, failed = false, creates = 0;
-    var pinsData = [];
-    // ลำดับ/การเลือกหมวด (จัดลำดับหมวดหมู่) — เก็บแค่ในหน้านี้ ไม่จำข้ามการเปิดหน้า
-    var ORDER = { daily: CATS.daily.map(function(c){ return c[0]; }), travel: CATS.travel.map(function(c){ return c[0]; }) };
-    var box = document.getElementById('map'), card = document.getElementById('mapCard'),
-        title = document.getElementById('mapTitle'), sub = document.getElementById('mapSub'),
-        cAll = document.getElementById('cAll'), cSiam = document.getElementById('cSiam'),
-        catsEl = document.getElementById('cats'), catLabel = document.getElementById('catLabel'),
-        loadingEl = document.getElementById('mapLoading'), failEl = document.getElementById('mapFail'),
-        sheetEl = document.getElementById('cSheet'), panel = sheetEl.querySelector('.cs-panel'), toastEl = document.getElementById('cToast');
-
-    function rng(str){                       // สุ่มแบบคงที่: อำเภอเดิม = หมุดชุดเดิม
-      var h = 2166136261;
-      for (var i = 0; i < str.length; i++) { h ^= str.charCodeAt(i); h = Math.imul(h, 16777619); }
-      return function(){ h = Math.imul(h ^ (h >>> 15), 2246822507); h = Math.imul(h ^ (h >>> 13), 3266489909); h ^= h >>> 16; return (h >>> 0) / 4294967296; };
-    }
-    function offset(lat, lng, dKm, ang){
-      return { lat: lat + (dKm / 111.32) * Math.cos(ang), lng: lng + (dKm / (111.32 * Math.cos(lat * Math.PI / 180))) * Math.sin(ang) };
-    }
-    function fmt(d){ return d < 1 ? Math.round(d * 1000) + ' ม.' : d.toFixed(1) + ' กม.'; }
-    function iconHtml(ic){ return ICON_IMG[ic] ? '<img src="' + ICON_IMG[ic] + '" alt="">' : ic; }
-    function esc(s){ return String(s).replace(/[&<>"]/g, function(c){ return { '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;' }[c]; }); }
-    function catBySlug(s){ return CATS[mode].filter(function(c){ return c[0] === s; })[0]; }
-    var SVG = {
-      x: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M6 6l12 12M18 6 6 18"/></svg>',
-      nav: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M21 3 3 10.5l7 2.5 2.5 7z"/></svg>',
-      info: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 7.5v.5"/></svg>',
-      save: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M6 3h12v18l-6-4.5L6 21z"/></svg>',
-      loc: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 21s-7-6.2-7-11.5a7 7 0 0 1 14 0C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg>'
-    };
-
-    function makePins(){
-      var r = rng(state.seed + '#' + mode), out = [];
-      CATS[mode].forEach(function(c){
-        c.slice(4).forEach(function(name, k){
-          // หมุดแรกของหมวด: 0.35–2.8 กม. · หมุดเพิ่ม: 3.2–9.5 กม. (เห็นเมื่อขยายระยะ)
-          var d = k === 0 ? 0.35 + r() * 2.45 : 3.2 + r() * 6.3;
-          var open = r() > 0.25, o = 7 + Math.floor(r() * 4), cl = 17 + Math.floor(r() * 6);
-          out.push({ ll: offset(state.lat, state.lng, d, r() * 2 * Math.PI), d: d, slug: c[0], icon: c[1], cat: c[3], name: name + ' (ตัวอย่าง)',
-            hours: open ? 'เปิดอยู่ · ' + pad(o) + ':00–' + pad(cl) + ':00' : 'ปิดแล้ว · เปิด ' + pad(o) + ':00', open: open });
-        });
-      });
-      return out;
-    }
-    function pad(n){ return (n < 10 ? '0' : '') + n; }
-    function visible(p){
-      if (p.d > km) return false;
-      return cat === 'all' ? ORDER[mode].indexOf(p.slug) >= 0 : p.slug === cat;
-    }
-    function updateCounts(){
-      var n = pinsData.filter(visible).length;
-      cAll.textContent = n; cSiam.textContent = n;
-      sub.textContent = '📍 ' + state.place + ' · ' + n + ' จุด';
-    }
-    function renderHead(){
-      title.textContent = mode === 'daily' ? 'แผนที่ชีวิตประจำวัน' : '🗺️ สถานที่ท่องเที่ยวใกล้ฉัน';
-      catLabel.textContent = mode === 'daily' ? 'หมวดหมู่' : 'หมวดท่องเที่ยว';
-      card.classList.toggle('daily', mode === 'daily'); card.classList.toggle('travel', mode === 'travel');
-    }
-    // วงกลมหมวด: 🌐 ทั้งหมด ก่อน แล้วตามลำดับที่เลือกไว้ (จัดลำดับหมวดหมู่)
-    function renderCats(){
-      if (cat !== 'all' && ORDER[mode].indexOf(cat) < 0) cat = 'all';
-      catsEl.innerHTML = '';
-      [['all', '🌐', 'ทั้งหมด']].concat(ORDER[mode].map(catBySlug)).forEach(function(c){
-        var b = document.createElement('button');
-        b.type = 'button'; b.className = 'cat'; b.setAttribute('data-cat', c[0]);
-        b.setAttribute('aria-pressed', c[0] === cat ? 'true' : 'false');
-        b.innerHTML = '<span class="ci">' + iconHtml(c[1]) + '</span><span class="cl">' + esc(c[2]) + '</span>';
-        b.addEventListener('click', function(){
-          cat = c[0];
-          each('#cats .cat', function(x){ x.setAttribute('aria-pressed', x === b ? 'true' : 'false'); });
-          if (layer) { layer.select(null); layer.draw(); }
-          updateCounts();
-        });
-        catsEl.appendChild(b);
-      });
-      catsEl.scrollLeft = 0;
-    }
-    function rebuild(){
-      pinsData = makePins();
-      if (layer) layer.setPins(pinsData);
-      updateCounts();
-    }
-
-    // ---- แผ่นในการ์ด: เลื่อนขึ้นจากล่าง · แตะนอกแผ่น / ปัดลง / ✕ = ปิด ----
-    var onSheetClose = null;
-    function openSheet(html, bind, onClose){
-      panel.innerHTML = '<div class="cs-handle"></div>' + html;
-      panel.querySelectorAll('[data-csclose]').forEach(function(b){ b.addEventListener('click', closeSheet); });
-      if (bind) bind(panel);
-      onSheetClose = onClose || null;
-      toastEl.classList.remove('on');
-      sheetEl.classList.add('on'); sheetEl.setAttribute('aria-hidden', 'false');
-    }
-    function closeSheet(){
-      if (!sheetEl.classList.contains('on')) return;
-      sheetEl.classList.remove('on'); sheetEl.setAttribute('aria-hidden', 'true'); toastEl.classList.remove('on');
-      panel.style.transform = '';
-      var f = onSheetClose; onSheetClose = null; if (f) f();
-    }
-    sheetEl.addEventListener('click', function(e){ if (e.target === sheetEl) closeSheet(); });
-    (function(){   // ปัดลงเพื่อปิด (เริ่มจากที่จับ/ส่วนหัว หรือเมื่อเนื้อหาเลื่อนอยู่บนสุด)
-      var y0 = null, dy = 0;
-      panel.addEventListener('touchstart', function(e){
-        var sc = e.target.closest('.cs-scroll');
-        if (sc && sc.scrollTop > 0) { y0 = null; return; }
-        y0 = e.touches[0].clientY; dy = 0; panel.classList.add('drag');
-      }, { passive: true });
-      panel.addEventListener('touchmove', function(e){
-        if (y0 == null) return;
-        dy = Math.max(0, e.touches[0].clientY - y0);
-        panel.style.transform = 'translateY(' + dy + 'px)';
-      }, { passive: true });
-      panel.addEventListener('touchend', function(){
-        if (y0 == null) return;
-        panel.classList.remove('drag'); y0 = null;
-        if (dy > 70) closeSheet(); else panel.style.transform = '';
-      });
-    })();
-    var toastT = null;
-    function toast(){
-      toastEl.classList.add('on');
-      clearTimeout(toastT); toastT = setTimeout(function(){ toastEl.classList.remove('on'); }, 2600);
-    }
-
-    // แผ่นหมุด (แบบ SiamPlaceOverlayModal) — ไม่มีดาว/รีวิว
-    function pinSheet(p){
-      openSheet(
-        '<div class="pl-photo">' + iconHtml(p.icon) +
-          '<span class="pl-badge cat">' + iconHtml(p.icon) + ' ' + esc(p.cat) + '</span>' +
-          '<button class="cs-x" type="button" data-csclose aria-label="ปิด">' + SVG.x + '</button>' +
-          '<span class="pl-badge src"><span class="d"></span>Siam</span><span class="pl-badge demo">ตัวอย่าง</span></div>' +
-        '<div class="pl-info"><div class="pl-name">' + esc(p.name) + '</div>' +
-          '<div class="pl-addr">ที่อยู่ตัวอย่าง · ' + esc(state.place) + '</div>' +
-          '<div class="pl-hours ' + (p.open ? 'open' : 'closed') + '"><i>●</i>' + esc(p.hours) + '</div>' +
-          '<div class="pl-dist">' + fmt(p.d) + ' จากตำแหน่งของคุณ</div>' +
-          '<div class="pl-acts"><button class="nav" type="button" data-try>' + SVG.nav + 'นำทาง</button>' +
-            '<button class="info" type="button" data-try>' + SVG.info + 'รายละเอียด</button>' +
-            '<button class="save" type="button" data-try aria-label="บันทึกสถานที่นี้">' + SVG.save + '</button></div></div>',
-        function(pn){ pn.querySelectorAll('[data-try]').forEach(function(b){ b.addEventListener('click', toast); }); },
-        function(){ if (layer) layer.select(null); }
-      );
-    }
-    // แผ่นจัดลำดับหมวดหมู่ (แบบ CategoryOrderPopup) — แตะเพื่อเลือก เลขบอกลำดับ · บันทึกแล้วแถวหมวดเปลี่ยน
-    function orderSheet(){
-      var sel = ORDER[mode].slice();
-      function draw(){
-        var grid = panel.querySelector('.co-grid'); grid.innerHTML = '';
-        CATS[mode].forEach(function(c){
-          var rank = sel.indexOf(c[0]), b = document.createElement('button');
-          b.type = 'button'; b.className = 'co-item' + (rank >= 0 ? ' on' : '');
-          b.innerHTML = '<span class="w"><span class="ci">' + iconHtml(c[1]) + '</span>' + (rank >= 0 ? '<span class="n">' + (rank + 1) + '</span>' : '') +
-            '</span><span class="l">' + esc(c[2]) + '</span>';
-          b.addEventListener('click', function(){
-            var i = sel.indexOf(c[0]); if (i >= 0) sel.splice(i, 1); else sel.push(c[0]); draw();
-          });
-          grid.appendChild(b);
-        });
-        panel.querySelector('.co-count').textContent = 'เลือกแล้ว ' + sel.length + ' หมวด';
-        panel.querySelector('.co-save').disabled = sel.length === 0;
-        panel.querySelector('.co-min').hidden = sel.length > 0;
-      }
-      openSheet(
-        '<div class="co-top"><div class="co-head"><b>จัดลำดับหมวดหมู่</b><button class="cs-x" type="button" data-csclose aria-label="ปิด">' + SVG.x + '</button></div></div>' +
-        '<div class="co-hint"><span>แตะเพื่อเลือกหมวดที่ต้องการ</span><b class="co-count"></b></div>' +
-        '<div class="cs-scroll"><div class="co-grid"></div></div>' +
-        '<div class="co-foot"><small class="co-min" hidden>เลือกอย่างน้อย 1 หมวด</small><button class="co-save" type="button">บันทึก</button></div>',
-        function(pn){
-          pn.querySelector('.co-top').insertBefore(pn.querySelector('.cs-handle'), pn.querySelector('.co-head'));
-          draw();
-          pn.querySelector('.co-save').addEventListener('click', function(){
-            ORDER[mode] = sel.slice(); closeSheet(); renderCats(); if (layer) layer.draw(); updateCounts();
-          });
-        });
-    }
-    // แผ่นเพิ่มสถานที่ใหม่ (หัวฟอร์ม AddPlaceSheet) — ดูอย่างเดียว
-    function addSheet(){
-      openSheet(
-        '<div class="ap-head"><span>' + SVG.loc + 'เพิ่มสถานที่ใหม่</span><button class="cs-x" type="button" data-csclose aria-label="ปิด">' + SVG.x + '</button></div>' +
-        '<div class="cs-scroll"><div class="ap-body">' +
-          '<div class="ap-sep"><b>รูปภาพ</b><i></i><small>0/5 รูป</small></div>' +
-          '<div class="ap-thumb"><span>📷</span><b>เพิ่มรูป</b><small>แตะเพื่อเพิ่มรูป</small></div>' +
-          '<div class="ap-sep"><b>ข้อมูลสถานที่</b><i></i></div>' +
-          '<div class="ap-label">หมวดหมู่ <em>*</em></div><div class="ap-field"><span>📍 เลือกหมวดหมู่...</span><span>▾</span></div>' +
-          '<div class="ap-label">ชื่อสถานที่ <em>*</em></div><div class="ap-field">เช่น ร้านก๋วยเตี๋ยวหน้าตลาด</div>' +
-          '<p class="ap-note">ตัวอย่างหน้าฟอร์มในแอป — ในแอปจริงเลือกตำแหน่งบนแผนที่ ใส่รูป เวลาเปิด-ปิด แล้วหมุดจะขึ้นให้คนในพื้นที่เห็น</p>' +
-          '<a class="ap-go" href="#install">ติดตั้งแอปเพื่อปักหมุดจริง</a></div></div>',
-        function(pn){ pn.querySelector('.ap-go').addEventListener('click', closeSheet); });
-    }
-
-    function fail(why){
-      if (failed) return; failed = true;
-      console.warn('[siamchat] แผนที่ Google โหลดไม่ได้:', why);
-      box.style.display = 'none'; loadingEl.hidden = true; failEl.hidden = false;
-    }
-
-    function init(){
-      if (failed) return;
-      G = window.google && google.maps;
-      if (!G) return fail('no google.maps');
-
-      // หมุด HTML แบบในแอป (OverlayView — ไม่ต้องใช้ Map ID) + จุดผู้ใช้
-      function Layer(){ this.pins = []; this.sel = null; }
-      Layer.prototype = new G.OverlayView();
-      Layer.prototype.onAdd = function(){
-        this.root = document.createElement('div'); this.root.style.position = 'absolute';
-        this.getPanes().overlayMouseTarget.appendChild(this.root);
-        if (this.pending) { var pd = this.pending; this.pending = null; this.setPins(pd); }
-      };
-      Layer.prototype.onRemove = function(){ this.root.remove(); };
-      Layer.prototype.draw = function(){
-        var pr = this.getProjection(); if (!pr) return;
-        this.pins.forEach(function(p){
-          var pt = pr.fromLatLngToDivPixel(new G.LatLng(p.ll.lat, p.ll.lng));
-          p.el.style.left = pt.x + 'px'; p.el.style.top = pt.y + 'px';
-          p.el.classList.toggle('hid', !visible(p));
-        });
-        if (this.you) {
-          var c = pr.fromLatLngToDivPixel(new G.LatLng(state.lat, state.lng));
-          this.you.style.left = c.x + 'px'; this.you.style.top = c.y + 'px';
-        }
-      };
-      Layer.prototype.select = function(p){
-        if (this.sel && this.sel.el) this.sel.el.classList.remove('on');
-        this.sel = p; if (p && p.el) p.el.classList.add('on');
-      };
-      Layer.prototype.setPins = function(pins){
-        if (!this.root) { this.pending = pins; return; }   // ยังไม่ onAdd — รอวาดตอน overlay พร้อม
-        var self = this; this.select(null);
-        this.pins.forEach(function(p){ p.el && p.el.remove(); });
-        this.pins = pins.map(function(p){
-          var el = document.createElement('div'); el.className = 'gpin hid'; el.style.setProperty('--c', PIN_BORDER);
-          el.title = p.name; el.setAttribute('role', 'button'); el.setAttribute('aria-label', p.name);
-          el.innerHTML = '<span class="tail"></span><span class="head">' + iconHtml(p.icon) + '</span>';
-          G.OverlayView.preventMapHitsAndGesturesFrom(el);
-          el.addEventListener('click', function(e){ e.stopPropagation(); self.select(p); pinSheet(p); });
-          self.root.appendChild(el); p.el = el; return p;
-        });
-        if (!this.you) { this.you = document.createElement('div'); this.you.className = 'youdot'; this.root.appendChild(this.you); }
-        this.draw();
-        requestAnimationFrame(function(){ self.draw(); });   // หมุดใหม่ค่อย ๆ โผล่ (animation)
-      };
-
-      try {
-        map = new G.Map(box, {
-          center: { lat: state.lat, lng: state.lng }, zoom: 13,
-          gestureHandling: 'greedy',             // นิ้วเดียวลากแผนที่ได้ · เลื่อนหน้าเว็บจากส่วนหัว/ชิป/แถบระยะของการ์ด
-          mapTypeControl: false, streetViewControl: false, fullscreenControl: false, cameraControl: false,
-          rotateControl: false, scaleControl: false, clickableIcons: false,
-          zoomControl: true, zoomControlOptions: { position: G.ControlPosition.RIGHT_BOTTOM }
-        });
-      } catch (e) { return fail(e && e.message); }
-      creates++; window.__siamchatMapCreates = creates;
-      window.__siamchatMapCenter = function(){ var c = map.getCenter(); return [+c.lat().toFixed(4), +c.lng().toFixed(4), map.getZoom()]; };
-      window.__siamchatMapGesture = function(){ return map.get('gestureHandling'); };
-      console.log('[siamchat] google.maps.Map created ×' + creates);
-
-      // ปุ่มตำแหน่ง ⊙ มุมขวาบน (แบบ showsMyLocationButton ในแอป) — กด = กลับไปกลางอำเภอแบบ animation
-      var loc = document.createElement('button');
-      loc.type = 'button'; loc.className = 'locbtn'; loc.title = 'กลับไปกลางอำเภอ'; loc.setAttribute('aria-label', 'กลับไปกลางอำเภอ');
-      loc.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="#666" stroke-width="2"><circle cx="12" cy="12" r="7"/><circle cx="12" cy="12" r="2.5" fill="#666" stroke="none"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3"/></svg>';
-      loc.addEventListener('click', function(){ closeSheet(); fit(); });
-      map.controls[G.ControlPosition.TOP_RIGHT].push(loc);
-
-      // วงรัศมีแบบในแอป (StaticMapPreview): ขอบ rgba(26,86,219,.6) · พื้น rgba(26,86,219,.08)
-      ring = new G.Circle({ map: map, center: { lat: state.lat, lng: state.lng }, radius: km * 1000, clickable: false,
-        strokeColor: '#1a56db', strokeOpacity: .6, strokeWeight: 2, fillColor: '#1a56db', fillOpacity: .08 });
-      layer = new Layer(); layer.setMap(map);
-      map.addListener('click', function(){ closeSheet(); });
-
-      // ไม่ใช้ตัวจับเวลา: เน็ตช้า/แท็บพื้นหลังอาจโหลดแผ่นแผนที่ช้า แต่แผนที่ยังใช้ได้ — ตัดสินว่าล้มเหลวจาก 3 ทางเท่านั้น
-      // (gm_authFailure · สคริปต์โหลดไม่ได้ · กล่อง error ของ Google ในแผนที่)
-      G.event.addListenerOnce(map, 'tilesloaded', function(){ loadingEl.hidden = true; });
-      new MutationObserver(function(){ if (box.querySelector('.gm-err-container, .gm-err-message')) fail('gm-err'); })
-        .observe(box, { childList: true, subtree: true });
-
-      layer.setPins(pinsData);
-      fit(true);
-    }
-    // ซูมให้วงพอดีความสูงแผนที่ (การ์ดมือถือแคบกว่าสูง วงจึงชิดขอบซ้าย-ขวา)
-    function zoomFor(){
-      var h = box.clientHeight || 350, mpp = 156543.03392 * Math.cos(state.lat * Math.PI / 180);
-      return Math.max(5, Math.min(17, Math.floor(Math.log2(mpp * (h - 8) / (2 * km * 1000)))));
-    }
-    var ringAnim = 0;
-    function animateRing(to){
-      var from = ring.getRadius(), t0 = performance.now(), id = ++ringAnim;
-      (function step(t){
-        if (id !== ringAnim) return;
-        var k = Math.min(1, (t - t0) / 320), e = 1 - Math.pow(1 - k, 3);
-        ring.setRadius(from + (to - from) * e);
-        if (k < 1) requestAnimationFrame(step);
-      })(t0);
-    }
-    function fit(instant){
-      // ย้ายกล้องเท่านั้น (ไม่สร้างแผนที่ใหม่)
-      ring.setCenter({ lat: state.lat, lng: state.lng });
-      if (instant) ring.setRadius(km * 1000); else animateRing(km * 1000);
-      map.panTo({ lat: state.lat, lng: state.lng }); map.setZoom(zoomFor());
-    }
-    function start(){
-      if (started) return; started = true;
-      window.gm_authFailure = function(){ fail('auth'); };   // กุญแจผิด / โดเมนไม่ได้รับอนุญาต
-      window.__siamchatMapsReady = init;
-      var s = document.createElement('script');
-      s.async = true;
-      s.src = 'https://maps.googleapis.com/maps/api/js?key=' + encodeURIComponent(MAPS.key) +
-              '&callback=__siamchatMapsReady&loading=async&language=th&region=TH&v=weekly';
-      s.onerror = function(){ fail('script error / offline'); };
-      document.head.appendChild(s);
-    }
-    function show(next){
-      state = next; closeSheet();
-      rebuild();
-      if (!map) { start(); return; }
-      fit();
-    }
-
-    // แท็บ ชีวิตประจำวัน | ท่องเที่ยว
-    each('.mode', function(b){
-      b.addEventListener('click', function(){
-        mode = b.getAttribute('data-mode'); cat = 'all'; closeSheet();
-        each('.mode', function(x){ x.setAttribute('aria-pressed', x === b ? 'true' : 'false'); });
-        renderHead(); renderCats(); rebuild();
-      });
-    });
-    // ระยะ 1 / 2 / 3 / 5 / 10 กม. — วงขยาย/หดแบบ animation + ซ่อนหมุดนอกวง
-    each('#radChips .rad', function(b){
-      b.addEventListener('click', function(){
-        km = +b.getAttribute('data-km'); closeSheet();
-        each('#radChips .rad', function(x){ x.setAttribute('aria-pressed', x === b ? 'true' : 'false'); });
-        if (map) { fit(); layer.draw(); }
-        updateCounts();
-      });
-    });
-    // FAB ปักหมุด · "เลือกหมวดหมู่ >"
-    card.querySelector('[data-act="add"]').addEventListener('click', addSheet);
-    card.querySelector('[data-act="order"]').addEventListener('click', orderSheet);
-    toastEl.querySelector('a').addEventListener('click', function(){ toastEl.classList.remove('on'); closeSheet(); });
-    renderHead(); renderCats(); rebuild();
-
-    // ย้ายการ์ด: มือถืออยู่ใต้ hero · จอคอม ≥900px อยู่ขวาของ hero (ย้าย DOM เดิม ไม่สร้างแผนที่ใหม่)
-    var wrapEl = document.getElementById('mapWrap'), mq = window.matchMedia('(min-width:900px)');
-    function place(){
-      var slot = document.getElementById(mq.matches ? 'slotDesktop' : 'slotMobile');
-      if (wrapEl.parentNode !== slot) slot.appendChild(wrapEl);
-    }
-    place();
-    if (mq.addEventListener) mq.addEventListener('change', place); else if (mq.addListener) mq.addListener(place);
-
-    // โหลด Maps JS ตอนการ์ดใกล้เข้าจอเท่านั้น (1 map load ต่อการเปิดหน้า)
-    if ('IntersectionObserver' in window) {
-      var io = new IntersectionObserver(function(es){
-        if (es.some(function(e){ return e.isIntersecting; })) { io.disconnect(); start(); }
-      }, { rootMargin: '150px' });
-      io.observe(wrapEl);
-    } else start();
-
-    return { show: show };
-  })();
-
-  // ---- ปุ่มโซเชียล ----
+  // ---- ปุ่มโซเชียล (แสดงเฉพาะที่ใส่ลิงก์ใน LINKS) ----
   var ICONS = {
     facebook: {bg:'#1877f2', label:'Facebook', d:'M14 8.5V6.8c0-.8.2-1.3 1.4-1.3H17V2.6c-.3 0-1.3-.1-2.4-.1-2.4 0-4 1.4-4 4.1v1.9H8v3.2h2.6V21H14v-9.3h2.6l.4-3.2z'},
     tiktok:   {bg:'#111111', label:'TikTok',   d:'M16.6 5.8A4.4 4.4 0 0 1 15.5 3h-3.2v12.4a2.6 2.6 0 1 1-2.6-2.6c.3 0 .5 0 .8.1V9.7a5.8 5.8 0 1 0 5 5.7V9.1a7.5 7.5 0 0 0 4.4 1.4V7.3a4.4 4.4 0 0 1-3.3-1.5z'},
