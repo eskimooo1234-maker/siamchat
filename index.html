@@ -114,7 +114,7 @@ h2{font-size:21px;line-height:1.35;color:var(--navy);margin:0 0 18px;font-weight
 
 /* ---------- สไลด์มือถือ ----------
    มือถือจริงจัดกลาง · สไลด์ข้าง ๆ โผล่ ~15% ของความกว้างมือถือ */
-.carousel{--pw:236px;--gap:22px;position:relative;width:calc(var(--pw) + 2 * (var(--gap) + var(--pw) * .15));max-width:100%;margin:0 auto}
+.carousel{--pw:256px;--gap:20px;position:relative;width:calc(var(--pw) + 2 * (var(--gap) + var(--pw) * .15));max-width:100%;margin:0 auto}
 .track{display:flex;gap:var(--gap);overflow-x:auto;overscroll-behavior-x:contain;scroll-snap-type:x mandatory;
   -webkit-overflow-scrolling:touch;scrollbar-width:none;padding:6px calc(50% - var(--pw) / 2) 30px;outline:none}
 .track::-webkit-scrollbar{display:none}
@@ -139,72 +139,20 @@ h2{font-size:21px;line-height:1.35;color:var(--navy);margin:0 0 18px;font-weight
 .hero .btn{font-size:16px;min-height:54px}
 
 /* ---------- กรอบมือถือ ----------
-   หน้าจอข้างในใช้หน่วย em ทั้งหมด · 1em = ความกว้างจอ / 24 (กรอบใหญ่ 1em ≈ 9px)
+   หน้าจอข้างในเป็น "ตัวอย่างกดลองได้" จาก assets/demo/demo.js + demo.css (โหลดทีหลัง ไม่ถ่วงการเปิดหน้า)
+   หน่วย em: 1em = ความกว้างจอ / 24
    เปลี่ยนเป็นภาพจริง: ใส่ <img src="assets/screens/<name>.png" alt="..."> เป็นลูกแรกของ .screen
-   แล้วลบ .mock ทิ้ง (CSS .screen > img ด้านล่างจัด object-fit: cover ให้แล้ว) */
+   แล้วลบ .demo-host ทิ้ง (CSS .screen > img ด้านล่างจัด object-fit: cover ให้แล้ว) */
 .phone{position:relative;background:#111;border-radius:15% / 7%;padding:3.6%;
   box-shadow:0 22px 44px -16px rgba(0,0,0,.55),0 0 0 1px rgba(255,255,255,.08) inset;container-type:inline-size}
 .screen{position:relative;aspect-ratio:9/19;border-radius:11% / 5.2%;overflow:hidden;background:#f1f5f9;
   font-size:calc(100cqw / 24);line-height:1.35;color:#16202e;text-align:left}
 .screen > img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:top center}
-.mock{position:absolute;inset:0;display:flex;flex-direction:column}
-.sample{position:absolute;right:.6em;bottom:.6em;z-index:5;padding:.25em .7em;border-radius:999px;
-  background:rgba(15,23,42,.72);color:#fff;font-size:max(8px,1em);font-weight:600;line-height:1.3;white-space:nowrap}
-.sample.up{bottom:4.4em}
-.notch{position:absolute;top:.55em;left:50%;width:6em;height:1.3em;margin-left:-3em;border-radius:1em;background:#111;z-index:6}
-.sbar{height:2.4em;flex:none}
-
-/* หน้าจอตัวอย่าง (วาดด้วย HTML/CSS · ข้อมูลตัวอย่างทั้งหมด ไม่ดึง DB) */
-.m-ic{width:1.5em;height:1.5em;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;flex:none}
-.m-head{color:#fff;padding:0 1.1em .8em}
-.m-head .row{display:flex;align-items:center;gap:.6em}
-.m-head img{width:2.4em;height:2.4em;border-radius:.6em;background:#fff}
-.m-head b{display:block;font-size:1.3em;font-weight:800;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.m-head small{display:block;font-size:.95em;opacity:.85;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.m-tabs{display:flex;margin-top:.8em;border-radius:.7em;background:rgba(255,255,255,.16);padding:.25em}
-.m-tabs span{flex:1;text-align:center;font-size:1em;font-weight:600;padding:.35em 0;border-radius:.55em;white-space:nowrap}
-.m-tabs .on{background:#fff;color:#1d4ed8}
-.m-body{flex:1;padding:.9em;display:flex;flex-direction:column;gap:.7em;overflow:hidden}
-.m-bar{display:flex;align-items:center;gap:.6em;padding:.75em .9em;border-radius:.8em;color:#fff;font-weight:700;font-size:1.05em;white-space:nowrap}
-.m-bar span{flex:1;overflow:hidden;text-overflow:ellipsis}
-.m-bar i{font-style:normal;font-size:.85em;background:rgba(255,255,255,.25);padding:.1em .55em;border-radius:1em}
-.m-red{background:#dc2626}
-.m-blue{background:#1d4ed8}
-.m-card{position:relative;background:#fff;border-radius:.9em;padding:.9em;box-shadow:0 .1em .4em rgba(15,23,42,.08)}
-.m-ribbon{display:inline-flex;align-items:center;gap:.35em;margin:-.9em 0 .55em -.9em;padding:.3em .8em;border-radius:.9em 0 .8em 0;
-  background:linear-gradient(90deg,#f59e0b,#fbbf24);color:#422006;font-size:.9em;font-weight:800;white-space:nowrap}
-.m-ribbon .m-ic{width:1.1em;height:1.1em}
-.m-q{font-size:1.1em;font-weight:700;margin:0 0 .3em}
-.m-meta{font-size:.85em;color:#64748b;margin:0 0 .6em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.m-opt{position:relative;display:flex;justify-content:space-between;align-items:center;height:2.2em;padding:0 .7em;margin-top:.35em;
-  border-radius:.6em;background:#f1f5f9;overflow:hidden;font-size:.95em;font-weight:700}
-.m-opt::before{content:"";position:absolute;left:0;top:0;bottom:0;width:var(--p);background:var(--c)}
-.m-opt span{position:relative}
-.m-yes{--c:#bbf7d0;color:#14532d}
-.m-no{--c:#fecaca;color:#7f1d1d}
-.m-line{height:.6em;border-radius:.3em;background:#e2e8f0;margin-top:.45em}
-.m-who{display:flex;align-items:center;gap:.5em;font-size:.95em;font-weight:700}
-.m-av{width:2em;height:2em;border-radius:50%;display:grid;place-items:center;flex:none;color:#fff;font-size:.85em;font-weight:800}
-.m-nav{display:flex;justify-content:space-around;align-items:center;height:4.2em;flex:none;background:#fff;border-top:1px solid #e2e8f0;color:#94a3b8;padding-bottom:.8em}
-.m-nav .on{color:#1d4ed8}
-/* แผนที่ */
-.m-map{position:relative;flex:1;background:#e7efe3;overflow:hidden}
-.m-road{position:absolute;background:#fff;box-shadow:0 0 0 .12em #d6dde4}
-.m-pin{position:absolute;width:2.6em;height:2.6em;margin:-2.4em 0 0 -1.3em;filter:drop-shadow(0 .12em .15em rgba(0,0,0,.3))}
-.m-you{position:absolute;width:1.3em;height:1.3em;margin:-.65em 0 0 -.65em;border-radius:50%;background:#1a73e8;border:.25em solid #fff;
-  box-shadow:0 0 0 .5em rgba(26,115,232,.18)}
-.m-chips{display:flex;gap:.45em;padding:.7em .8em 1.2em;background:#fff;flex:none}
-.m-chips span{flex:1;text-align:center;padding:.35em 0;border-radius:1em;border:1px solid #d1d5db;font-size:.9em;color:#6b7280;white-space:nowrap}
-.m-chips .on{background:#15803d;border-color:#15803d;color:#fff;font-weight:700}
-/* แจ้งเหตุ */
-.m-tag{display:inline-block;padding:.15em .6em;border-radius:1em;background:#fee2e2;color:#b91c1c;font-size:.85em;font-weight:700;margin-bottom:.4em}
-.m-photo{height:8.5em;border-radius:.7em;background:#cbd5e1;display:grid;place-items:center;color:#64748b;margin:.2em 0 .7em}
-.m-photo .m-ic{width:2.6em;height:2.6em;stroke-width:1.6}
-.m-btns{display:flex;gap:.5em}
-.m-btn{flex:1;display:flex;align-items:center;justify-content:center;gap:.35em;height:2.6em;border-radius:.6em;font-size:.95em;font-weight:700;white-space:nowrap}
-.m-btn .m-ic{width:1.2em;height:1.2em}
-.m-btn.p{background:#1d4ed8;color:#fff}
-.m-btn.o{border:1px solid #1d4ed8;color:#1d4ed8;background:#fff}
+.demo-host{position:absolute;inset:0}
+.demo-host:empty{background:url(assets/logo-64.png) center 42% / 4.4em no-repeat,linear-gradient(#e8f0fe,#f8fafc)}
+.sample{position:absolute;right:1em;top:.62em;z-index:50;padding:.1em .6em;border-radius:999px;pointer-events:none;
+  background:rgba(15,23,42,.6);color:#fff;font-size:max(8px,.85em);font-weight:700;line-height:1.35;white-space:nowrap}
+.notch{position:absolute;top:.55em;left:50%;width:6em;height:1.3em;margin-left:-3em;border-radius:1em;background:#111;z-index:50;pointer-events:none}
 
 /* ---------- 3) มีอะไรในแอป ---------- */
 .feats{list-style:none;margin:0;padding:0;display:grid;gap:18px}
@@ -254,7 +202,7 @@ footer nav a:hover{text-decoration:underline}
   section{padding:56px 0}
   h2{font-size:24px}
   .hero{padding:48px 0 52px}
-  .carousel{--pw:260px;--gap:28px}
+  .carousel{--pw:300px;--gap:28px}
 }
 @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{transition:none!important}}
 </style>
@@ -272,13 +220,6 @@ footer nav a:hover{text-decoration:underline}
   <symbol id="i-download" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="m7 10 5 5 5-5"/><path d="M12 15V3"/></symbol>
   <symbol id="i-left" viewBox="0 0 24 24"><path d="m15 18-6-6 6-6"/></symbol>
   <symbol id="i-right" viewBox="0 0 24 24"><path d="m9 18 6-6-6-6"/></symbol>
-  <symbol id="i-nav" viewBox="0 0 24 24"><path d="M3 11 22 2l-9 19-2-8z"/></symbol>
-  <symbol id="i-image" viewBox="0 0 24 24"><rect width="18" height="18" x="3" y="3" rx="2"/><circle cx="9" cy="9" r="2"/><path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/></symbol>
-  <symbol id="i-home" viewBox="0 0 24 24"><path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8"/><path d="M3 10a2 2 0 0 1 .709-1.528l7-6a2 2 0 0 1 2.582 0l7 6A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></symbol>
-  <symbol id="i-bell" viewBox="0 0 24 24"><path d="M10.268 21a2 2 0 0 0 3.464 0"/><path d="M3.262 15.326A1 1 0 0 0 4 17h16a1 1 0 0 0 .74-1.673C19.41 13.956 18 12.499 18 8A6 6 0 0 0 6 8c0 4.499-1.411 5.956-2.738 7.326"/></symbol>
-  <symbol id="i-plus" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M8 12h8"/><path d="M12 8v8"/></symbol>
-  <!-- หมุดทึบสำหรับหน้าจอแผนที่ตัวอย่าง -->
-  <symbol id="i-pin" viewBox="0 0 24 24"><path fill="#15803d" stroke="#fff" stroke-width="1.5" d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0"/><circle cx="12" cy="10" r="3" fill="#fff"/></symbol>
 </svg>
 
 <!-- 1) หัวเว็บ -->
@@ -299,144 +240,70 @@ footer nav a:hover{text-decoration:underline}
 
     </div>
 
-    <!-- สไลด์มือถือตัวอย่าง 4 หน้า (ปัดแนวนอน · CSS scroll-snap · ไม่ใช้ไลบรารี) -->
-    <div class="carousel" role="region" aria-roledescription="carousel" aria-label="ภาพตัวอย่างแอป">
+    <!-- สไลด์มือถือ "ตัวอย่างกดลองได้" 6 หน้า (ปัดแนวนอน · CSS scroll-snap · ไม่ใช้ไลบรารี) · ข้อมูลปลอมทั้งหมด ไม่เรียก API/DB -->
+    <div class="carousel" role="region" aria-roledescription="carousel" aria-label="ตัวอย่างแอป กดลองได้">
       <div class="track" id="track" tabindex="0" aria-label="ใช้ปุ่มลูกศรซ้าย/ขวาเพื่อเปลี่ยนหน้า">
-      <div class="slide" role="group" aria-roledescription="slide" aria-label="1 จาก 4: หน้าหลัก">
+      <div class="slide" role="group" aria-roledescription="slide" aria-label="1 จาก 6: เข้าสู่ระบบ">
+        <!-- SCREEN:login -->
+        <div class="phone"><div class="screen">
+          <div class="demo-host" data-screen="login"></div>
+          <div class="notch"></div><span class="sample">ตัวอย่าง</span>
+        </div></div>
+        <!-- /SCREEN:login -->
+      </div>
+      <div class="slide" role="group" aria-roledescription="slide" aria-label="2 จาก 6: เลือกพื้นที่">
+        <!-- SCREEN:location -->
+        <div class="phone"><div class="screen">
+          <div class="demo-host" data-screen="location"></div>
+          <div class="notch"></div><span class="sample">ตัวอย่าง</span>
+        </div></div>
+        <!-- /SCREEN:location -->
+      </div>
+      <div class="slide" role="group" aria-roledescription="slide" aria-label="3 จาก 6: หน้าหลัก">
         <!-- SCREEN:home -->
-        <div class="phone" role="img" aria-label="ภาพตัวอย่างหน้าแรกของแอป Siam Chat">
-          <div class="screen">
-            <div class="mock" aria-hidden="true">
-              <div class="m-head" style="background:#1d4ed8">
-                <div class="sbar"></div>
-                <div class="row"><img src="assets/logo-64.png" alt=""><div style="min-width:0"><b>Siam Chat</b><small>เชียงใหม่ · เมืองเชียงใหม่</small></div></div>
-                <div class="m-tabs"><span class="on">อำเภอฉัน</span><span>จังหวัด</span><span>ประเทศ</span></div>
-              </div>
-              <div class="m-body">
-                <div class="m-bar m-red"><svg class="m-ic"><use href="#i-alert"/></svg><span>เหตุการณ์เร่งด่วนในพื้นที่</span><i>2</i></div>
-                <div class="m-bar m-blue"><svg class="m-ic"><use href="#i-map"/></svg><span>แผนที่ใกล้คุณ</span><i>24 หมุด</i></div>
-                <div class="m-card">
-                  <div class="m-ribbon"><svg class="m-ic"><use href="#i-chart"/></svg>โพลชุมชน</div>
-                  <p class="m-q">ควรมีตลาดนัดวันอาทิตย์ที่สวนสาธารณะไหม</p>
-                  <p class="m-meta">สุนัข 1313 · 312 คนตอบ · เหลือ 2 วัน</p>
-                  <div class="m-opt m-yes" style="--p:68%"><span>ใช่</span><span>68%</span></div>
-                  <div class="m-opt m-no" style="--p:32%"><span>ไม่</span><span>32%</span></div>
-                </div>
-                <div class="m-card">
-                  <div class="m-who"><span class="m-av" style="background:#b45309">ช</span>ช้าง 3568</div>
-                  <div class="m-line" style="width:92%"></div><div class="m-line" style="width:70%"></div>
-                </div>
-              </div>
-              <div class="m-nav"><svg class="m-ic on"><use href="#i-home"/></svg><svg class="m-ic"><use href="#i-map"/></svg><svg class="m-ic"><use href="#i-plus"/></svg><svg class="m-ic"><use href="#i-bell"/></svg></div>
-            </div>
-            <div class="notch"></div>
-            <span class="sample up">ภาพตัวอย่าง</span>
-          </div>
-        </div>
+        <div class="phone"><div class="screen">
+          <div class="demo-host" data-screen="home"></div>
+          <div class="notch"></div><span class="sample">ตัวอย่าง</span>
+        </div></div>
         <!-- /SCREEN:home -->
       </div>
-      <div class="slide" role="group" aria-roledescription="slide" aria-label="2 จาก 4: แผนที่">
+      <div class="slide" role="group" aria-roledescription="slide" aria-label="4 จาก 6: แผนที่">
         <!-- SCREEN:map -->
-        <div class="phone" role="img" aria-label="ภาพตัวอย่างหน้าแผนที่">
-          <div class="screen">
-            <div class="mock" aria-hidden="true">
-              <div class="m-head" style="background:#15803d">
-                <div class="sbar"></div>
-                <b>แผนที่ใกล้คุณ</b><small>อ.เมืองเชียงใหม่ · 24 หมุด</small>
-              </div>
-              <div class="m-map">
-                <div class="m-road" style="left:-10%;right:-10%;top:38%;height:1.1em;transform:rotate(-8deg)"></div>
-                <div class="m-road" style="top:-5%;bottom:-5%;left:58%;width:1em;transform:rotate(6deg)"></div>
-                <div class="m-road" style="left:-10%;right:-10%;top:72%;height:.7em;transform:rotate(14deg)"></div>
-                <div class="m-road" style="top:-5%;bottom:-5%;left:22%;width:.6em"></div>
-                <svg class="m-pin" style="left:30%;top:24%"><use href="#i-pin"/></svg>
-                <svg class="m-pin" style="left:74%;top:30%"><use href="#i-pin"/></svg>
-                <svg class="m-pin" style="left:44%;top:56%"><use href="#i-pin"/></svg>
-                <svg class="m-pin" style="left:80%;top:64%"><use href="#i-pin"/></svg>
-                <svg class="m-pin" style="left:18%;top:82%"><use href="#i-pin"/></svg>
-                <span class="m-you" style="left:52%;top:44%"></span>
-              </div>
-              <div class="m-chips"><span>1 กม.</span><span class="on">3 กม.</span><span>5 กม.</span></div>
-            </div>
-            <div class="notch"></div>
-            <span class="sample up">ภาพตัวอย่าง</span>
-          </div>
-        </div>
+        <div class="phone"><div class="screen">
+          <div class="demo-host" data-screen="map"></div>
+          <div class="notch"></div><span class="sample">ตัวอย่าง</span>
+        </div></div>
         <!-- /SCREEN:map -->
       </div>
-      <div class="slide" role="group" aria-roledescription="slide" aria-label="3 จาก 4: แจ้งเหตุ">
+      <div class="slide" role="group" aria-roledescription="slide" aria-label="5 จาก 6: แจ้งเหตุ">
         <!-- SCREEN:alert -->
-        <div class="phone" role="img" aria-label="ภาพตัวอย่างหน้าแจ้งเหตุ">
-          <div class="screen">
-            <div class="mock" aria-hidden="true">
-              <div class="m-head" style="background:#dc2626">
-                <div class="sbar"></div>
-                <b>แจ้งเหตุ</b><small>อ.เมืองเชียงใหม่ · 2 เรื่อง</small>
-              </div>
-              <div class="m-body">
-                <div class="m-card">
-                  <span class="m-tag">อุบัติเหตุ</span>
-                  <p class="m-q">รถชนกัน ถนนห้วยแก้ว ขาเข้าเมือง</p>
-                  <p class="m-meta">ช้าง 3568 · 5 นาที · ห่าง 1.2 กม.</p>
-                  <div class="m-photo"><svg class="m-ic"><use href="#i-image"/></svg></div>
-                  <div class="m-btns"><span class="m-btn p"><svg class="m-ic"><use href="#i-nav"/></svg>นำทาง</span><span class="m-btn o"><svg class="m-ic"><use href="#i-map"/></svg>ดูบนแผนที่</span></div>
-                </div>
-                <div class="m-card">
-                  <span class="m-tag">น้ำท่วม</span>
-                  <p class="m-q">น้ำท่วมขัง ซอย 7</p>
-                  <p class="m-meta">สุนัข 1313 · 40 นาที</p>
-                </div>
-              </div>
-            </div>
-            <div class="notch"></div>
-            <span class="sample">ภาพตัวอย่าง</span>
-          </div>
-        </div>
+        <div class="phone"><div class="screen">
+          <div class="demo-host" data-screen="alert"></div>
+          <div class="notch"></div><span class="sample">ตัวอย่าง</span>
+        </div></div>
         <!-- /SCREEN:alert -->
       </div>
-      <div class="slide" role="group" aria-roledescription="slide" aria-label="4 จาก 4: โพล">
-        <!-- SCREEN:poll -->
-        <div class="phone" role="img" aria-label="ภาพตัวอย่างหน้าโพลชุมชน">
-          <div class="screen">
-            <div class="mock" aria-hidden="true">
-              <div class="m-head" style="background:#1d4ed8">
-                <div class="sbar"></div>
-                <b>โพลชุมชน</b><small>จ.เชียงใหม่</small>
-              </div>
-              <div class="m-body">
-                <div class="m-card">
-                  <div class="m-ribbon"><svg class="m-ic"><use href="#i-chart"/></svg>โพลชุมชน</div>
-                  <p class="m-q">ควรสร้างสะพานลอยหน้าโรงเรียนไหม</p>
-                  <p class="m-meta">นกฮูก 2047 · 518 คนตอบ</p>
-                  <div class="m-opt m-yes" style="--p:81%"><span>สร้าง</span><span>81%</span></div>
-                  <div class="m-opt m-no" style="--p:19%"><span>ไม่สร้าง</span><span>19%</span></div>
-                </div>
-                <div class="m-card">
-                  <div class="m-ribbon"><svg class="m-ic"><use href="#i-chart"/></svg>โพลชุมชน</div>
-                  <p class="m-q">ตลาดเช้าย้ายที่ใหม่ ดีไหม</p>
-                  <p class="m-meta">แมว 7720 · 204 คนตอบ</p>
-                  <div class="m-opt m-yes" style="--p:57%"><span>ดี</span><span>57%</span></div>
-                  <div class="m-opt m-no" style="--p:43%"><span>ไม่ดี</span><span>43%</span></div>
-                </div>
-              </div>
-            </div>
-            <div class="notch"></div>
-            <span class="sample">ภาพตัวอย่าง</span>
-          </div>
-        </div>
-        <!-- /SCREEN:poll -->
+      <div class="slide" role="group" aria-roledescription="slide" aria-label="6 จาก 6: โปรไฟล์">
+        <!-- SCREEN:profile -->
+        <div class="phone"><div class="screen">
+          <div class="demo-host" data-screen="profile"></div>
+          <div class="notch"></div><span class="sample">ตัวอย่าง</span>
+        </div></div>
+        <!-- /SCREEN:profile -->
       </div>
       </div>
       <button class="nav-btn prev" type="button" aria-label="ก่อนหน้า" aria-controls="track" hidden><svg class="ic"><use href="#i-left"/></svg></button>
       <button class="nav-btn next" type="button" aria-label="ถัดไป" aria-controls="track"><svg class="ic"><use href="#i-right"/></svg></button>
     </div>
     <div class="dots" role="group" aria-label="เลือกหน้า">
-      <button type="button" class="dot on" aria-label="หน้าหลัก" aria-current="true"></button>
+      <button type="button" class="dot on" aria-label="เข้าสู่ระบบ" aria-current="true"></button>
+      <button type="button" class="dot" aria-label="เลือกพื้นที่"></button>
+      <button type="button" class="dot" aria-label="หน้าหลัก"></button>
       <button type="button" class="dot" aria-label="แผนที่"></button>
       <button type="button" class="dot" aria-label="แจ้งเหตุ"></button>
-      <button type="button" class="dot" aria-label="โพล"></button>
+      <button type="button" class="dot" aria-label="โปรไฟล์"></button>
     </div>
-    <p class="slide-name"><span id="slideName" aria-live="polite">หน้าหลัก</span><span class="hint" id="swipeHint">ปัดดูเพิ่ม<svg class="ic"><use href="#i-right"/></svg></span></p>
+    <p class="slide-name"><span id="slideName" aria-live="polite">เข้าสู่ระบบ</span><span class="hint" id="swipeHint">ปัดดูเพิ่ม<svg class="ic"><use href="#i-right"/></svg></span></p>
 
     <div class="wrap">
       <a class="btn btn-white btn-full" href="#install"><svg class="ic"><use href="#i-download"/></svg>ติดตั้งฟรีบน Google Play</a>
@@ -543,7 +410,7 @@ footer nav a:hover{text-decoration:underline}
     var slides = track.querySelectorAll('.slide'), dots = document.querySelectorAll('.dot'),
         prev = document.querySelector('.nav-btn.prev'), next = document.querySelector('.nav-btn.next'),
         nameEl = document.getElementById('slideName'), hint = document.getElementById('swipeHint');
-    var NAMES = ['หน้าหลัก', 'แผนที่', 'แจ้งเหตุ', 'โพล'], cur = 0, touched = false;
+    var NAMES = ['เข้าสู่ระบบ', 'เลือกพื้นที่', 'หน้าหลัก', 'แผนที่', 'แจ้งเหตุ', 'โปรไฟล์'], cur = 0, touched = false, interacted = false;
     var reduce = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
     function step(){ return slides.length > 1 ? slides[1].offsetLeft - slides[0].offsetLeft : track.clientWidth; }
     function markTouched(){ if (touched) return; touched = true; hint.hidden = true; }
@@ -571,7 +438,10 @@ footer nav a:hover{text-decoration:underline}
         render(i);
       });
     }, { passive: true });
-    ['pointerdown', 'touchstart', 'wheel'].forEach(function(ev){ track.addEventListener(ev, markTouched, { passive: true }); });
+    // แตะ/ลากในสไลด์ = ยกเลิกการขยับบอกใบ้ (แต่ "ปัดดูเพิ่ม" ซ่อนเมื่อเปลี่ยนหน้าจริงเท่านั้น)
+    ['pointerdown', 'touchstart', 'wheel'].forEach(function(ev){ track.addEventListener(ev, function(){ interacted = true; }, { passive: true }); });
+    // ปุ่มในเดโม (เช่น เข้าสู่ระบบ → เลือกพื้นที่) สั่งเปลี่ยนหน้า
+    document.addEventListener('siamdemo:go', function(e){ go(+e.detail); });
     prev.addEventListener('click', function(){ go(cur - 1); });
     next.addEventListener('click', function(){ go(cur + 1); });
     Array.prototype.forEach.call(dots, function(d, k){ d.addEventListener('click', function(){ go(k); }); });
@@ -583,12 +453,30 @@ footer nav a:hover{text-decoration:underline}
     });
     // ขยับบอกใบ้ 1 ครั้งตอนโหลด (ข้ามถ้าลดการเคลื่อนไหว หรือผู้ใช้แตะไปแล้ว)
     if (!reduce && slides[0].animate) setTimeout(function(){
-      if (touched || cur !== 0) return;
+      if (touched || interacted || cur !== 0) return;
       Array.prototype.forEach.call(slides, function(sl){
         sl.animate([{ transform: 'translateX(0)' }, { transform: 'translateX(-40px)' }, { transform: 'translateX(0)' }],
           { duration: 900, easing: 'ease-in-out' });
       });
     }, 1200);
+  })();
+
+  // ---- โหลดตัวอย่างกดลองได้ (assets/demo) หลังหน้าเว็บโหลดเสร็จ และเมื่อสไลด์ใกล้ปรากฏ ----
+  (function(){
+    var car = document.querySelector('.carousel'); if (!car) return;
+    var done = false;
+    function load(){
+      if (done) return; done = true;
+      var l = document.createElement('link'); l.rel = 'stylesheet'; l.href = 'assets/demo/demo.css';
+      l.onload = function(){ var sc = document.createElement('script'); sc.src = 'assets/demo/demo.js'; document.body.appendChild(sc); };
+      document.head.appendChild(l);
+    }
+    function watch(){
+      if (!('IntersectionObserver' in window)) return load();
+      var io = new IntersectionObserver(function(es){ if (es.some(function(e){ return e.isIntersecting; })) { io.disconnect(); load(); } }, { rootMargin: '300px' });
+      io.observe(car);
+    }
+    if (document.readyState === 'complete') watch(); else window.addEventListener('load', watch);
   })();
 
   // ---- ปุ่มโซเชียล (แสดงเฉพาะที่ใส่ลิงก์ใน LINKS) ----
