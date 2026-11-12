@@ -269,116 +269,329 @@
     }
   };
 
-  /* ---------- 2) เลือกพื้นที่ 3 ขั้น ---------- */
-  // แผนที่ที่สูงกว่า ~1.4 เท่าของความกว้าง จะถูกย่อตามความสูง → ขยายป้ายชื่อตาม
-  function lblScale(vb) { var v = vb.split(' ').map(Number); return Math.max(1, v[3] / (v[2] * 1.4)); }
-  var L = { step: 1, r: null, p: null, d: null, dm: null, loading: false };
+  /* ---------- 2) เลือกพื้นที่ 3 ขั้น (RegionSelectionScreen · ProvinceSelectionScreen · DistrictMapView) ---------- */
+  // แผนที่ 3 มิติแบบแอป (components/map3d/Map3D.tsx): A เงาพื้น (6,12 · .14) · B ความหนา 4 ชั้น (1,2)…(4,8) · .35 · C หน้าบน
+  // ตัวที่เลือก "ลอย" ขึ้น 12 หน่วยใน ~240ms (useLiftReveal: 6 ขั้น × 40ms) + กรอบทอง + ลายเส้นเฉียง + เส้นแบ่งย่อยค่อย ๆ ขึ้น
+  var LTHEME = { // ProvinceSelectionScreen / DistrictMapView: REGION_THEME + PAGE_BG
+    north:     { from: '#22c55e', to: '#0f6a3d', light: '#bbf7d0', dark: '#15803d', bg: '#eef6f0' },
+    northeast: { from: '#f59e0b', to: '#b45309', light: '#fde68a', dark: '#b45309', bg: '#fbf3e8' },
+    central:   { from: '#2f6bff', to: '#0b2a7a', light: '#bfd0fb', dark: '#1e3a8a', bg: '#eef2fb' },
+    south:     { from: '#22b8c4', to: '#0e7490', light: '#a5e6ec', dark: '#0e7490', bg: '#eaf6f8' }
+  };
+  var RLAB = { // RegionSelectionScreen LABELS (viewBox -95 0 490 552)
+    north: { x: -88, y: 70, a: 'start', ax: -6 }, central: { x: -88, y: 250, a: 'start', ax: -6 },
+    northeast: { x: 388, y: 130, a: 'end', ax: 306 }, south: { x: 388, y: 455, a: 'end', ax: 306 }
+  };
+  // ป้ายบนแผนที่ใหญ่กว่าแอป (จอในเว็บเล็กกว่ามือถือจริง · ตัวหนังสืออื่นในเดโมก็ขยายราว 1.4 เท่า)
+  var LIFT = 12, GOLD_EDGE = '#d9b45a', LBL = 1.4, RLBL = 1.3;
+  var L = { step: 1, r: null, p: null, d: null, dm: null, pm: null, zoom: 1, cx: null, cy: null, anim: false };
+  function lclamp(v, lo, hi) { return Math.min(hi, Math.max(lo, v)); }
+  function dFull(n) { return n.indexOf('เขต') === 0 ? n : 'อ.' + n; }
+  function dShown(n) { return n.replace(/^เขต/, ''); }
+  function th(r) { return GEO.provinces[r]; }
+
+  // svg ของแผนที่ 3 มิติ · o = { vb, areas:[{id,d}], faces:[{id,d,fill,op,stroke,sw}], dark(id), sel, selFill, lines:[d], lw, defs, under, selLabel, top }
+  function map3d(o) {
+    var s = '<svg class="m3" viewBox="' + o.vb + '" preserveAspectRatio="xMidYMid meet">' +
+      '<defs><pattern id="m3d-diag" patternUnits="userSpaceOnUse" width="8" height="8" patternTransform="rotate(45)">' +
+      '<line x1="0" y1="0" x2="0" y2="8" stroke="#fff" stroke-opacity=".12" stroke-width="2"/></pattern>' + (o.defs || '') + '</defs>';
+    var g = '';
+    o.areas.forEach(function (a) { if (a.id !== o.sel) g += '<path d="' + a.d + '" fill="' + o.dark(a.id) + '"/>'; });
+    s += '<g transform="translate(6 12)" opacity=".14" pointer-events="none">' + g + '</g>';
+    [[1, 2], [2, 4], [3, 6], [4, 8]].forEach(function (t) { s += '<g transform="translate(' + t[0] + ' ' + t[1] + ')" opacity=".35" pointer-events="none">' + g + '</g>'; });
+    o.faces.forEach(function (f) {
+      if (f.id === o.sel) return;
+      s += '<path class="fc" data-a="pick" data-id="' + f.id + '" d="' + f.d + '" fill="' + f.fill + '" fill-opacity="' + (f.op == null ? 1 : f.op) + '" stroke="' + (f.stroke || '#fff') + '" stroke-width="' + (f.sw || 1.3) + '"><title>' + esc(f.t || '') + '</title></path>';
+    });
+    s += o.under || '';
+    var a = o.sel ? o.areas.filter(function (x) { return x.id === o.sel; })[0] : null;
+    if (a) {
+      var dk = o.dark(a.id), key = L.step + ':' + a.id, up = (L.anim ? '' : ' up') + (L.rvKey === key ? ' rv' : ''), sides = '';
+      for (var i = 1; i <= 8; i++) sides += '<path class="sd' + (i > 4 ? ' x' : '') + '" transform="translate(' + i + ' ' + i * 2 + ')" d="' + a.d + '" fill="' + dk + '" opacity=".35"/>';
+      s += '<g class="m3-sel' + up + '" data-k="' + key + '">' +
+        '<g class="sh" pointer-events="none"><path d="' + a.d + '" fill="' + dk + '"/></g>' +
+        '<g class="lf">' + '<g pointer-events="none">' + sides + '</g>' +
+        '<path data-a="pick" data-id="' + a.id + '" d="' + a.d + '" fill="' + o.selFill + '" stroke="' + GOLD_EDGE + '" stroke-width="3"/>' +
+        '<path d="' + a.d + '" fill="url(#m3d-diag)" pointer-events="none"/>';
+      if (o.lines && o.lines.length) {
+        var n = o.lines.length, gap = Math.min(60, 900 / n);
+        s += '<g pointer-events="none">' + o.lines.map(function (d, k) {
+          return '<path class="ln" style="transition-delay:' + Math.round(240 + k * gap) + 'ms" d="' + d + '" fill="none" stroke="#fff7d6" stroke-width="' + o.lw + '"/>';
+        }).join('') + '</g>';
+      }
+      s += (o.selLabel || '') + '</g></g>';
+    }
+    return s + (o.top || '') + '</svg>';
+  }
+  function grad(id, a, b) { return '<linearGradient id="' + id + '" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="' + a + '"/><stop offset="1" stop-color="' + b + '"/></linearGradient>'; }
+  // viewBox หลังซูม (ProvinceSelectionScreen: กว้าง 300 · ซูม 1–5 เท่า · กล้องไม่ออกนอกแผนที่)
+  function zvb(h) {
+    var vw = 300 / L.zoom, vh = h / L.zoom, cx = L.cx == null ? 150 : L.cx, cy = L.cy == null ? h / 2 : L.cy;
+    var vx = lclamp(cx - vw / 2, 0, 300 - vw), vy = lclamp(cy - vh / 2, 0, h - vh);
+    return vx.toFixed(1) + ' ' + vy.toFixed(1) + ' ' + vw.toFixed(1) + ' ' + vh.toFixed(1);
+  }
+  function pill(x, y, name, color) {
+    var z = L.zoom / LBL, fs = 9 / z, w = name.length * 9 / z * 0.58, cw = Math.max(w + 12 / z, 34 / z);
+    return '<rect x="' + (x - cw / 2).toFixed(1) + '" y="' + (y - 8 / z).toFixed(1) + '" width="' + cw.toFixed(1) + '" height="' + (16 / z).toFixed(1) + '" rx="' + (8 / z).toFixed(1) + '" fill="#fff" fill-opacity=".97" pointer-events="none"/>' +
+      '<text x="' + x + '" y="' + (y + 3.2 / z).toFixed(1) + '" font-size="' + fs.toFixed(2) + '" font-weight="700" fill="' + color + '" text-anchor="middle">' + esc(name) + '</text>';
+  }
+  function miniCard(o) { // MiniIdCard
+    return '<div class="lc' + (o.dim ? ' dim' : '') + '"' + (o.act ? ' data-a="' + o.act + '" data-id="' + o.id + '"' : '') + ' style="--c1:' + o.c1 + ';--c2:' + o.c2 + ';height:' + o.h + 'em">' +
+      '<span class="fr"></span>' + (o.map ? '<span class="mp">' + o.map + '</span>' : '') +
+      '<div class="tx" style="padding-right:' + (o.mw + 2) + 'em"><small>' + esc(o.k) + '</small><i class="gl"></i><b>' + esc(o.t) + '</b>' +
+      (o.l3 ? '<span class="l3">' + esc(o.l3) + '</span>' : '') + (o.l4 ? '<span class="l4">' + esc(o.l4) + '</span>' : '') + '</div></div>';
+  }
+  function strip(cards, idx) { // แถวการ์ดแบบแอป (ไม่เลื่อนเอง · แตะใบที่โผล่ขวา = เลือกใบนั้น)
+    return '<div class="lcs"><div class="lcr" style="transform:translateX(calc(' + Math.max(0, idx) + ' * (-100% + 1.48em)))">' + cards.join('') + '</div></div>';
+  }
+  function thMini(rk, h) { // RegionMapGraphic
+    return '<svg viewBox="' + GEO.vb + '" style="height:' + h + 'em;width:' + (h * 300 / 552).toFixed(2) + 'em">' + ORDER.map(function (k) {
+      return '<path d="' + GEO.regions[k].d + '" fill="' + (k === rk ? '#f5d27a' : 'rgba(255,255,255,.15)') + '" stroke="#fff" stroke-width="3"/>';
+    }).join('') + '</svg>';
+  }
+
   SC.loc = {
     html: function () {
-      var st = L.step, R = L.r ? REG[L.r] : null, hdBg, title, sub, map = '', card, cta, ctaOn = false;
-      if (st === 1) { hdBg = 'linear-gradient(135deg,#2f6bff,#0b2a7a)'; title = 'เลือกภูมิภาคของคุณ'; sub = 'ขั้นตอนที่ 1 จาก 3'; }
-      else { hdBg = 'linear-gradient(135deg,' + R.c1 + ',' + R.c2 + ')'; }
-      if (!GEO) map = '<div class="loc-load">กำลังโหลดแผนที่…</div>';
-      else if (st === 1) map = this.regionMap();
-      if (st === 2) {
-        var P = GEO.provinces[L.r];
-        title = 'เลือกจังหวัด · ' + R.n; sub = 'ขั้นตอนที่ 2 จาก 3 · ' + R.pc + ' จังหวัด · ' + R.dc + ' อำเภอ';
-        map = this.provMap(P);
+      var st = L.step, hd, body = '', sheetH = '';
+      if (!GEO) {
+        return '<div class="dm d-loc">' + this.head(1) + '<div class="loc-map"><div class="loc-load">กำลังโหลดแผนที่…</div></div>' + TOAST + '</div>';
       }
-      if (st === 3) {
-        var pv = GEO.provinces[L.r].list[L.p], bk = L.p === 'bkk';
-        title = 'เลือก' + (bk ? 'เขต' : 'อำเภอ') + ' · ' + pv.n; sub = 'ขั้นตอนที่ 3 จาก 3 · ' + pv.c + (bk ? ' เขต' : ' อำเภอ');
-        map = L.dm ? this.distMap(L.dm) : '<div class="loc-load">กำลังโหลดแผนที่อำเภอ…</div>';
-      }
-      // การ์ด "…ที่เลือก" + ปุ่มไปขั้นถัดไป (‹ › เลือกทีละอันได้ เผื่อพื้นที่เล็กแตะยาก)
-      var sel = st === 1 ? L.r : st === 2 ? L.p : L.d, CR = R || { c1: '#2f6bff', c2: '#0b2a7a' };
-      if (st === 1 && L.r) CR = REG[L.r];
-      if (sel && (st !== 3 || L.dm)) {
-        var kicker, name, stats;
-        if (st === 1) { kicker = 'ภูมิภาคที่เลือก'; name = REG[sel].n; stats = REG[sel].pc + ' จังหวัด · ' + REG[sel].dc + ' อำเภอ'; cta = 'เลือกภูมิภาค'; }
-        else if (st === 2) { var pp = GEO.provinces[L.r].list[sel]; kicker = 'จังหวัดที่เลือก'; name = pp.n; stats = pp.c + (sel === 'bkk' ? ' เขต' : ' อำเภอ') + ' · ' + R.n; cta = 'เลือกจังหวัด'; }
-        else { var dd = L.dm.d[sel], bk2 = L.p === 'bkk'; kicker = (bk2 ? 'เขต' : 'อำเภอ') + 'ที่เลือก'; name = (bk2 ? 'เขต' : 'อ.') + dd.n; stats = GEO.provinces[L.r].list[L.p].n + ' · ห้องแชทอำเภอพร้อมใช้'; cta = 'เลือก ' + name + ' ›'; }
-        card = '<div class="loc-card" style="--c1:' + CR.c1 + ';--c2:' + CR.c2 + '">' + pattern('lp' + st) +
-          '<button class="nav" data-a="step" data-d="-1" aria-label="ก่อนหน้า">' + ic('chev-l') + '</button>' +
-          '<div class="info"><small>' + kicker + '</small><i class="gl"></i><b>' + esc(name) + '</b><span>' + esc(stats) + '</span></div>' +
-          '<button class="nav" data-a="step" data-d="1" aria-label="ถัดไป">' + ic('chev-r') + '</button></div>';
-        ctaOn = true;
+      hd = this.head(st);
+      if (st === 1) { body = this.s1map(); sheetH = this.s1sheet(); }
+      else if (st === 2) { body = this.s2map(); sheetH = this.s2sheet(); }
+      else { body = L.dm ? this.s3map() : '<div class="loc-load">กำลังโหลดแผนที่อำเภอ…</div>'; sheetH = this.s3sheet(); }
+      var T = st > 1 ? LTHEME[L.r] : null;
+      var hint = st === 1 ? 'แตะภาคบนแผนที่' : st === 2 ? 'แตะจังหวัดบนแผนที่' : 'แตะอำเภอบนแผนที่';
+      return '<div class="dm d-loc' + (st > 1 ? ' s23' : '') + '"' + (T ? ' style="background:' + T.bg + '"' : '') + '>' + hd +
+        '<div class="loc-top"><span>' + hint + '</span>' +
+        '<button class="loc-me' + (st > 1 ? ' sq' : '') + '" data-a="me"' + (T ? ' style="color:' + T.dark + '"' : '') + '>' + em('📍') + 'ตำแหน่งฉัน</button></div>' +
+        '<div class="loc-map' + (L.zoom > 1 ? ' zoomed' : '') + '">' + body +
+        (st > 1 ? '<div class="loc-zoom"><button data-a="zin" aria-label="ขยายแผนที่">+</button><i></i><button data-a="zout" aria-label="ย่อแผนที่">−</button></div>' : '') +
+        (st === 3 && L.dm ? '<span class="loc-credit">แผนที่เขต: geoBoundaries (CC BY 3.0 IGO)</span>' : '') + '</div>' +
+        '<div class="loc-sheet"><div class="d-handle"></div>' + sheetH + '</div>' + TOAST + '</div>';
+    },
+    head: function (st) {
+      var bg, lead, title, sub, R = L.r ? REG[L.r] : null;
+      if (st === 1) {
+        bg = 'linear-gradient(135deg,#2f6bff,#0b2a7a)';
+        lead = '<span class="loc-ico">' + em('🗺️') + '</span>';
+        title = 'เลือกภูมิภาคของคุณ'; sub = 'ขั้นตอนที่ 1 จาก 3 · พื้นที่ที่เลือกจะแสดงข่าวและชุมชนใกล้คุณ';
       } else {
-        card = '<div class="loc-empty">' + (st === 1 ? 'แตะภาคบนแผนที่' : st === 2 ? 'แตะจังหวัดบนแผนที่' : 'แตะอำเภอบนแผนที่') + '</div>';
-        cta = st === 1 ? 'เลือกภูมิภาค' : st === 2 ? 'เลือกจังหวัด' : 'เลือกอำเภอ';
+        var T = LTHEME[L.r];
+        bg = 'linear-gradient(135deg,' + T.from + ',' + T.to + ')';
+        lead = '<button class="loc-back" data-a="back" aria-label="ย้อนกลับ">←</button>';
+        if (st === 2) { title = '🗺️ เลือกจังหวัด · ' + R.n; sub = 'ขั้นตอนที่ 2 จาก 3 · ' + R.pc + ' จังหวัด · ' + R.dc + ' อำเภอ'; }
+        else {
+          var pv = th(L.r).list[L.p], bk = L.p === 'bkk';
+          title = '🗺️ เลือกอำเภอ · ' + pv.n; sub = 'ขั้นตอนที่ 3 จาก 3 · ' + pv.c + (bk ? ' เขต' : ' อำเภอ') + ' · ' + R.n;
+        }
       }
-      return '<div class="dm d-loc">' +
-        '<div class="d-hd loc-hd" style="background:' + hdBg + '"><div class="row">' +
-        (st > 1 ? '<button class="loc-back" data-a="back" aria-label="ย้อนขั้น">' + ic('arrow-l') + '</button>' : '<span class="loc-ico">' + ic('map') + '</span>') +
-        '<div class="tt"><b>' + esc(title) + '</b><small>' + esc(sub) + '</small></div></div>' +
-        '<div class="loc-steps"><i class="on"></i><i' + (st > 1 ? ' class="on"' : '') + '></i><i' + (st > 2 ? ' class="on"' : '') + '></i></div></div>' +
-        '<div class="loc-top"><span>' + (st === 1 ? 'แตะภาคบนแผนที่' : st === 2 ? 'แตะจังหวัดบนแผนที่' : 'แตะอำเภอบนแผนที่') + '</span>' +
-        '<button class="loc-me" data-a="me">' + ic('locate') + 'ตำแหน่งฉัน</button></div>' +
-        '<div class="loc-map">' + map + (st === 3 && L.dm ? '<span class="loc-credit">แผนที่เขต: geoBoundaries (CC BY 3.0 IGO)</span>' : '') + '</div>' +
-        '<div class="loc-sheet">' + card + '<button class="d-btn loc-cta ' + (ctaOn ? 'p d-pulse' : 'dis') + '" data-a="' + (ctaOn ? 'confirm' : 'noop') + '">' + esc(cta) + '</button></div>' +
-        TOAST + '</div>';
+      return '<div class="d-hd loc-hd" style="background:' + bg + '"><div class="row">' + lead +
+        '<div class="tt"><b>' + esc(title) + '</b><small>' + esc(sub) + '</small></div>' +
+        (st === 1 ? '<button class="loc-x" data-a="close" aria-label="ปิด">✕</button>' : '') + '</div>' +
+        '<div class="loc-steps"><i class="on"></i><i' + (st > 1 ? ' class="on"' : '') + '></i><i' + (st > 2 ? ' class="on"' : '') + '></i></div></div>';
     },
-    regionMap: function () {
-      var s = '<svg viewBox="' + GEO.vb + '" preserveAspectRatio="xMidYMid meet" role="group" aria-label="แผนที่ 4 ภาค">';
-      ORDER.forEach(function (id) {
-        var R = REG[id], dim = L.r && L.r !== id;
-        s += '<path data-a="pick" data-id="' + id + '" d="' + GEO.regions[id].d + '" fill="' + R.c1 + '" fill-opacity="' + (dim ? .45 : 1) + '" stroke="' + (L.r === id ? '#f5d27a' : '#fff') + '" stroke-width="' + (L.r === id ? 4 : 2.5) + '"><title>' + R.n + '</title></path>';
+
+    /* ---- ขั้น 1: 4 ภาค ---- */
+    s1map: function () {
+      var sel = L.r, defs = ORDER.map(function (id) { return grad('g-' + id, REG[id].c1, REG[id].c2); }).join('');
+      var areas = ORDER.map(function (id) { return { id: id, d: GEO.regions[id].d }; });
+      var faces = areas.map(function (a) { return { id: a.id, d: a.d, t: REG[a.id].n, fill: 'url(#g-' + a.id + ')', op: sel && sel !== a.id ? 0.55 : 1, stroke: '#fff', sw: 2.5 }; });
+      // ชื่อภาคอยู่นอกแผนที่ + เส้นประไปจุดกลางภาค (จุดของภาคที่ลอยขึ้นตาม)
+      var top = ORDER.map(function (id) {
+        var lb = RLAB[id], lp = GEO.regions[id].lp, dk = REG[id].c1, on = id === sel;
+        return '<g class="rl" data-a="pick" data-id="' + id + '">' +
+          '<line x1="' + lb.ax + '" y1="' + (lb.y - 6) + '" x2="' + lp[0] + '" y2="' + (lp[1] - (on ? LIFT : 0)) + '" stroke="' + dk + '" stroke-width="1.2" stroke-dasharray="4 4" stroke-opacity=".7"/>' +
+          '<circle class="' + (on ? 'dotup' + (L.anim ? '' : ' up') : '') + '" cx="' + lp[0] + '" cy="' + lp[1] + '" r="4.5" fill="' + dk + '" stroke="#fff" stroke-width="1.5"/>' +
+          '<rect x="' + (lb.a === 'start' ? lb.x - 4 : lb.x - 100 * RLBL + 4) + '" y="' + (lb.y - 34 * RLBL) + '" width="' + 100 * RLBL + '" height="' + 62 * RLBL + '" fill="transparent"/>' +
+          '<text x="' + lb.x + '" y="' + lb.y + '" font-size="' + ((on ? 27 : 22) * RLBL).toFixed(1) + '" font-weight="700" fill="' + dk + '" text-anchor="' + lb.a + '">' + REG[id].short + '</text>' +
+          '<text x="' + lb.x + '" y="' + (lb.y + 20 * RLBL) + '" font-size="' + (12 * RLBL).toFixed(1) + '" fill="' + dk + '" fill-opacity=".65" text-anchor="' + lb.a + '">' + REG[id].icon + ' ' + REG[id].pc + ' จังหวัด</text></g>';
+      }).join('');
+      return map3d({ vb: '-95 0 490 552', areas: areas, faces: faces, dark: function (id) { return REG[id].c2; }, sel: sel, selFill: sel ? 'url(#g-' + sel + ')' : 'none',
+        lines: sel ? GEO.ov[sel] : null, lw: 1.3, defs: defs, top: top });
+    },
+    s1sheet: function () {
+      var idx = L.r ? ORDER.indexOf(L.r) : 0;
+      var cards = ORDER.map(function (id, i) {
+        var R = REG[id];
+        return miniCard({ id: id, act: i !== idx ? 'pickc' : null, dim: L.r && L.r !== id, c1: R.c1, c2: R.c2, h: 9, k: R.icon + ' ภูมิภาคที่เลือก', t: R.n, l3: R.pc + ' จังหวัด · ' + R.dc + ' อำเภอ', map: thMini(id, 6.2), mw: 6.2 * 300 / 552 });
       });
-      ORDER.forEach(function (id) {
-        var l = GEO.regions[id].l, R = REG[id], on = L.r === id;
-        s += '<text x="' + l[0] + '" y="' + l[1] + '" text-anchor="middle" font-size="' + (on ? 27 : 22) + '" font-weight="800" fill="#fff" class="lbl-on" stroke-width="3">' + R.short + '</text>' +
-          '<text x="' + l[0] + '" y="' + (l[1] + 19) + '" text-anchor="middle" font-size="12.5" font-weight="700" fill="#fff" class="lbl-on" stroke-width="2.5">' + R.pc + ' จังหวัด</text>';
+      var dots = '<div class="loc-dots">' + ORDER.map(function (id) {
+        return '<button data-a="pickc" data-id="' + id + '" aria-label="' + REG[id].n + '"' + (id === L.r ? ' class="on" style="background:' + REG[id].c1 + '"' : '') + '></button>';
+      }).join('') + '</div>';
+      var cta = L.r ? '<button class="loc-cta" data-a="confirm" style="background:linear-gradient(135deg,#2f6bff,#0b2a7a)">เลือก' + REG[L.r].n + ' ›</button>'
+        : '<div class="loc-cta dis">เลือกภูมิภาค</div>';
+      return strip(cards, idx) + dots + cta;
+    },
+
+    /* ---- ขั้น 2: จังหวัดในภาค ---- */
+    s2map: function () {
+      var P = th(L.r), T = LTHEME[L.r], R = REG[L.r], sel = L.p && P.list[L.p] ? L.p : null, z = L.zoom, fs = 8 * LBL / z;
+      var ids = Object.keys(P.list), areas = ids.map(function (id) { return { id: id, d: P.list[id].d }; });
+      var faces = areas.map(function (a) { return { id: a.id, d: a.d, t: P.list[a.id].n, fill: T.light, stroke: '#fff', sw: 1.3 }; });
+      var under = ids.filter(function (id) { return id !== sel; }).map(function (id) {
+        var e = P.list[id];
+        if (e.l[2] < e.n.length * fs * 0.58) return '';
+        return '<text class="lt" data-a="pick" data-id="' + id + '" x="' + e.l[0] + '" y="' + (e.l[1] + fs * 0.35).toFixed(1) + '" font-size="' + fs.toFixed(2) + '" font-weight="700" fill="' + T.dark + '" text-anchor="middle">' + esc(e.n) + '</text>';
+      }).join('');
+      var lines = sel && L.pm && L.pm.id === sel ? L.pm.m.ov : null;
+      return map3d({ vb: zvb(P.h), areas: areas, faces: faces, dark: function () { return R.c2; }, sel: sel, selFill: 'url(#g-sel)',
+        lines: lines, lw: 1.2, defs: grad('g-sel', R.c1, R.c2), under: under, selLabel: sel ? pill(P.list[sel].l[0], P.list[sel].l[1], P.list[sel].n, T.dark) : '' });
+    },
+    s2sheet: function () {
+      var P = th(L.r), T = LTHEME[L.r], R = REG[L.r], ids = Object.keys(P.list), sel = L.p && P.list[L.p] ? L.p : null;
+      if (!sel) return '<div class="lc-empty" style="background:' + T.bg + '">แตะจังหวัดบนแผนที่เพื่อเลือก</div><div class="loc-cta dis">เลือกจังหวัด</div>';
+      var idx = ids.indexOf(sel), mh = 6.2, mw = mh * 300 / P.h;
+      var cards = ids.map(function (id, i) {
+        var e = P.list[id], near = Math.abs(i - idx) <= 1;
+        return miniCard({ id: id, act: i !== idx ? 'pickc' : null, dim: id !== sel, c1: R.c1, c2: R.c2, h: 10.3, k: R.icon + ' จังหวัดที่เลือก', t: e.n,
+          l3: e.c + (id === 'bkk' ? ' เขต' : ' อำเภอ') + ' · ' + R.n, l4: e.s ? e.s + ' …' : '', mw: mw,
+          map: near ? '<svg viewBox="' + P.vb + '" style="height:' + mh + 'em;width:' + mw.toFixed(2) + 'em">' + ids.map(function (k) {
+            return '<path d="' + P.list[k].d + '" fill="' + (k === id ? '#f5d27a' : 'rgba(255,255,255,.15)') + '" stroke="#fff" stroke-width="2"/>';
+          }).join('') + '</svg>' : '' });
       });
-      return s + '</svg>';
+      return strip(cards, idx) + '<p class="loc-pos">' + (idx + 1) + ' / ' + ids.length + '</p>' +
+        '<button class="loc-cta" data-a="confirm" style="background:linear-gradient(135deg,' + T.from + ',' + T.to + ')">เลือก' + esc(P.list[sel].n) + ' ›</button>';
     },
-    provMap: function (P) {
-      var R = REG[L.r], k = lblScale(P.vb), s = '<svg viewBox="' + P.vb + '" preserveAspectRatio="xMidYMid meet" role="group" aria-label="แผนที่จังหวัด">', labels = '';
-      Object.keys(P.list).forEach(function (id) {
-        var e = P.list[id], on = L.p === id;
-        s += '<path data-a="pick" data-id="' + id + '" d="' + e.d + '" fill="' + (on ? '#f5d27a' : R.c1) + '" fill-opacity="' + (on ? 1 : .78) + '" stroke="' + (on ? '#b8902a' : '#fff') + '" stroke-width="' + (on ? 2.5 : 1.3) + '"><title>' + e.n + '</title></path>';
-        if (on || e.l[2] >= 34 * k) labels += '<text x="' + e.l[0] + '" y="' + (e.l[1] + 4 * k) + '" text-anchor="middle" font-size="' + ((on ? 14 : 10.5) * k).toFixed(1) + '" font-weight="700" fill="' + (on ? '#422006' : '#fff') + '" stroke="' + (on ? '#fff' : 'rgba(15,23,42,.55)') + '" stroke-width="' + (2.2 * k).toFixed(1) + '">' + e.n + '</text>';
+
+    /* ---- ขั้น 3: อำเภอในจังหวัด ---- */
+    s3map: function () {
+      var M = L.dm, T = LTHEME[L.r], R = REG[L.r], sel = L.d && M.d[L.d] ? L.d : null, z = L.zoom, fs = 7 * LBL / z;
+      var ids = Object.keys(M.d), areas = ids.map(function (id) { return { id: id, d: M.d[id].d }; });
+      var faces = areas.map(function (a) { return { id: a.id, d: a.d, t: dFull(M.d[a.id].n), fill: T.light, stroke: '#fff', sw: 1 }; });
+      var under = ids.filter(function (id) { return id !== sel; }).map(function (id) {
+        var e = M.d[id], sh = dShown(e.n);
+        if (e.l[2] < sh.length * fs * 0.58) return '';
+        return '<text class="lt" data-a="pick" data-id="' + id + '" x="' + e.l[0] + '" y="' + (e.l[1] + fs * 0.35).toFixed(1) + '" font-size="' + fs.toFixed(2) + '" font-weight="700" fill="' + T.dark + '" text-anchor="middle">' + esc(sh) + '</text>';
+      }).join('');
+      return map3d({ vb: zvb(M.h), areas: areas, faces: faces, dark: function () { return R.c2; }, sel: sel, selFill: 'url(#d-sel)',
+        defs: grad('d-sel', R.c1, R.c2), under: under, selLabel: sel ? pill(M.d[sel].l[0], M.d[sel].l[1], dShown(M.d[sel].n), T.dark) : '' });
+    },
+    s3sheet: function () {
+      var T = LTHEME[L.r], R = REG[L.r], M = L.dm, pv = th(L.r).list[L.p];
+      var sel = M && L.d && M.d[L.d] ? L.d : null;
+      if (!sel) return '<div class="lc-empty" style="background:' + T.bg + '">แตะอำเภอบนแผนที่ หรือใช้ตำแหน่งปัจจุบัน</div><div class="loc-cta dis">เลือกอำเภอก่อน</div>';
+      var ids = Object.keys(M.d), idx = ids.indexOf(sel), mh = 6.2, mw = mh * 300 / M.h;
+      var cards = ids.map(function (id, i) {
+        var near = Math.abs(i - idx) <= 1;
+        return miniCard({ id: id, act: i !== idx ? 'pickc' : null, dim: id !== sel, c1: R.c1, c2: R.c2, h: 10.3, k: R.icon + ' อำเภอที่เลือก', t: dFull(M.d[id].n),
+          l3: (L.p === 'bkk' ? '' : 'จ.') + pv.n + ' · ห้องแชทอำเภอพร้อมใช้', mw: mw,
+          map: near ? '<svg viewBox="' + M.vb + '" style="height:' + mh + 'em;width:' + mw.toFixed(2) + 'em">' + ids.map(function (k) {
+            return '<path d="' + M.d[k].d + '" fill="' + (k === id ? '#f5d27a' : 'rgba(255,255,255,.15)') + '" stroke="#fff" stroke-width="1.2"/>';
+          }).join('') + '</svg>' : '' });
       });
-      return s + labels + '</svg>';
+      return strip(cards, idx) + '<p class="loc-pos">' + (idx + 1) + ' / ' + ids.length + '</p>' +
+        '<button class="loc-cta" data-a="confirm" style="background:linear-gradient(135deg,' + T.from + ',' + T.to + ')">เลือก' + esc(dFull(M.d[sel].n)) + ' ›</button>';
     },
-    distMap: function (M) {
-      var R = REG[L.r], k = lblScale(M.vb), s = '<svg viewBox="' + M.vb + '" preserveAspectRatio="xMidYMid meet" role="group" aria-label="แผนที่อำเภอ">', labels = '';
-      Object.keys(M.d).forEach(function (id, i) {
-        var e = M.d[id], on = L.d === id;
-        s += '<path data-a="pick" data-id="' + id + '" d="' + e.d + '" fill="' + (on ? '#f5d27a' : R.c1) + '" fill-opacity="' + (on ? 1 : (i % 2 ? .7 : .85)) + '" stroke="' + (on ? '#b8902a' : '#fff') + '" stroke-width="' + (on ? 2.5 : 1.2) + '"><title>' + e.n + '</title></path>';
-        if (on || e.l[2] >= 40 * k) labels += '<text x="' + e.l[0] + '" y="' + (e.l[1] + 4 * k) + '" text-anchor="middle" font-size="' + ((on ? 15 : 11) * k).toFixed(1) + '" font-weight="700" fill="' + (on ? '#422006' : '#fff') + '" stroke="' + (on ? '#fff' : 'rgba(15,23,42,.55)') + '" stroke-width="' + (2.2 * k).toFixed(1) + '">' + e.n + '</text>';
-      });
-      return s + labels + '</svg>';
+
+    // หลังวาด: ตัวที่เพิ่งเลือก "ลอยขึ้น" (transition 240ms) แล้วเส้นแบ่งย่อยค่อย ๆ ขึ้น
+    after: function (host) {
+      var self = this;
+      L.anim = false;
+      var g = host.querySelectorAll('.m3-sel, .dotup'), sel = host.querySelector('.m3-sel');
+      var needRv = sel && !sel.classList.contains('rv') && sel.querySelector('.ln');
+      if (needRv) L.rvKey = sel.getAttribute('data-k');
+      if (g.length) {
+        g[0].getBoundingClientRect();
+        requestAnimationFrame(function () { requestAnimationFrame(function () {
+          Array.prototype.forEach.call(g, function (x) { x.classList.add('up'); });
+          if (needRv) sel.classList.add('rv');
+        }); });
+      }
+      // ซูมแล้วลากเลื่อนแผนที่ได้ (แบบแอป) · ไม่ซูม = ปัดสไลด์ได้ตามปกติ
+      var mp = host.querySelector('.loc-map.zoomed');
+      if (mp) {
+        var svg = mp.querySelector('svg.m3');
+        mp.addEventListener('pointerdown', function (e) {
+          if (e.target.closest('.loc-zoom')) return;
+          var sx = e.clientX, sy = e.clientY, moved = false, h = L.step === 2 ? th(L.r).h : L.dm.h;
+          var vb = svg.viewBox.baseVal, ppu = Math.min(svg.clientWidth / vb.width, svg.clientHeight / vb.height);
+          var cx0 = L.cx == null ? 150 : L.cx, cy0 = L.cy == null ? h / 2 : L.cy;
+          // เริ่มจากกึ่งกลางที่มองเห็นจริง (กล้องถูกบีบไม่ให้ออกนอกแผนที่)
+          cx0 = vb.x + vb.width / 2; cy0 = vb.y + vb.height / 2;
+          function mv(ev) {
+            var dx = ev.clientX - sx, dy = ev.clientY - sy;
+            if (!moved && Math.abs(dx) + Math.abs(dy) < 6) return;
+            moved = true;
+            L.cx = lclamp(cx0 - dx / ppu, vb.width / 2, 300 - vb.width / 2); L.cy = lclamp(cy0 - dy / ppu, vb.height / 2, h - vb.height / 2);
+            svg.setAttribute('viewBox', zvb(h));
+          }
+          function upf() {
+            window.removeEventListener('pointermove', mv); window.removeEventListener('pointerup', upf); window.removeEventListener('pointercancel', upf);
+            if (moved) { self._noclick = Date.now(); }
+          }
+          window.addEventListener('pointermove', mv); window.addEventListener('pointerup', upf); window.addEventListener('pointercancel', upf);
+        });
+      }
     },
-    ids: function () {
-      if (L.step === 1) return ORDER;
-      if (L.step === 2) return Object.keys(GEO.provinces[L.r].list);
-      return L.dm ? Object.keys(L.dm.d) : [];
+    loadProv: function (host, pid, thenStep3) {
+      dmap(pid).then(function (m) {
+        if (L.p !== pid) return;
+        L.pm = { id: pid, m: m };
+        if (thenStep3) { L.dm = m; if (!m.d[L.d]) L.d = null; L.anim = !!L.d; }
+        else if (L.step === 2) L.anim = false;
+        render('loc');
+      }).catch(function () { toast(host, 'โหลดแผนที่อำเภอไม่สำเร็จ'); });
     },
-    loadDistricts: function (host) {
-      var self = this, pid = L.p; L.dm = null;
-      dmap(pid).then(function (m) { if (L.p === pid) { L.dm = m; render('loc'); } })
-        .catch(function () { toast(host, 'โหลดแผนที่อำเภอไม่สำเร็จ'); });
+    select: function (host, id, toggle) {
+      var st = L.step, cur = st === 1 ? L.r : st === 2 ? L.p : L.d;
+      var nv = toggle && cur === id ? null : id;
+      if (nv === cur) return;
+      if (st === 1) L.r = nv; else if (st === 2) L.p = nv; else L.d = nv;
+      L.anim = !!nv; L.rvKey = null;
+      // ซูมอยู่ → เลื่อนกล้องไปหาพื้นที่ที่เลือก
+      if (nv && st > 1 && L.zoom > 1) { var e = st === 2 ? th(L.r).list[nv] : L.dm.d[nv]; L.cx = e.l[0]; L.cy = e.l[1]; }
+      render('loc');
+      if (st === 2 && nv && !(L.pm && L.pm.id === nv)) this.loadProv(host, nv, false);
     },
     on: function (a, el, host) {
-      if (a === 'me') return toast(host, 'ในแอปจะใช้ตำแหน่งปัจจุบันของคุณ');
+      if (this._noclick && Date.now() - this._noclick < 350) return;
+      if (a === 'close') return toast(host, 'ตัวอย่าง — ในแอปปุ่มนี้ปิดหน้าเปลี่ยนพื้นที่');
       if (!GEO) return;
-      if (a === 'pick') {
-        var id = el.getAttribute('data-id');
-        if (L.step === 1) L.r = id; else if (L.step === 2) L.p = id; else L.d = id;
+      var st = L.step;
+      if (a === 'me') {
+        if (st === 1) {
+          L.p = 'cm'; L.d = 'cm_mueang'; this.select(host, 'north');
+          return toast(host, 'ตัวอย่าง — พบตำแหน่งของคุณในภาคเหนือ');
+        }
+        if (st === 2) {
+          if (L.r === 'north') { this.select(host, 'cm'); return toast(host, 'ตัวอย่าง — พบตำแหน่งของคุณ: เชียงใหม่'); }
+          return toast(host, 'ตัวอย่าง — ตำแหน่งของคุณอยู่ที่ เชียงใหม่ (ภาคเหนือ)');
+        }
+        if (L.p === 'cm' && L.dm) { this.select(host, 'cm_mueang'); return toast(host, 'ตัวอย่าง — พบตำแหน่งของคุณ: เมืองเชียงใหม่'); }
+        return toast(host, 'ตัวอย่าง — ไม่พบอำเภออัตโนมัติ เลือกอำเภอเองได้เลย');
+      }
+      if (a === 'pick') return this.select(host, el.getAttribute('data-id'), true);
+      if (a === 'pickc') return this.select(host, el.getAttribute('data-id'), false);
+      if (a === 'zin' || a === 'zout') {
+        var h = st === 2 ? th(L.r).h : (L.dm && L.dm.h);
+        if (!h) return;
+        L.zoom = lclamp(a === 'zin' ? L.zoom * 1.5 : L.zoom / 1.5, 1, 5);
+        if (L.zoom < 1.01) { L.zoom = 1; L.cx = L.cy = null; }
+        else if (a === 'zin' && L.cx == null) {
+          var e = st === 2 ? (L.p && th(L.r).list[L.p]) : (L.d && L.dm.d[L.d]);
+          if (e) { L.cx = e.l[0]; L.cy = e.l[1]; }
+        }
         return render('loc');
       }
-      if (a === 'step') {
-        var ids = this.ids(), cur = L.step === 1 ? L.r : L.step === 2 ? L.p : L.d, i = ids.indexOf(cur), d = +el.getAttribute('data-d');
-        var n = ids[(i + d + ids.length) % ids.length];
-        if (L.step === 1) L.r = n; else if (L.step === 2) L.p = n; else L.d = n;
-        return render('loc');
-      }
-      if (a === 'back') { L.step--; return render('loc'); }
+      if (a === 'back') { L.step--; L.zoom = 1; L.cx = L.cy = null; L.anim = false; return render('loc'); }
       if (a === 'confirm') {
-        if (L.step === 1) { L.step = 2; if (!GEO.provinces[L.r].list[L.p]) L.p = null; return render('loc'); }
-        if (L.step === 2) { L.step = 3; L.d = null; this.loadDistricts(host); return render('loc'); }
+        L.zoom = 1; L.cx = L.cy = null; L.anim = false;
+        if (st === 1) {
+          L.step = 2;
+          if (!th(L.r).list[L.p]) { L.p = null; L.d = null; }
+          else { L.anim = true; if (!(L.pm && L.pm.id === L.p)) this.loadProv(host, L.p, false); }
+          return render('loc');
+        }
+        if (st === 2) {
+          L.step = 3;
+          if (L.pm && L.pm.id === L.p) L.dm = L.pm.m; else { L.dm = null; this.loadProv(host, L.p, true); }
+          if (L.dm && !L.dm.d[L.d]) L.d = null;
+          if (L.dm && L.d) L.anim = true;
+          return render('loc');
+        }
         // ขั้น 3 → ส่งค่าไปหน้าหลัก แผนที่ และโปรไฟล์
-        var pv = GEO.provinces[L.r].list[L.p];
+        var pv = th(L.r).list[L.p];
         S.r = L.r; S.p = L.p; S.d = L.d; S.pn = pv.n; S.dn = L.dm.d[L.d].n; S.bkk = L.p === 'bkk';
         H.voted = {}; renderAll();
         toast(host, 'บันทึกพื้นที่แล้ว · ' + dLabel());

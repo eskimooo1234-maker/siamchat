@@ -82,39 +82,77 @@
 .lg-foot .ic{width:1.3em;height:1.3em;fill:#fff;stroke:#1d4ed8}
 
 /* ===================== 2) เลือกพื้นที่ ===================== */
+/* ตามแอป: RegionSelectionScreen · ProvinceSelectionScreen · DistrictMapView · MiniIdCard · Map3D (ขนาด: 1em ≈ 12dp ของแอป) */
 .d-loc{background:linear-gradient(#f3f7ff,#e4ecf8)}
-.loc-hd{border-radius:0 0 1.8em 1.8em}
-.loc-ico{width:3.2em;height:3.2em;border-radius:50%;background:rgba(255,255,255,.22);display:grid;place-items:center}
-.loc-steps{display:flex;gap:.5em;margin-top:.9em}
-.loc-steps i{flex:1;height:.42em;border-radius:.3em;background:rgba(255,255,255,.35)}
+.loc-hd{border-radius:0 0 1.85em 1.85em;padding-bottom:1.15em}
+.loc-hd .tt b{font-size:1.42em}
+.loc-hd .tt small{display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:2;white-space:normal;font-size:.96em;line-height:1.38;margin-top:.1em;opacity:.9}
+.loc-ico{flex:none;width:3.33em;height:3.33em;border-radius:50%;background:rgba(255,255,255,.22);display:grid;place-items:center}
+.loc-ico .d-emoji{font-size:1.65em}
+.loc-x,.loc-back{flex:none;width:2.5em;height:2.5em;border-radius:50%;display:grid;place-items:center;background:rgba(255,255,255,.25);color:#fff;font-weight:800;font-size:1.2em;line-height:1}
+.loc-back{font-size:1.45em;width:2.07em;height:2.07em}
+.loc-steps{display:flex;gap:.5em;margin-top:1em}
+.loc-steps i{flex:1;height:.42em;border-radius:.25em;background:rgba(255,255,255,.35)}
 .loc-steps i.on{background:#fff}
-.loc-top{display:flex;align-items:center;justify-content:space-between;gap:.6em;padding:.8em 1.1em 0}
-.loc-top span{font-size:1.02em;font-weight:600;color:#475569;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.loc-me{display:flex;align-items:center;gap:.3em;background:#fff;color:#1a56db;font-weight:800;font-size:1em;padding:.4em .8em;border-radius:1.5em;box-shadow:0 .1em .3em rgba(0,0,0,.1);white-space:nowrap}
-.loc-me .ic{width:1.2em;height:1.2em}
-.loc-map{position:relative;flex:1;min-height:0;padding:.5em .8em .3em}
-.loc-map svg{width:100%;height:100%;display:block}
-.loc-map path{cursor:pointer;transition:opacity .2s,fill .2s;stroke-linejoin:round}
-.loc-map text{pointer-events:none;paint-order:stroke;stroke-linejoin:round;font-family:inherit}
-.loc-map .lbl-on{stroke:rgba(15,23,42,.55)}
-.loc-credit{position:absolute;right:1em;bottom:.2em;font-size:.75em;color:#64748b;background:rgba(255,255,255,.7);padding:0 .3em;border-radius:.3em}
+.loc-top{display:flex;align-items:center;justify-content:space-between;gap:.67em;padding:.85em 1.17em 0 1.33em}
+.loc-top span{flex:1;min-width:0;font-size:1.04em;font-weight:600;color:#475569;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.loc-me{flex:none;display:flex;align-items:center;gap:.4em;background:#fff;color:#1a56db;font-weight:800;font-size:1.04em;padding:.56em 1em;border-radius:1.44em;
+  box-shadow:0 .08em .25em rgba(0,0,0,.1);white-space:nowrap}
+.loc-me.sq{border-radius:1.12em;height:3.2em;padding:0 .9em}
+.loc-me .d-emoji{font-size:1em}
+.loc-map{position:relative;flex:1;min-height:0;padding:.5em 1em}
+.loc-map.zoomed{touch-action:none;cursor:grab}
+.loc-map svg.m3{width:100%;height:100%;display:block;overflow:visible}
+.d-loc.s23 .loc-map svg.m3{overflow:hidden}
+.m3 path{stroke-linejoin:round}
+.m3 .fc,.m3 .lt,.m3 .rl{cursor:pointer}
+.m3 text{font-family:inherit}
+.m3-sel text,.m3-sel rect{pointer-events:none}
+/* ลอยขึ้น 12 หน่วย ~240ms (useLiftReveal 6 ขั้น × 40ms) · เงาพื้นเลื่อนออก · ความหนา 4 → 8 ชั้น · เส้นแบ่งย่อยค่อย ๆ ขึ้น */
+.m3-sel .lf{transition:transform .24s ease-out}
+.m3-sel.up .lf{transform:translateY(-12px)}
+.m3-sel .sh{opacity:.14;transform:translate(6px,12px);transition:transform .24s ease-out,opacity .24s}
+.m3-sel.up .sh{opacity:.21;transform:translate(12px,18px)}
+.m3-sel .sd.x{opacity:0;transition:opacity .24s}
+.m3-sel.up .sd.x{opacity:.35}
+.m3-sel .ln{stroke-opacity:0;transition:stroke-opacity .18s}
+.m3-sel.rv .ln{stroke-opacity:.85}
+.m3 .dotup{transition:transform .24s ease-out}
+.m3 .dotup.up{transform:translateY(-12px)}
+@media (prefers-reduced-motion:reduce){.m3-sel .lf,.m3-sel .sh,.m3-sel .sd.x,.m3-sel .ln,.m3 .dotup{transition:none!important}}
+.loc-zoom{position:absolute;right:1em;bottom:.83em;display:flex;flex-direction:column;background:#fff;border-radius:.83em;overflow:hidden;box-shadow:0 .08em .25em rgba(0,0,0,.12)}
+.loc-zoom button{width:1.7em;height:1.7em;display:grid;place-items:center;font-size:1.67em;font-weight:700;color:#334155;line-height:1}
+.loc-zoom i{height:1px;background:#e2e8f0}
+.loc-credit{position:absolute;left:1.55em;bottom:.45em;font-size:.75em;color:#94a3b8;pointer-events:none}
+.loc-credit~.loc-zoom,.loc-zoom:has(~.loc-credit){bottom:1.83em}
 .loc-load{position:absolute;inset:0;display:grid;place-items:center;color:#64748b;font-size:1.05em}
-.loc-sheet{flex:none;background:#fff;border-radius:1.8em 1.8em 0 0;padding:.6em 1.1em 1.2em;box-shadow:0 -.25em .7em rgba(0,0,0,.08)}
-.loc-card{position:relative;display:flex;align-items:center;gap:.3em;height:7.6em;border-radius:1.3em;border:2px solid #d9b45a;overflow:hidden;color:#fff;
-  background:linear-gradient(135deg,var(--c1),var(--c2))}
-.loc-card::before{content:"";position:absolute;inset:.3em;border-radius:1em;border:1px solid rgba(217,180,90,.5);pointer-events:none}
-.loc-card .pat{position:absolute;inset:0;width:100%;height:100%;opacity:.14;pointer-events:none}
-.loc-card .nav{position:relative;width:2.6em;height:100%;display:grid;place-items:center;color:rgba(255,255,255,.85)}
-.loc-card .nav .ic{width:1.6em;height:1.6em}
-.loc-card .info{position:relative;flex:1;min-width:0}
-.loc-card small{display:block;font-size:.9em;font-weight:800;color:#f5d27a;letter-spacing:.06em}
-.loc-card .gl{display:block;height:.15em;margin:.3em 0 .45em;border-radius:.1em;background:linear-gradient(90deg,#f5d27a,rgba(245,210,122,0))}
-.loc-card b{display:block;font-size:1.45em;font-weight:800;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.loc-card span{display:block;font-size:.95em;color:rgba(255,255,255,.9);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.loc-empty{height:7.6em;display:grid;place-items:center;text-align:center;color:#64748b;font-size:1.05em;border:1.5px dashed #cbd5e1;border-radius:1.3em}
-.loc-cta{width:100%;margin-top:.8em}
-.loc-back{width:2.8em;height:2.8em;border-radius:50%;display:grid;place-items:center;background:rgba(255,255,255,.22)}
-.loc-back .ic{width:1.5em;height:1.5em}
+.loc-sheet{flex:none;background:#fff;border-radius:1.85em 1.85em 0 0;padding:.67em 1.17em 1em;box-shadow:0 -.25em .67em rgba(0,0,0,.1)}
+.loc-sheet .d-handle{width:3.33em;height:.33em;background:#dbe4f3;margin-bottom:.83em}
+/* แถวนามบัตรย่อ: ไม่เลื่อนแนวนอน · ใบถัดไปโผล่ขอบขวา (แตะ = เลือก) */
+.lcs{overflow:hidden}
+.lcr{display:flex;gap:.85em;transition:transform .3s ease}
+@media (prefers-reduced-motion:reduce){.lcr{transition:none}}
+.lc{position:relative;flex:none;width:calc(100% - 2.33em);border-radius:1.33em;border:2px solid #d9b45a;overflow:hidden;color:#fff;transition:opacity .3s;
+  background:repeating-linear-gradient(135deg,rgba(255,255,255,.05) 0 .09em,transparent .09em .83em),linear-gradient(135deg,var(--c1),var(--c2))}
+.lc.dim{opacity:.6}
+.lc[data-a]{cursor:pointer}
+.lc .fr{position:absolute;inset:.33em;border-radius:1em;border:1px solid rgba(217,180,90,.5);pointer-events:none}
+.lc .mp{position:absolute;top:.67em;right:.83em;pointer-events:none}
+.lc .mp svg{display:block}
+.lc .tx{position:relative;padding:1em 0 0 1.33em;min-width:0}
+.lc small{display:block;font-size:.92em;font-weight:800;color:#f5d27a;letter-spacing:.07em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.lc .gl{display:block;height:.125em;margin:.33em 0 .5em;border-radius:.1em;background:linear-gradient(90deg,#f5d27a,rgba(245,210,122,0))}
+.lc b{display:block;font-size:1.42em;font-weight:800;line-height:1.35;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.lc .l3{display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:2;overflow:hidden;font-size:.92em;color:rgba(255,255,255,.9);margin-top:.15em}
+.lc .l4{display:block;font-size:.875em;color:rgba(245,210,122,.7);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-top:.1em}
+.lc-empty{height:10.3em;border-radius:1.33em;border:1.5px solid rgba(217,180,90,.7);display:grid;place-items:center;text-align:center;color:#64748b;padding:0 1.33em;font-size:1em}
+.loc-dots{display:flex;justify-content:center;gap:.1em;margin-top:.45em}
+.loc-dots button{box-sizing:content-box!important;width:.5em;height:.5em;padding:.4em .2em;border-radius:.6em;background:#cbd5e1;background-clip:content-box;transition:width .2s}
+.loc-dots button.on{width:1.5em}
+.loc-pos{text-align:center;font-size:.96em;color:#64748b;margin:.67em 0 0}
+.loc-cta{display:flex;align-items:center;justify-content:center;width:100%;min-height:3.33em;margin-top:.8em;border-radius:.93em;color:#fff;font-weight:800;font-size:1.25em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.loc-cta.dis{background:#e2e8f0;color:#94a3b8;cursor:default}
+.loc-dots+.loc-cta{margin-top:.45em}
 
 /* ===================== 3) หน้าหลัก (HomeScreen) ===================== */
 .d-home{background:#f1f5f9}
