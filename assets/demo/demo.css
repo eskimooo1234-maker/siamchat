@@ -81,6 +81,17 @@
 .lg-foot{position:absolute;left:1.8em;bottom:1.6em;display:flex;align-items:center;gap:.4em;color:#fff;font-size:1em;font-style:italic;white-space:nowrap}
 .lg-foot .ic{width:1.3em;height:1.3em;fill:#fff;stroke:#1d4ed8}
 
+/* แถวชิปเลื่อนแนวนอนแบบแอป: แถวเดียว · ซ่อน scrollbar · ไม่ปัดต่อไปยังสไลด์ · ขอบขวาไล่จาง (หายเมื่อเลื่อนสุด) */
+.hs-w{position:relative;min-width:0}
+.hs-w::after{content:"";position:absolute;top:0;right:0;bottom:0;width:2.2em;pointer-events:none;background:linear-gradient(90deg,rgba(255,255,255,0),#fff 85%);transition:opacity .2s}
+.hs-w.end::after{opacity:0}
+.hs{display:flex;flex-wrap:nowrap;gap:var(--hs-gap,.5em);overflow-x:auto;overflow-y:hidden;scrollbar-width:none;-ms-overflow-style:none;
+  overscroll-behavior-x:contain;scroll-snap-type:x proximity;scroll-padding-inline:.9em;touch-action:pan-x pan-y;cursor:grab}
+.hs::-webkit-scrollbar{display:none}
+.hs>*{flex:none;scroll-snap-align:start}
+.hs.drag{cursor:grabbing}
+.hs.drag>*{pointer-events:none}
+
 /* ===================== 2) เลือกพื้นที่ ===================== */
 /* ตามแอป: RegionSelectionScreen · ProvinceSelectionScreen · DistrictMapView · MiniIdCard · Map3D (ขนาด: 1em ≈ 12dp ของแอป) */
 .d-loc{background:linear-gradient(#f3f7ff,#e4ecf8)}
@@ -375,7 +386,8 @@
 
 /* ===================== 5) แผนที่เหตุการณ์ ===================== */
 .al-top{flex:none;background:#fff;padding:.6em .8em .5em;border-bottom:1px solid #fee2e2}
-.al-top .chips{gap:.35em}
+.al-top .hs-w{margin:0 -.8em}
+.al-top .hs{--hs-gap:.35em;padding:0 .8em}
 .al-top .chip{--ac:#dc2626;padding:.3em .6em;font-size:.92em}
 .al-counts{display:flex;flex-wrap:wrap;gap:.3em .7em;margin-top:.45em;font-size:.9em;color:#475569}
 .al-counts span{display:flex;align-items:center;gap:.2em;white-space:nowrap}
@@ -804,7 +816,8 @@ button.pb-row.n{background:#fef2f2}
 .at-scope button.on{background:#fff;color:#d32f2f;font-weight:800}
 .at-hd .wv{position:absolute;left:0;bottom:-1px;width:100%;height:.92em}
 .at-body{background:#f0f2f5}
-.at-filter{display:flex;flex-wrap:wrap;gap:.46em;padding:.77em .92em;background:#fff;border-bottom:1px solid #e5e7eb}
+.at-filter{flex:none;background:#fff;border-bottom:1px solid #e5e7eb}
+.at-filter .hs{--hs-gap:.62em;padding:.77em .92em}
 .fc2{display:inline-flex;align-items:center;gap:.3em;padding:.4em .75em;border-radius:1.54em;border:1px solid #e5e7eb;background:#fff;font-size:.92em;font-weight:500;color:#6b7280;white-space:nowrap}
 .fc2 .d-emoji{font-size:1.08em}
 .fc2.on{background:#ef4444;border-color:#ef4444;color:#fff;font-weight:700}

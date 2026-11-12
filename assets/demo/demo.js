@@ -1216,7 +1216,8 @@
         '<button class="rep' + (RF.seen ? '' : ' d-pulse') + '" data-a="report">＋ แจ้งเหตุ</button></div>' +
         '<div class="at-scope">' + scopes + '</div>' +
         '<svg class="wv" viewBox="0 0 100 13" preserveAspectRatio="none" aria-hidden="true"><path d="M0 13 L0 0 Q 50 24 100 0 L100 13 Z" fill="#fff"/></svg></div>' +
-        '<div class="d-scroll at-body"><div class="at-filter">' + chips + '</div><div class="at-feed">' + feed + '</div></div>' +
+        '<div class="at-filter">' + hsRow('at', chips) + '</div>' +
+        '<div class="d-scroll at-body"><div class="at-feed">' + feed + '</div></div>' +
         navBar(4) +
         '<div class="ovl al-full' + (A.full ? ' on' : '') + '" role="dialog" aria-label="แผนที่เหตุการณ์">' + (A.full ? this.fullHtml() : '') + '</div>' +
         SHEET + '<div class="d-form' + (RF.open ? ' on' : '') + '" role="dialog" aria-label="แจ้งเหตุในพื้นที่">' + (RF.open ? this.form() : '') + '</div>' + TOAST + '</div>';
@@ -1244,14 +1245,14 @@
       return '<div class="al-hd"><div class="tt"><b>แผนที่เหตุการณ์</b><small>' + ic('pin') + esc(scopeLoc()) + '</small></div>' +
         '<button class="hb" data-a="aclose" aria-label="ปิดแผนที่">' + ic('x') + '</button>' +
         '<svg class="wv" viewBox="0 0 100 13" preserveAspectRatio="none" aria-hidden="true"><path d="M0 13 L0 0 Q 50 24 100 0 L100 13 Z" fill="#fff"/></svg></div>' +
-        '<div class="al-top"><div class="chips">' + chips + '</div><div class="al-counts">' + counts + '</div></div>' +
+        '<div class="al-top">' + hsRow('al', chips) + '<div class="al-counts">' + counts + '</div></div>' +
         '<div class="d-scroll"><div class="al-map d-mapc">' + cityMap(true) + pins + '</div>' +
         '<div class="al-list"><h4>เหตุการณ์ล่าสุด</h4>' + items + '</div></div>';
     },
     openFull: function (host, blinkIdx) {
       A.full = true; var fb = host.querySelector('.al-full'); fb.innerHTML = this.fullHtml();
       requestAnimationFrame(function () {
-        fb.classList.add('on'); updateLock();
+        fb.classList.add('on'); updateLock(); hsInit(fb);
         if (blinkIdx != null && !reduce) setTimeout(function () { var pin = fb.querySelector('.d-ipin[data-i="' + blinkIdx + '"]'); if (pin) pin.classList.add('blink'); }, 350);
       });
     },
@@ -1311,7 +1312,7 @@
         '<button class="d-btn p" style="width:100%;background:linear-gradient(135deg,#d32f2f,#8e0e14)" data-a="shclose">เข้าใจแล้ว</button>';
     },
     on: function (a, el, host) {
-      if (a === 'f') { A.f = el.getAttribute('data-k') || null; return render('alert', true); }
+      if (a === 'f') { var rw = el.closest('.hs'); HSREV = rw && rw.getAttribute('data-hs'); A.f = el.getAttribute('data-k') || null; return render('alert', true); }
       if (a === 'sc') { A.sc = el.getAttribute('data-k'); return render('alert', true); }
       if (a === 'openmap') return this.openFull(host);
       if (a === 'amap') return this.openFull(host, +el.getAttribute('data-i'));
@@ -1523,13 +1524,93 @@
   /* =====================================================================
      สร้าง / วาดใหม่ / ส่งต่อ state
      ===================================================================== */
-  var HOSTS = {}, built = {};
+  /* ---------- แถวชิปเลื่อนแนวนอนแบบแอป (FlatList horizontal) ----------
+     แถวเดียวไม่ห่อ · ลากนิ้ว/ล้อเมาส์/ลากเมาส์ได้ · data-no-swipe = สไลด์มือถือไม่ขยับตาม (index.html ข้ามเหตุการณ์ที่เริ่มในนี้)
+     overscroll-behavior-x: contain กันการปัดต่อไปยังสไลด์เมื่อเลื่อนสุดขอบ · จำตำแหน่งเลื่อนไว้ข้ามการวาดใหม่ */
+  var HSPOS = {};
+  function hsRow(key, inner, cls) {
+    return '<div class="hs-w' + (cls ? ' ' + cls : '') + '"><div class="hs" data-no-swipe data-hs="' + key + '">' + inner + '</div></div>';
+  }
+  function hsFade(row) {
+    var w = row.parentNode; if (!w || !w.classList) return;
+    w.classList.toggle('end', row.scrollLeft + row.clientWidth >= row.scrollWidth - 2);
+  }
+  // ระยะห่างชิปปรับเล็กน้อย (ไม่เกินช่วงที่กำหนด) ให้ชิปใบสุดท้ายที่ล้นขอบ "โผล่ครึ่งใบ" บอกว่ามีต่อ
+  function hsFit(row) {
+    var kids = row.children, W = row.clientWidth; if (!W || kids.length < 2) return;
+    var cs = getComputedStyle(row), pad = parseFloat(cs.paddingLeft) || 0, fs = parseFloat(cs.fontSize) || 12;
+    var g0 = parseFloat(cs.getPropertyValue('--hs-gap')) * fs || 8, lo = g0 * 0.6, hi = g0 * 1.5, ws = [];
+    for (var i = 0; i < kids.length; i++) ws.push(kids[i].getBoundingClientRect().width);
+    var best = null;
+    for (var c = 1; c < ws.length; c++) {
+      var sum = 0; for (var j = 0; j < c; j++) sum += ws[j];
+      var g = (W - ws[c] / 2 - pad - sum) / c;
+      if (g >= lo && g <= hi && (best == null || Math.abs(g - g0) < Math.abs(best - g0))) best = g;
+    }
+    if (best != null) row.style.gap = best.toFixed(1) + 'px';
+  }
+  // ชิปที่เลือกเลื่อนเข้ามาให้เห็นทั้งใบ (เลื่อนเฉพาะแถว ไม่แตะสไลด์/หน้าเว็บ)
+  function hsReveal(row, smooth) {
+    var on = row.querySelector('.on'); if (!on) return;
+    var r = row.getBoundingClientRect(), c = on.getBoundingClientRect(), pad = 12, d = 0;
+    if (c.left < r.left + pad) d = c.left - r.left - pad;
+    else if (c.right > r.right - pad) d = c.right - r.right + pad;
+    if (d) row.scrollTo({ left: row.scrollLeft + d, behavior: smooth && !reduce ? 'smooth' : 'auto' });
+  }
+  function hsInit(root, revealKey) {
+    Array.prototype.forEach.call(root.querySelectorAll('.hs[data-hs]'), function (row) {
+      var k = row.getAttribute('data-hs');
+      hsFit(row);
+      if (HSPOS[k] != null) row.scrollLeft = HSPOS[k];
+      if (k === revealKey) hsReveal(row, true);
+      hsFade(row);
+    });
+  }
+  // จับเหตุการณ์ครั้งเดียวที่ document (แถวถูกสร้างใหม่ทุกครั้งที่วาด)
+  document.addEventListener('scroll', function (e) {
+    var row = e.target; if (!row.classList || !row.classList.contains('hs')) return;
+    HSPOS[row.getAttribute('data-hs')] = row.scrollLeft; hsFade(row);
+  }, true);
+  // ล้อเมาส์แนวตั้งบนแถว = เลื่อนแถวแนวนอน (ถ้ายังเลื่อนได้ · สุดแล้วปล่อยให้หน้าเว็บเลื่อนตามปกติ)
+  document.addEventListener('wheel', function (e) {
+    var row = e.target.closest && e.target.closest('.hs'); if (!row) return;
+    if (Math.abs(e.deltaX) > Math.abs(e.deltaY)) return; // ปัดแนวนอนบน trackpad = เลื่อนแถวเองอยู่แล้ว
+    var max = row.scrollWidth - row.clientWidth, d = e.deltaY * (e.deltaMode === 1 ? 16 : 1);
+    if ((d > 0 && row.scrollLeft >= max - 1) || (d < 0 && row.scrollLeft <= 0)) return;
+    e.preventDefault(); row.scrollLeft += d;
+  }, { passive: false });
+  // ลากด้วยเมาส์ (นิ้วใช้การเลื่อนของเบราว์เซอร์เอง) · ลากแล้วไม่นับเป็นการแตะชิป
+  var hsDrag = null, hsNoClick = 0;
+  document.addEventListener('pointerdown', function (e) {
+    if (e.pointerType !== 'mouse' || e.button !== 0) return;
+    var row = e.target.closest && e.target.closest('.hs'); if (!row) return;
+    hsDrag = { row: row, x: e.clientX, sl: row.scrollLeft, moved: false };
+  });
+  window.addEventListener('pointermove', function (e) {
+    if (!hsDrag) return;
+    var dx = e.clientX - hsDrag.x;
+    if (!hsDrag.moved && Math.abs(dx) < 5) return;
+    if (!hsDrag.moved) { hsDrag.moved = true; hsDrag.row.style.scrollSnapType = 'none'; hsDrag.row.classList.add('drag'); }
+    hsDrag.row.scrollLeft = hsDrag.sl - dx;
+  });
+  function hsEnd() {
+    if (!hsDrag) return;
+    if (hsDrag.moved) { hsNoClick = Date.now(); hsDrag.row.style.scrollSnapType = ''; hsDrag.row.classList.remove('drag'); }
+    hsDrag = null;
+  }
+  window.addEventListener('pointerup', hsEnd); window.addEventListener('pointercancel', hsEnd);
+  document.addEventListener('click', function (e) {
+    if (Date.now() - hsNoClick < 300 && e.target.closest && e.target.closest('.hs')) { e.stopPropagation(); e.preventDefault(); }
+  }, true);
+
+  var HOSTS = {}, built = {}, HSREV = null;
   var NAME = { login: 'login', location: 'loc', home: 'home', map: 'map', alert: 'alert', profile: 'prof' };
   function render(name, keepScroll) {
     var host = HOSTS[name]; if (!host || !built[name]) return;
     var sc = host.querySelector('.d-scroll'), top = sc ? sc.scrollTop : 0, toastMsg = host.querySelector('.d-toast.on');
     host.innerHTML = SC[name].html();
     if (keepScroll) { var s2 = host.querySelector('.d-scroll'); if (s2) s2.scrollTop = top; }
+    hsInit(host, HSREV); HSREV = null;
     if (toastMsg) toast(host, toastMsg.textContent);
     if (SC[name].after) SC[name].after(host);
   }
@@ -1542,6 +1623,7 @@
     if (!name || built[name]) return;
     built[name] = true; HOSTS[name] = host;
     host.innerHTML = SC[name].html();
+    hsInit(host);
     if (SC[name].after) SC[name].after(host);
     host.addEventListener('click', function (e) {
       var el = e.target.closest('[data-a]');
