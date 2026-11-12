@@ -739,3 +739,182 @@ button.pb-row.n{background:#fef2f2}
 .mp-full.on{transform:none;visibility:visible;transition:transform .3s cubic-bezier(.2,.8,.2,1),visibility 0s}
 .mp-full .mp-map{flex:1;min-height:0}
 .mp-rads.tr button.on{background:#1a56db;border-color:#1a56db}
+
+/* ===================== A. แถวการ์ด NearbyRecommendCard (แนะนำ / ยอดนิยม) ===================== */
+.mt-body{padding-bottom:8.6em}
+.rrow{--rw:9.4em;--rg:.77em;overflow:hidden;margin-right:-.9em}
+.rtrack{display:flex;gap:var(--rg);transition:transform .35s cubic-bezier(.2,.8,.2,1)}
+.rrow .rc{flex:none;width:var(--rw)}
+.rrow .rc .im{height:6.55em}
+.rrow .rc small{display:flex;gap:.3em}
+.rc.peek{cursor:pointer}
+@media (prefers-reduced-motion:reduce){.rtrack{transition:none}}
+
+/* ===================== B. หน้าแท็บแจ้งเหตุ (AlertScreen) ===================== */
+.d-alert2{background:#f0f2f5}
+.at-hd{position:relative;flex:none;overflow:hidden;padding:2.6em 1.2em 1.85em;color:#fff;background:linear-gradient(135deg,#d32f2f,#8e0e14)}
+.at-hd .row{display:flex;align-items:center;gap:.46em}
+.at-hd .tt{flex:1;min-width:0}
+.at-hd .tt b{display:block;font-size:1.38em;font-weight:800;line-height:1.35;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.at-hd .tt small{display:block;font-size:.92em;color:rgba(255,255,255,.85);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.at-hd .sq{flex:none;width:2.6em;height:2.6em;border-radius:.77em;background:rgba(255,255,255,.15);display:grid;place-items:center;color:#fff}
+.at-hd .sq .d-emoji{font-size:1.23em}
+.at-hd .sq .ic{width:1.6em;height:1.6em}
+.at-hd .rep{flex:none;height:2.6em;padding:0 .85em;border-radius:.77em;background:#fff;color:#d32f2f;font-size:1em;font-weight:800;white-space:nowrap}
+.at-scope{display:flex;gap:.15em;margin-top:.92em;padding:.23em;border-radius:.85em;background:rgba(0,0,0,.15)}
+.at-scope button{flex:1;padding:.54em 0;border-radius:.7em;text-align:center;font-size:1em;font-weight:600;color:rgba(255,255,255,.85);white-space:nowrap}
+.at-scope button.on{background:#fff;color:#d32f2f;font-weight:800}
+.at-hd .wv{position:absolute;left:0;bottom:-1px;width:100%;height:.92em}
+.at-body{background:#f0f2f5}
+.at-filter{display:flex;flex-wrap:wrap;gap:.46em;padding:.77em .92em;background:#fff;border-bottom:1px solid #e5e7eb}
+.fc2{display:inline-flex;align-items:center;gap:.3em;padding:.4em .75em;border-radius:1.54em;border:1px solid #e5e7eb;background:#fff;font-size:.92em;font-weight:500;color:#6b7280;white-space:nowrap}
+.fc2 .d-emoji{font-size:1.08em}
+.fc2.on{background:#ef4444;border-color:#ef4444;color:#fff;font-weight:700}
+.at-empty{display:flex;flex-direction:column;align-items:center;gap:.6em;padding:4em 1em;color:#9ca3af;font-size:1.08em}
+.at-empty span{font-size:3em}
+/* การ์ดแจ้งเหตุ (PostCard alert) */
+.ac{background:#fff;padding:.92em;border-bottom:1.3px solid #e5e7eb;border-left:3px solid #ef4444}
+.ac.new{animation:itemIn 1.2s ease-out}
+.ac-h{display:flex;align-items:center;gap:.6em;margin-bottom:.6em}
+.ac-h .d-av{width:3.08em;height:3.08em}
+.ac-h > b{flex:1;min-width:0;font-size:1em;font-weight:700;color:#111827;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ac-t{font-size:1.08em;line-height:1.43;color:#111827;margin-bottom:.6em}
+.ac-gal{display:flex;flex-direction:column;gap:3px;margin-bottom:.92em}
+.ac-gal .main{position:relative;display:block;height:15.4em;border-radius:.92em;overflow:hidden}
+.ac-gal .ph > i{font-size:3.4em}
+.ac-gal .ct{position:absolute;top:.6em;right:.6em;display:flex;align-items:center;gap:.25em;background:rgba(0,0,0,.55);color:#fff;font-size:.85em;font-weight:700;padding:.2em .6em;border-radius:.92em}
+.ac-gal .ct .ic{width:1em;height:1em}
+.ac-gal .thr{display:flex;gap:3px;height:5.85em}
+.ac-gal .th{position:relative;flex:1;min-width:0;border-radius:.77em;overflow:hidden}
+.ac-gal .th .ph > i{font-size:1.6em}
+.ac-gal .th b{position:absolute;inset:0;display:grid;place-items:center;background:rgba(0,0,0,.5);color:#fff;font-size:1.23em;font-weight:700}
+.ac-info{display:flex;border:1px solid #e5e7eb;border-radius:.92em;overflow:hidden;background:#f9fafb;margin-bottom:.6em}
+.ac-info .c{flex:1;min-width:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.3em;padding:.77em .3em}
+.ac-info .c + .c{border-left:1px solid #e5e7eb}
+.ac-info .c > i{width:2.77em;height:2.77em;border-radius:50%;display:grid;place-items:center;font-style:normal}
+.ac-info .c > i .ic{width:1.54em;height:1.54em}
+.ac-info .c > i .d-emoji{font-size:1.23em}
+.ac-info .c > b{max-width:100%;font-size:.92em;font-weight:700;color:#111827;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ac-info .map{background:#b91c1c;color:#fff}
+.ac-info .map > i{background:rgba(255,255,255,.2)}
+.ac-info .map .pill{background:rgba(255,255,255,.15);color:#fff;font-size:.82em;font-weight:700;padding:.1em .55em;border-radius:.7em;white-space:nowrap}
+/* แผ่นทับ: แผนที่เหตุการณ์ */
+.ovl{position:absolute;inset:0;z-index:20;display:flex;flex-direction:column;background:#fff;transform:translateY(102%);visibility:hidden;
+  transition:transform .3s cubic-bezier(.2,.8,.2,1),visibility 0s .3s}
+.ovl.on{transform:none;visibility:visible;transition:transform .3s cubic-bezier(.2,.8,.2,1),visibility 0s}
+/* แผ่นเบอร์ฉุกเฉิน (IncidentGuideModal) */
+.tel.big{background:linear-gradient(135deg,#fee2e2,#fecaca)}
+.tel-l{margin:.7em 0 .3em;font-size:.9em;font-weight:800;color:#475569}
+.tel-r{display:flex;align-items:center;gap:.6em;padding:.5em .2em;border-bottom:1px solid #f1f5f9}
+.tel-r .d-emoji{font-size:1.3em}
+.tel-r span{flex:1;min-width:0;font-size:.92em;color:#334155}
+.tel-r b{font-size:1.1em;font-weight:800;color:#b91c1c}
+.tel-how{margin:.7em 0 .5em;font-size:.85em;color:#475569;line-height:1.5}
+
+/* ===================== C. โปรไฟล์ (ProfileScreen) ===================== */
+.d-prof2{background:#f1f4f9}
+.pr-hd{flex:none;display:flex;align-items:center;justify-content:space-between;padding:2.6em 1.2em .75em;background:#fff;border-bottom:1px solid #e5e7eb}
+.pr-hd b{font-size:1.38em;font-weight:800;color:#111827;letter-spacing:-.02em}
+.pr-hd button{display:flex;align-items:center;gap:.38em;padding:.4em .9em;border-radius:1.2em;border:1px solid #1a56db;background:#eef4ff;color:#1a56db;font-size:1em;font-weight:700}
+.pr-hd button .ic{width:1.23em;height:1.23em}
+.pr-body{padding-bottom:1em}
+.pr-top{padding:.92em .92em 0}
+/* นามบัตร (IdentityCard + IdentityStatsBar) */
+.idb{border-radius:1.3em;background:#fff;box-shadow:0 .3em .6em rgba(0,0,0,.2)}
+.idc2{position:relative;overflow:hidden;border:2px solid #d9b45a;border-bottom:0;border-radius:1.3em 1.3em 0 0;color:#fff}
+.idc2 .pat{position:absolute;inset:0;width:100%;height:100%;opacity:.12;pointer-events:none}
+.idc2 .fr{position:absolute;top:.3em;left:.3em;right:.3em;bottom:0;border:1px solid rgba(217,180,90,.5);border-bottom:0;border-radius:.92em .92em 0 0;pointer-events:none}
+.idc2 .th{position:absolute;top:.77em;right:.77em;width:4.6em;height:8.4em}
+.idc2 .ct{position:relative;padding:1.23em 1.23em .92em}
+.idc2 .rg{font-size:.92em;font-weight:800;color:#f5d27a;letter-spacing:.08em;white-space:nowrap}
+.idc2 .gl{display:block;height:1.5px;width:62%;margin:.46em 0 .92em;border-radius:1px;background:linear-gradient(90deg,#f5d27a,rgba(245,210,122,0))}
+.idc2 .me{display:flex;align-items:center;gap:.77em;padding-right:4.6em}
+.idc2 .ring{width:4.46em;height:4.46em;border-radius:50%;border:3px solid #d9b45a;background:#fff7e0;display:grid;place-items:center;overflow:hidden;flex:none}
+.idc2 .ring img{width:84%;height:84%}
+.idc2 .me > div{min-width:0}
+.idc2 .me b{display:block;font-size:1.3em;font-weight:800;white-space:nowrap}
+.idc2 .me small{display:block;font-size:.88em;font-weight:800;color:#f5d27a;white-space:nowrap}
+.idc2 .tb{margin-top:.92em;display:flex;flex-direction:column;gap:.38em}
+.idc2 .tb > div{display:flex;align-items:center;gap:.6em}
+.idc2 .tb span{width:4.15em;flex:none;font-size:.88em;color:rgba(245,210,122,.75)}
+.idc2 .tb b{flex:1;min-width:0;font-size:1em;font-weight:800;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.idc2 .xp{height:.38em;border-radius:.23em;background:rgba(255,255,255,.2);overflow:hidden;margin-top:1.08em}
+.idc2 .xp i{display:block;height:100%;border-radius:.23em;background:#f5d27a}
+.idc2 .xpt{text-align:right;margin-top:.3em;font-size:.85em;color:rgba(255,255,255,.7)}
+.isb{display:flex;background:#fff;border:2px solid #d9b45a;border-top-width:1px;border-radius:0 0 1.3em 1.3em;padding:.77em 0}
+.isb button{flex:1;min-width:0;display:flex;flex-direction:column;align-items:center;padding:0 .15em}
+.isb button + button{border-left:1px solid #f0e6cc}
+.isb b{font-size:1.15em;font-weight:800;line-height:1.4}
+.isb small{font-size:.77em;color:#64748b;white-space:nowrap}
+/* สวิตช์ นามบัตร | กระเป๋า (CardBagSwitch) */
+.pr-sw{display:flex;width:70%;margin:.92em auto;padding:3px;border-radius:999px;background:#e9edf2}
+.pr-sw button{flex:1;height:2.77em;border-radius:999px;font-size:1em;font-weight:600;color:#475569;text-align:center;white-space:nowrap}
+.pr-sw button.on{color:#fff;font-weight:800}
+.pr-sw button.on.bag{background:linear-gradient(135deg,#9a5b2e,#5e3215);color:#fff3e0}
+/* แท็บ (ProfileTabBar underline) */
+.pr-tabs{display:flex;border-bottom:1px solid #e5e7eb;margin:0 -.92em .77em;padding:0 .3em;background:#fff}
+.pr-tabs button{flex:1;min-width:0;display:flex;align-items:center;justify-content:center;gap:.3em;padding:.85em 0;margin-bottom:-1px;border-bottom:3px solid transparent;font-size:.92em;font-weight:600;color:#6b7280;white-space:nowrap}
+.pr-tabs button .ic{width:1.15em;height:1.15em}
+.pr-tabs button.on{color:#1a56db;font-weight:800;border-bottom-color:#1a56db}
+.pr-seg{display:flex;gap:.3em;padding:.3em;margin-bottom:.77em;border-radius:1.23em;background:#f3f4f6}
+.pr-seg button{flex:1;padding:.62em 0;border-radius:1em;text-align:center;font-size:.92em;font-weight:600;color:#6b7280}
+.pr-seg button.on{background:#1a56db;color:#fff;font-weight:700;box-shadow:0 .08em .2em rgba(0,0,0,.15)}
+.pr-feed{margin:0 -.92em}
+.pr-feed > *{margin-bottom:.6em}
+.pr-map{height:17em;border-radius:1em;border:1.5px solid #cbd5e1;margin-bottom:.77em}
+.pr-chips{margin-bottom:.6em}
+.pc .pic > svg{display:block;width:100%;height:100%}
+.pc .pic .ph > i{font-size:.9em}
+/* การ์ดสรุปแผนที่ (PlacesMapSummaryCard) */
+.ms{background:#fff;border-radius:1.08em;padding:.92em;margin-bottom:.77em;box-shadow:0 .1em .3em rgba(15,23,42,.07)}
+.ms-t{display:block;font-size:1.1em;font-weight:800;color:#0f172a;margin-bottom:.6em}
+.ms-st{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:.46em}
+.ms-st span{display:flex;flex-direction:column;align-items:center;padding:.55em .2em;border-radius:.77em;font-size:.82em;color:#64748b}
+.ms-st b{font-size:1.65em;font-weight:800;line-height:1.25}
+.ms-l{margin:.77em 0 .38em;font-size:.85em;font-weight:700;color:#475569}
+.ms-c{display:flex;gap:.38em;overflow:hidden}
+.ms-c span{flex:none;padding:.2em .6em;border-radius:1em;background:#f1f5f9;font-size:.82em;font-weight:600;color:#334155;white-space:nowrap}
+.ms-b{width:100%;margin-top:.77em;padding:.7em 0;border-radius:.92em;background:linear-gradient(135deg,#2f6bff,#0b2a7a);color:#fff;font-weight:800;font-size:1em;text-align:center}
+/* กระเป๋า (BagCard) */
+.bg2{position:relative;overflow:hidden;border-radius:1.23em;background:linear-gradient(135deg,#9a5b2e,#5e3215);box-shadow:0 .3em .6em rgba(59,29,10,.35)}
+.bg2 .pat{position:absolute;inset:0;width:100%;height:100%;opacity:.12;pointer-events:none}
+.bg2 .st{position:absolute;inset:.46em;border:1.5px dashed rgba(242,211,165,.7);border-radius:.92em;pointer-events:none}
+.bg2 .ct{position:relative;padding:.85em 1.08em .95em}
+.bg2 .tt{font-size:1.08em;font-weight:800;color:#fff3e0}
+.bg2 .coin{margin-top:.4em;padding:.35em .77em;border-radius:.85em;border:1px dashed #f2d3a5;background:#6b3a19;cursor:pointer}
+.bg2 .ctop{display:flex;align-items:center;gap:.6em}
+.bg2 .ctop > div{flex:1;min-width:0}
+.bg2 .ctop small{display:block;font-size:.77em;color:#f2d3a5}
+.bg2 .ctop b{display:block;font-size:1.15em;font-weight:800;color:#f5d27a;white-space:nowrap}
+.bg2 .ck{flex:none;min-width:6.15em;padding:.3em .77em;border-radius:.92em;background:#f5d27a;color:#5e3215;font-size:.85em;font-weight:800;text-align:center;white-space:nowrap}
+.bg2 .ck.btn{box-shadow:0 .15em .25em rgba(0,0,0,.35)}
+.bg2 .cbot{display:flex;align-items:center;gap:.6em;margin-top:.1em;font-size:.77em;font-weight:700;white-space:nowrap}
+.bg2 .cbot .la{flex:1;min-width:0;text-align:right;color:rgba(255,243,224,.6);font-weight:500;overflow:hidden;text-overflow:ellipsis}
+.bg2 .lr{display:flex;justify-content:space-between;margin:.45em 0 .2em;color:#f2d3a5}
+.bg2 .lr span:first-child{font-size:.81em;font-weight:700}
+.bg2 .lr span:last-child{font-size:.77em}
+.bg2 .gr{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:.38em}
+.bg2 .sl{height:3.4em;border-radius:.85em;display:grid;place-items:center;background:rgba(255,255,255,.06);border:1px dashed rgba(242,211,165,.45);color:rgba(253,231,193,.4)}
+.bg2 .sl .ic{width:2em;height:2em;stroke-width:1.6}
+.bg2 .sc2{display:flex;gap:.46em;margin-top:.5em}
+.bg2 .sc2 button{position:relative;flex:1;min-width:0;padding:.46em 0;border-radius:.77em;background:rgba(255,255,255,.08);border:1px solid rgba(242,211,165,.4);color:#fff3e0;font-size:.77em;font-weight:800;text-align:center;white-space:nowrap}
+.bg2 .sc2 .soon{opacity:.6}
+.bg2 .sc2 em{position:absolute;top:-.6em;right:-.2em;padding:0 .4em;border-radius:.6em;background:#f5d27a;color:#5e3215;font-style:normal;font-size:.8em;font-weight:800;line-height:1.5}
+/* สมุดคะแนน (PointsLedgerSheet) */
+.lg-hd{position:relative;overflow:hidden;margin:-1.3em -1.1em .8em;padding:1.1em 1.1em .9em;background:linear-gradient(135deg,#9a5b2e,#5e3215);color:#fff3e0;text-align:center}
+.lg-hd .pat{position:absolute;inset:0;width:100%;height:100%;opacity:.12;pointer-events:none}
+.lg-hd > *{position:relative}
+.lg-hd > b{display:block;font-size:1.15em;font-weight:800}
+.lg-hd .bal strong{display:block;margin-top:.3em;font-size:2.2em;font-weight:800;color:#f5d27a;line-height:1.2}
+.lg-hd .bal small{display:block;font-size:.85em;color:#f2d3a5}
+.lg-hd .sum{display:flex;justify-content:center;gap:1em;margin-top:.4em;font-size:.88em;font-weight:700}
+.lg-tabs{display:flex;padding:.25em;margin-bottom:.5em;border-radius:.9em;background:#f1f5f9}
+.lg-tabs button{flex:1;padding:.45em 0;border-radius:.7em;text-align:center;font-size:.95em;font-weight:700;color:#475569;white-space:nowrap}
+.lg-tabs button.on{background:#fff;color:#5e3215;box-shadow:0 .1em .25em rgba(0,0,0,.1)}
+.lg-row{display:flex;align-items:flex-start;gap:.6em;padding:.6em 0;border-bottom:1px solid #f1f5f9}
+.lg-row > div{flex:1;min-width:0}
+.lg-row b{display:block;font-size:.98em;color:#0f172a}
+.lg-row small{display:block;font-size:.8em;color:#64748b;line-height:1.45}
+.lg-row em{flex:none;font-style:normal;font-size:1em;font-weight:800}
+.lg-gh{margin:.7em 0 .1em;font-size:.95em;font-weight:800}
+.lg-note{margin:.8em 0 0;font-size:.82em;color:#64748b}
