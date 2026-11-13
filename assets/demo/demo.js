@@ -72,7 +72,8 @@
     plane: '<path d="M17.8 19.2 16 11l3.5-3.5C21 6 21.5 4 21 3c-1-.5-3 0-4.5 1.5L13 8 4.8 6.2c-.5-.1-.9.1-1.1.5l-.3.5c-.2.5-.1 1 .3 1.3L9 12l-2 3H4l-1 1 3 2 2 3 1-1v-3l3-2 3.5 5.3c.3.4.8.5 1.3.3l.5-.2c.4-.3.6-.7.5-1.2z"/>',
     layers: '<path d="M12.83 2.18a2 2 0 0 0-1.66 0L2.6 6.08a1 1 0 0 0 0 1.83l8.58 3.91a2 2 0 0 0 1.66 0l8.58-3.9a1 1 0 0 0 0-1.83z"/><path d="M2 12a1 1 0 0 0 .58.91l8.6 3.91a2 2 0 0 0 1.65 0l8.58-3.9A1 1 0 0 0 22 12"/><path d="M2 17a1 1 0 0 0 .58.91l8.6 3.91a2 2 0 0 0 1.65 0l8.58-3.9A1 1 0 0 0 22 17"/>',
     inbox: '<path d="M22 12h-6l-2 3h-4l-2-3H2"/><path d="M5.45 5.11 2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z"/>',
-    dots: '<circle cx="12" cy="12" r="1"/><circle cx="19" cy="12" r="1"/><circle cx="5" cy="12" r="1"/>'
+    dots: '<circle cx="12" cy="12" r="1"/><circle cx="19" cy="12" r="1"/><circle cx="5" cy="12" r="1"/>',
+    reorder: '<path d="M4 7h16"/><path d="M4 12h16"/><path d="M4 17h16"/>'
   };
   (function () {
     var s = '<svg xmlns="http://www.w3.org/2000/svg" width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">';
@@ -187,7 +188,7 @@
   }
   // มีแผ่น/ฟอร์มเปิดอยู่ → ล็อกการปัดสไลด์ (index.html ฟัง siamdemo:lock)
   function updateLock() {
-    var open = !!document.querySelector('.demo-host .d-shw.on, .demo-host .d-form.on, .demo-host .pv-ov, .demo-host .mp-full.on, .demo-host .ovl.on');
+    var open = !!document.querySelector('.demo-host .d-shw.on, .demo-host .d-form.on, .demo-host .pv-ov, .demo-host .mp-full.on, .demo-host .ovl.on, .demo-host .co-w.on');
     document.dispatchEvent(new CustomEvent('siamdemo:lock', { detail: open }));
   }
   var SHEET = '<div class="d-shw" data-a="shclose" aria-hidden="true"><div class="d-sh" role="dialog"></div></div>';
@@ -871,10 +872,20 @@
   };
 
   /* ---------- 4) แผนที่ชีวิตประจำวัน + ฟอร์มเพิ่มสถานที่ (AddPlaceSheet) ---------- */
-  var M = { km: 3, cat: null, group: 'daily', touched: false, fabSeen: false, mode: 'daily', src: 'siam', full: false, zoom: 1 };
-  // หมุดตามโหมด: ชีวิตประจำวัน "ทั้งหมด" แสดงทั้ง 2 กลุ่ม (เหมือนแอป) · ท่องเที่ยว แสดงเฉพาะหมวดท่องเที่ยว
+  var M = { km: 3, cat: null, group: 'daily', touched: false, fabSeen: false, mode: 'daily', src: 'siam', full: false, zoom: 1,
+    // หมวดที่ผู้ใช้เลือกตามลำดับ (categoryOrder / tourismCategoryOrder ของแอป) · co = แผ่น "จัดลำดับหมวดหมู่" ที่เปิดอยู่
+    ord: { daily: ['gas', 'toilet', 'food', 'drinks', 'parking', 'atm', 'market', 'convenience', 'cafe', 'pharmacy', 'hospital'],
+      travel: ['temple', 'beach', 'viewpoint', 'nature', 'walkingstreet', 'camping'] }, co: null };
+  // ชื่อบนวงกลมแบบแอป: ชีวิตประจำวัน = SHORT_LABEL (CategoryChips.tsx) · ท่องเที่ยว = nameTh (แผ่นจัดลำดับ) / ข้อความก่อน " / " (แถบชิป)
+  var COL = { toilet: 'ห้องน้ำ', food: 'อาหาร', gas: 'ปั๊ม', atm: 'ATM', parking: 'จอดรถ', transit: 'รถเมล์', market: 'ตลาดสด', convenience: 'สะดวกซื้อ',
+    mechanic: 'ซ่อมรถ', car_rental: 'รถเช่า', hospital: 'รพ.', pharmacy: 'ร้านยา', dental: 'ทันตกรรม', fitness: 'ออกกำลังกาย', cafe: 'คาเฟ่', drinks: 'เครื่องดื่ม' };
+  function chipLabel(k, full) { return isTravel(k) ? (full ? NAMETH[k] : NAMETH[k].split(' / ')[0]) : COL[k]; }
+  // หมวดที่ "ทั้งหมด" แสดง: ชีวิตประจำวัน = หมวดที่เลือกทั้ง 2 กลุ่ม (dailySlugs + tourismSlugs) · ท่องเที่ยว = หมวดท่องเที่ยวที่เลือก
+  function shownCats() { return M.mode === 'travel' ? M.ord.travel : M.ord.daily.concat(M.ord.travel); }
+  // หมุดตามโหมด: ชีวิตประจำวัน "ทั้งหมด" แสดงทั้ง 2 กลุ่ม (เหมือนแอป) · ท่องเที่ยว แสดงเฉพาะหมวดท่องเที่ยว · หมวดที่ไม่ได้เลือกไม่โหลด
   function mList(all) {
-    var mp = PLACES.filter(function (p) { return M.mode === 'daily' || isTravel(p.k); });
+    var cats = shownCats();
+    var mp = PLACES.filter(function (p) { return (M.mode === 'daily' || isTravel(p.k)) && (p.k === M.cat || cats.indexOf(p.k) >= 0); });
     return all ? mp : mp.filter(function (p) { return p.km <= M.km && (!M.cat || p.k === M.cat); });
   }
   var RATES = [4.6, 5.0, 4.7, 4.2, 4.8, 4.9, 4.5, 4.3, 4.6, 5.0, 4.9, 4.7, 4.1, 4.8, 4.4, 4.0, 4.7, 5.0, 4.9, 4.6];
@@ -959,16 +970,16 @@
         '<button data-a="src" data-v="all"' + (M.src === 'all' ? ' class="on"' : '') + ' style="--c:' + C + '">' + ic('layers') + 'ทั้งหมด <i>(' + list.length + ')</i></button>' +
         '<button data-a="src" data-v="google" style="--c:' + C + '"><span class="dt g"></span>Google <i>(0)</i></button>' +
         '<button data-a="src" data-v="siam"' + (M.src === 'siam' ? ' class="on"' : '') + ' style="--c:' + C + '"><span class="dt"></span>Siam <i>(' + list.length + ')</i></button></div>';
-      var hint = '<div class="mt-hint"><span>แสดง ' + (tr ? TRAVEL.length : 22) + ' หมวดที่คุณเลือก · <button data-a="cats" style="color:' + C + '">ปรับ ›</button></span>' +
+      var hint = '<div class="mt-hint"><span>แสดง ' + shownCats().length + ' หมวดที่คุณเลือก · <button data-a="cats" style="color:' + C + '">ปรับ ›</button></span>' +
         (tr ? '' : '<span class="mt-leg"><span style="--c:#15803d"><i></i>ชีวิตประจำวัน</span><span style="--c:#185FA5"><i></i>ท่องเที่ยว</span></span>') + '</div>';
       var rads = [1, 2, 3, 5, 10].map(function (k) { return '<button data-a="km" data-k="' + k + '"' + (M.km === k ? ' class="on"' : '') + ' style="--c:' + C + '">' + k + ' กม.</button>'; }).join('');
-      // ชิปวงกลม 1 แถว (ไม่เลื่อนแนวนอน) + "เพิ่มเติม"
-      var base = tr ? ['temple', 'viewpoint', 'nature', 'souvenir'] : ['gas', 'toilet', 'food', 'drinks'];
+      // ชิปวงกลม 1 แถว (ไม่เลื่อนแนวนอน) = 4 หมวดแรกตามลำดับที่เลือก + "เพิ่มเติม" (เปิดแผ่นจัดลำดับ)
+      var base = M.ord[tr ? 'travel' : 'daily'].slice(0, 4);
       if (M.cat && base.indexOf(M.cat) < 0) base = base.slice(0, 3).concat([M.cat]);
       var chips = [''].concat(base).map(function (k) {
         var on = (M.cat || '') === k;
         return '<button class="cc' + (on ? ' on' : '') + '" style="--c:' + C + '" data-a="chip" data-k="' + k + '"><span class="ci">' + (k ? catIcon(k) : ic('globe')) + '</span>' +
-          '<span class="cl">' + (k ? CAT[k][1].split(' / ')[0] : 'ทั้งหมด') + '</span></button>';
+          '<span class="cl">' + (k ? chipLabel(k) : 'ทั้งหมด') + '</span></button>';
       }).join('') + '<button class="cc" data-a="cats"><span class="ci more">' + ic('plus') + '</span><span class="cl">เพิ่มเติม</span></button>';
       var rec = cardRow('rec', list.slice().sort(function (a, b) { return a.km - b.km; }).slice(0, 6));
       var pop = cardRow('pop', list.slice().sort(function (a, b) { return rateOf(b) - rateOf(a) || a.km - b.km; }).slice(0, 6), 'ยังไม่มีสถานที่ยอดนิยมในระยะนี้');
@@ -990,7 +1001,42 @@
         '<span class="core' + (M.fabSeen ? '' : ' d-pulse') + '"' + (tr ? ' style="background:linear-gradient(135deg,#37C0FF,#1F6BFF)"' : '') + '>' + ic('pin-plus') + '</span></button>' +
         navBar(3) +
         '<div class="mp-full' + (M.full ? ' on' : '') + '" role="dialog" aria-label="แผนที่เต็มจอ">' + (M.full ? this.fullHtml() : '') + '</div>' +
-        SHEET + '<div class="d-form' + (F.open ? ' on' : '') + '" role="dialog" aria-label="เพิ่มสถานที่ใหม่">' + (F.open ? this.form() : '') + '</div>' + TOAST + '</div>';
+        SHEET + '<div class="d-form' + (F.open ? ' on' : '') + '" role="dialog" aria-label="เพิ่มสถานที่ใหม่">' + (F.open ? this.form() : '') + '</div>' +
+        '<div class="co-w' + (M.co ? ' on' : '') + '" data-a="co-x">' + (M.co ? this.coSheet() : '') + '</div>' + TOAST + '</div>';
+    },
+    // ── แผ่น "จัดลำดับหมวดหมู่" (CategoryOrderPopup.tsx) · แตะวงกลม = เลือก/ยกเลิก · เลขบนวง = ลำดับที่แสดงบนแผนที่
+    coSheet: function () {
+      var tr = M.co.g === 'travel', ac = tr ? '#1a56db' : '#10b981', dk = tr ? '#185FA5' : '#0f6a3d', abg = tr ? '#e8f0fe' : '#dcfce7';
+      var sel = M.co.sel, keys = tr ? TRAVEL : DAILY;
+      var grid = keys.map(function (k) {
+        var r = sel.indexOf(k), on = r >= 0;
+        return '<button class="co-c' + (on ? ' on' : '') + '" data-a="co-t" data-k="' + k + '" aria-pressed="' + on + '">' +
+          '<span class="ci">' + catIcon(k) + (on ? '<i class="bd">' + (r + 1) + '</i>' : '') + '</span><span class="cl">' + esc(chipLabel(k, true)) + '</span></button>';
+      }).join('');
+      return '<div class="co-sh" role="dialog" aria-label="จัดลำดับหมวดหมู่" style="--ac:' + ac + ';--abg:' + abg + '">' +
+        '<div class="fhd co-hd" style="background:linear-gradient(135deg,' + ac + ',' + dk + ')"><span class="hdl"></span>' +
+        '<span class="fic">' + ic('reorder') + '</span><div class="tt"><b>จัดลำดับหมวดหมู่</b><small>เลือกหมวดที่ตรงกับชีวิตประจำวันของคุณ</small></div>' +
+        '<button class="co-rq" data-a="co-req">' + ic('plus') + 'ขอหมวดใหม่</button>' +
+        '<button class="fbtn" data-a="co-x" aria-label="ปิด">' + ic('x') + '</button>' +
+        '<svg class="wv" viewBox="0 0 100 13" preserveAspectRatio="none" aria-hidden="true"><path d="M0 13 L0 0 Q 50 24 100 0 L100 13 Z" fill="#fff"/></svg></div>' +
+        '<div class="co-note" style="background:' + (tr ? '#eef3ff' : '#ecfdf5') + '"><div class="tp"><b>🌐 "ทั้งหมด" จะแสดงเฉพาะหมวดที่คุณเลือก</b><em>เลือกแล้ว ' + sel.length + ' หมวด</em></div>' +
+        '<p>' + (tr ? 'เลือกเฉพาะสิ่งที่ใช้บ่อยหรือสนใจ เช่น วัด จุดชมวิว คาเฟ่ แผนที่ของคุณจะได้ไม่รก ตัวเลขบนวงกลมคือลำดับที่แสดงบนแผนที่'
+          : 'เลือกเฉพาะสิ่งที่ใช้บ่อยหรือสนใจ เช่น ร้านอาหาร คาเฟ่ ที่ออกกำลังกาย แผนที่ของคุณจะได้ไม่รก ตัวเลขบนวงกลมคือลำดับที่แสดงบนแผนที่') + '</p></div>' +
+        '<div class="co-grid">' + grid + '</div>' +
+        '<div class="co-ft">' + (sel.length ? '' : '<div class="mn">เลือกอย่างน้อย 1 หมวด</div>') +
+        '<button class="co-save' + (sel.length ? '' : ' off') + '" data-a="co-save" style="background:linear-gradient(135deg,' + ac + ',' + dk + ')">บันทึก</button></div></div>';
+    },
+    coRender: function (host) {
+      var w = host.querySelector('.co-w'); if (!w) return;
+      var g = w.querySelector('.co-grid'), top = g ? g.scrollTop : 0;
+      w.innerHTML = this.coSheet();
+      var g2 = w.querySelector('.co-grid'); if (g2) g2.scrollTop = top;
+    },
+    coClose: function (host, then) {
+      var w = host.querySelector('.co-w'); if (w) w.classList.remove('on');
+      M.co = null; updateLock();
+      clearTimeout(this._coT);
+      this._coT = setTimeout(function () { if (!M.co && w) w.innerHTML = ''; if (then) then(); }, 260);
     },
     // ชั้นแผนที่วาด + วง + หมุด (ใช้ทั้งการ์ดและเต็มจอ)
     mapLayer: function (list, all, z, labels) {
@@ -1059,13 +1105,6 @@
       var pk2 = box.querySelector('.d-sh'); if (pk2) pk2.scrollTop = ptop;
       updateLock();
     },
-    catSheet: function () {
-      var g = M.group, keys = g === 'daily' ? DAILY : TRAVEL, ac = g === 'daily' ? '#15803d' : '#185FA5';
-      var chips = '<button class="chip' + (!M.cat ? ' on' : '') + '" style="--ac:' + ac + '" data-a="cat" data-k="">' + em('🌐') + 'ทั้งหมด</button>' +
-        keys.map(function (k) { return '<button class="chip' + (M.cat === k ? ' on' : '') + '" style="--ac:' + ac + '" data-a="cat" data-k="' + k + '">' + catIcon(k) + CAT[k][1] + '</button>'; }).join('');
-      return '<h4>เลือกหมวดหมู่</h4><div class="cat-tabs"><button data-a="grp" data-g="daily"' + (g === 'daily' ? ' class="on"' : '') + '>ชีวิตประจำวัน</button>' +
-        '<button data-a="grp" data-g="travel"' + (g === 'travel' ? ' class="on tr"' : '') + '>ท่องเที่ยว</button></div><div class="chips">' + chips + '</div>';
-    },
     placeSheet: function (p) {
       var tr = isTravel(p.k), bg = tr ? 'linear-gradient(135deg,#e8f0fe,#dbeafe)' : 'linear-gradient(135deg,#e8f0fe,#dcfce7)';
       return '<div class="pl-hero" style="background:' + bg + '">' + catIcon(p.k) + '<button class="d-x" data-a="shclose" aria-label="ปิด">' + ic('x') + '</button></div>' +
@@ -1082,13 +1121,28 @@
     on: function (a, el, host) {
       var self = this;
       if (a === 'km') { M.km = +el.getAttribute('data-k'); return render('map'); }
-      if (a === 'cats') return sheet(host, this.catSheet());
-      if (a === 'grp') { M.group = el.getAttribute('data-g'); return sheet(host, this.catSheet()); }
-      if (a === 'cat') {
-        M.cat = el.getAttribute('data-k') || null; sheet(host, null);
-        if (M.cat && !isTravel(M.cat) && M.mode === 'travel') M.mode = 'daily';
-        if (M.cat && !mList().length) { var p = PLACES.filter(function (x) { return x.k === M.cat; })[0]; if (p) M.km = [1, 2, 3, 5, 10].filter(function (k) { return k >= p.km; })[0] || 10; }
-        setTimeout(function () { render('map', true); if (M.cat && !mList().length) toast(host, 'ยังไม่มีหมุดหมวดนี้ในตัวอย่าง'); }, 180);
+      // ── แผ่นจัดลำดับหมวดหมู่ (ปุ่ม "ปรับ ›" · "เลือกหมวดหมู่ ›" · ปุ่มเลือกหมวดในแผนที่เต็มจอ · ชิป "เพิ่มเติม")
+      if (a === 'cats') {
+        var cg = M.mode === 'travel' ? 'travel' : 'daily';
+        clearTimeout(this._coT); M.co = { g: cg, sel: M.ord[cg].slice() };
+        var cw = host.querySelector('.co-w'); cw.innerHTML = this.coSheet();
+        requestAnimationFrame(function () { requestAnimationFrame(function () { cw.classList.add('on'); updateLock(); }); });
+        return;
+      }
+      if (a === 'co-t') {
+        if (!M.co) return;
+        var ck = el.getAttribute('data-k'), ci = M.co.sel.indexOf(ck);
+        if (ci >= 0) M.co.sel.splice(ci, 1); else M.co.sel.push(ck);
+        return this.coRender(host);
+      }
+      if (a === 'co-req') return toast(host, 'ในแอปส่งคำขอหมวดใหม่ได้');
+      if (a === 'co-x') { if (M.co) this.coClose(host); return; }
+      if (a === 'co-save') {
+        if (!M.co || !M.co.sel.length) return;
+        M.ord[M.co.g] = M.co.sel.slice();
+        if (M.cat && shownCats().indexOf(M.cat) < 0) M.cat = null;
+        M.rec = M.pop = 0;
+        this.coClose(host, function () { render('map', true); toast(host, 'บันทึกแล้ว (ตัวอย่าง)'); });
         return;
       }
       if (a === 'pin') { M.touched = true; var pl = PLACES[+el.getAttribute('data-i')]; render('map'); return sheet(host, this.placeSheet(pl)); }
@@ -1127,6 +1181,7 @@
         var np = { k: F.cat, n: F.name, km: 0.25, a: Math.round(Math.random() * 360), open: 'เพิ่งปักหมุด', isNew: true, rt: 5.0 };
         if (isTravel(np.k) !== (M.mode === 'travel') && M.mode === 'travel') M.mode = 'daily';
         PLACES.push(np); M.touched = true; if (M.cat && M.cat !== np.k) M.cat = null;
+        if (shownCats().indexOf(np.k) < 0) M.cat = np.k; // หมวดที่ไม่ได้เลือกไว้ → เปิดหมวดนั้นให้เห็นหมุดใหม่
         F.open = false; F.picker = false; fReset();
         host.querySelector('.d-form').classList.remove('on'); updateLock();
         setTimeout(function () { render('map', true); PLACES.forEach(function (p) { p.isNew = false; }); toast(host, 'ตัวอย่าง — ในแอปจะได้รับ +35 คะแนน'); if (built.home) render('home', true); }, 260);
@@ -1630,7 +1685,7 @@
       if (!el || !host.contains(el)) return;
       var a = el.getAttribute('data-a');
       // แตะพื้นหลังแผ่นล่าง = ปิด · แตะในแผ่นไม่ปิด
-      if ((el.classList.contains('d-shw') || el.classList.contains('pv-ov')) && e.target !== el) return;
+      if ((el.classList.contains('d-shw') || el.classList.contains('pv-ov') || el.classList.contains('co-w')) && e.target !== el) return;
       if (a === 'noop') return;
       SC[name].on(a, el, host);
     });
@@ -1654,6 +1709,7 @@
       var name = NAME[h.getAttribute('data-screen')], f = h.querySelector('.d-form.on');
       if (name === 'home' && H.pending) { H.pending = null; render('home', true); }
       if (name === 'map' && M.full) { M.full = false; var mf = h.querySelector('.mp-full.on'); if (mf) mf.classList.remove('on'); }
+      if (name === 'map' && M.co) { M.co = null; var cw = h.querySelector('.co-w.on'); if (cw) cw.classList.remove('on'); }
       if (name === 'alert' && A.full) { A.full = false; var af = h.querySelector('.al-full.on'); if (af) af.classList.remove('on'); }
       if (f) { f.classList.remove('on'); if (name === 'map') { F.open = false; F.picker = false; } if (name === 'alert') RF.open = false; }
     });
