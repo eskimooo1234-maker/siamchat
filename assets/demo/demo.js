@@ -73,7 +73,10 @@
     layers: '<path d="M12.83 2.18a2 2 0 0 0-1.66 0L2.6 6.08a1 1 0 0 0 0 1.83l8.58 3.91a2 2 0 0 0 1.66 0l8.58-3.9a1 1 0 0 0 0-1.83z"/><path d="M2 12a1 1 0 0 0 .58.91l8.6 3.91a2 2 0 0 0 1.65 0l8.58-3.9A1 1 0 0 0 22 12"/><path d="M2 17a1 1 0 0 0 .58.91l8.6 3.91a2 2 0 0 0 1.65 0l8.58-3.9A1 1 0 0 0 22 17"/>',
     inbox: '<path d="M22 12h-6l-2 3h-4l-2-3H2"/><path d="M5.45 5.11 2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z"/>',
     dots: '<circle cx="12" cy="12" r="1"/><circle cx="19" cy="12" r="1"/><circle cx="5" cy="12" r="1"/>',
-    reorder: '<path d="M4 7h16"/><path d="M4 12h16"/><path d="M4 17h16"/>'
+    reorder: '<path d="M4 7h16"/><path d="M4 12h16"/><path d="M4 17h16"/>',
+    'chev-u': '<path d="m18 15-6-6-6 6"/>',
+    logout: '<path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><path d="m16 17 5-5-5-5"/><path d="M21 12H9"/>',
+    trash: '<path d="M3 6h18"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/>'
   };
   (function () {
     var s = '<svg xmlns="http://www.w3.org/2000/svg" width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">';
@@ -124,8 +127,17 @@
     lost_item: { e: '🔍', n: 'ของหาย', c: '#14b8a6', w: 'หากพบเห็น โปรดแจ้งเจ้าของโพสต์' },
     other: { e: '❓', n: 'อื่นๆ', c: '#475569', w: 'ตรวจสอบรายละเอียดก่อนตัดสินใจ' }
   };
-  var AV = { elephant: '#dbeafe', dog: '#ffe7c7', cat: '#ffe0e6', owl: '#ece3d6', parrot: '#d9f5e3' };
+  // สัตว์ประจำตัว 13 แบบ (animalAvatars.ts: ลำดับ · พื้นวง · คำในชื่อ) — รูป Noto Emoji (Apache 2.0)
+  var ANIMALS = ['dog', 'cat', 'rabbit', 'hamster', 'squirrel', 'parrot', 'elephant', 'panda', 'turtle', 'tiger', 'owl', 'penguin', 'koala'];
+  var AV = { dog: '#ffe7c7', cat: '#ffe0e6', rabbit: '#ece4ff', hamster: '#fff2c2', squirrel: '#f6e3d3', parrot: '#d9f5e3', elephant: '#dbeafe',
+    panda: '#e5e7eb', turtle: '#ccf2f4', tiger: '#ffe8cc', owl: '#ece3d6', penguin: '#dceefb', koala: '#e6e9ee' };
+  var AWORD = { dog: 'สุนัข', cat: 'แมว', rabbit: 'กระต่าย', hamster: 'แฮมสเตอร์', squirrel: 'กระรอก', parrot: 'นกแก้ว', elephant: 'ช้าง',
+    panda: 'แพนด้า', turtle: 'เต่า', tiger: 'เสือ', owl: 'นกฮูก', penguin: 'เพนกวิน', koala: 'โคอาล่า' };
   function av(k) { return '<span class="d-av" style="background:' + AV[k] + '"><img src="' + BASE + 'avatars/' + k + '.png" alt=""></span>'; }
+  // ผู้ใช้ตัวอย่าง (ใช้ร่วมทุกสไลด์ · เปลี่ยนได้ในสไลด์ "แก้ไขโปรไฟล์" · หายเมื่อรีโหลด) · ME = คู่ [สัตว์, ชื่อ] ที่อ่านค่าล่าสุดเสมอ
+  var U = { a: 'elephant', num: '3568', bio: '' };
+  function myName() { return AWORD[U.a] + ' ' + U.num; }
+  var ME = Object.defineProperties({}, { 0: { get: function () { return U.a; } }, 1: { get: function () { return myName(); } } });
 
   // หมุดตัวอย่าง (ชื่อสมมติทั้งหมด) · a = มุม (องศา) · km = ระยะจากตำแหน่งฉัน
   var PLACES = [
@@ -805,7 +817,7 @@
     post: function (id) {
       var T = {
         g1: ['cat', 'แมว 2047', '5 ชั่วโมงที่แล้ว', 'พรุ่งนี้เช้ามีกิจกรรมเก็บขยะริมคลอง 7 โมง ใครว่างมาช่วยกันนะ นัดเจอที่ศาลาหน้าวัด', 31, 9, 1, '🌿'],
-        p1: ['elephant', 'ช้าง 3568', '1 วันที่แล้ว', 'งานกาชาดปีนี้จัดที่สนามกลางเมือง เปิดถึงสามทุ่มทุกวัน', 58, 14, 4, '🎡'],
+        p1: [U.a, myName(), '1 วันที่แล้ว', 'งานกาชาดปีนี้จัดที่สนามกลางเมือง เปิดถึงสามทุ่มทุกวัน', 58, 14, 4, '🎡'],
         c1: ['dog', 'สุนัข 8801', '1 วันที่แล้ว', 'ช่วงนี้ฝนตกหลายภาค เช็กแจ้งเหตุในอำเภอตัวเองก่อนออกเดินทางกันนะ', 205, 41, -1, ''],
         c2: ['owl', 'นกฮูก 4410', '2 วันที่แล้ว', 'ใครมีจุดชมวิวที่ชอบในจังหวัดตัวเอง ปักหมุดแนะนำกันได้เลย', 132, 77, 3, '🌄']
       }[id];
@@ -813,7 +825,7 @@
     },
     alertPost: function (x, i) {
       var T = INC[x.t];
-      return this.generalCard('al' + i, i ? 'cat' : 'elephant', i ? 'แมว 2047' : 'ช้าง 3568', x.at, x.ti, 12, 3, drawnPic(i + 2, em(T.e)), '',
+      return this.generalCard('al' + i, i ? 'cat' : U.a, i ? 'แมว 2047' : myName(), x.at, x.ti, 12, 3, drawnPic(i + 2, em(T.e)), '',
         '<span class="gp-al" style="background:' + T.c + '">' + T.e + ' ' + T.n + '</span>');
     },
     generalCard: function (id, a, name, ago, text, up, cm, pic, chip, badge) {
@@ -1214,12 +1226,12 @@
   function incidents() {
     var o = A.otherD || [S.dn, S.dn, S.dn];
     return A.added.concat([
-      { t: 'fire', ti: 'ไฟไหม้หญ้าข้างทางเลี่ยงเมือง ควันหนาเห็นได้จากถนนใหญ่', d: S.dn, at: '5 วัน', x: -28, y: -8, by: ['elephant', 'ช้าง 3568'], ph: 11, km: 13.1 },
+      { t: 'fire', ti: 'ไฟไหม้หญ้าข้างทางเลี่ยงเมือง ควันหนาเห็นได้จากถนนใหญ่', d: S.dn, at: '5 วัน', x: -28, y: -8, by: ME, ph: 11, km: 13.1 },
       { t: 'accident', ti: 'รถชนกัน 2 คัน แยกไฟแดงกลางเมือง', d: S.dn, at: '12 นาที', x: 20, y: -4, by: ['dog', 'สุนัข 1313'], ph: 4, km: 1.2 },
       { t: 'flood', ti: 'น้ำท่วมขังทางลอดหน้าตลาด รถเล็กผ่านไม่ได้', d: S.dn, at: '40 นาที', x: -6, y: 12, by: ['cat', 'แมว 2047'], ph: 6, km: 0.8 },
       { t: 'road', ti: 'ปิดซ่อมถนนเลนซ้าย ถึง 18:00', d: o[1], at: '3 ชม.', x: 32, y: 18, by: ['owl', 'นกฮูก 5521'], ph: 2, km: 4.6 },
       { t: 'accident', ti: 'รถจักรยานยนต์ล้ม ทางโค้งขึ้นดอย', d: o[2], at: '2 ชม.', x: -34, y: 27, by: ['parrot', 'นกแก้ว 9482'], ph: 1, km: 9.3 },
-      { t: 'flood', ti: 'น้ำเอ่อล้นตลิ่ง ซอย 5', d: o[0], at: '4 ชม.', x: 12, y: 28, by: ['elephant', 'ช้าง 3568'], ph: 3, km: 6.0 },
+      { t: 'flood', ti: 'น้ำเอ่อล้นตลิ่ง ซอย 5', d: o[0], at: '4 ชม.', x: 12, y: 28, by: ME, ph: 3, km: 6.0 },
       { t: 'blackout', ti: 'ไฟดับทั้งซอย ตั้งแต่ 2 ทุ่ม (ต่างจังหวัด)', d: 'หาดใหญ่', far: true, at: '1 วัน', x: 38, y: -24, by: ['cat', 'แมว 4410'], ph: 2, km: 812 }
     ]);
   }
@@ -1405,7 +1417,7 @@
       if (a === 'r-loc') { RF.loc = true; return this.renderForm(host); }
       if (a === 'r-post') {
         var st = rState(); if (!st.ok) return toast(host, st.right);
-        A.added.unshift({ t: RF.type, ti: RF.detail, d: S.dn, at: 'เมื่อสักครู่', x: -16, y: 2, isNew: true, fresh: true, by: ['elephant', 'ช้าง 3568'], ph: Math.max(1, RF.photos.length), km: 0.1 });
+        A.added.unshift({ t: RF.type, ti: RF.detail, d: S.dn, at: 'เมื่อสักครู่', x: -16, y: 2, isNew: true, fresh: true, by: ME, ph: Math.max(1, RF.photos.length), km: 0.1 });
         A.f = null; RF.open = false; rReset();
         host.querySelector('.d-form').classList.remove('on'); updateLock();
         setTimeout(function () { render('alert'); var bd = host.querySelector('.at-body'); if (bd) bd.scrollTop = 0; toast(host, 'ตัวอย่าง — ในแอปจะแจ้งเตือนคนในพื้นที่'); }, 260);
@@ -1479,7 +1491,7 @@
       stats[0][0] = P.pts.toLocaleString('en-US');
       return '<div class="idb"><div class="idc2" style="background:linear-gradient(135deg,' + R.c1 + ',' + R.c2 + ')">' + pattern('idp2') + '<span class="fr"></span>' + th +
         '<div class="ct"><div class="rg">' + em(R.icon) + ' ' + R.full + '</div><i class="gl"></i>' +
-        '<div class="me"><span class="ring">' + '<img src="' + BASE + 'avatars/elephant.png" alt=""></span><div><b>ช้าง 3568</b><small>ระดับ 6 · คนในพื้นที่</small></div></div>' +
+        '<div class="me"><span class="ring">' + '<img src="' + BASE + 'avatars/' + U.a + '.png" alt=""></span><div><b>' + esc(myName()) + '</b><small>ระดับ 6 · คนในพื้นที่</small></div></div>' +
         '<div class="tb"><div><span>ชุมชน</span><b>' + esc(S.dn) + '</b></div><div><span>จังหวัด</span><b>' + esc(S.pn) + '</b></div><div><span>เข้าร่วม</span><b>มี.ค. 2569</b></div></div>' +
         '<div class="xp"><i style="width:72%"></i></div><div class="xpt">EXP 130 / 160</div></div></div>' +
         '<div class="isb">' + stats.map(function (s) {
@@ -1521,11 +1533,11 @@
       }).join('') + '</div>';
     },
     tabBody: function () {
-      if (P.tab === 'general') return '<div class="pr-feed">' + SC.home.generalCard('pf1', 'elephant', 'ช้าง 3568', '2 วันที่แล้ว', 'แนะนำร้านซ่อมรถใกล้ตลาด บริการดี ราคาไม่แพง', 12, 3, drawnPic(1, em('🔧')), '<span class="gp-chip" style="--c:#1a56db">💬 โพสต์ทั่วไป</span>', '') +
-        SC.home.generalCard('pf2', 'elephant', 'ช้าง 3568', '1 สัปดาห์ที่แล้ว', 'ขอบคุณทุกคนที่มาช่วยเก็บขยะริมคลองเมื่อวันอาทิตย์', 27, 8, '', '<span class="gp-chip" style="--c:#1a56db">💬 โพสต์ทั่วไป</span>', '') + '</div>';
+      if (P.tab === 'general') return '<div class="pr-feed">' + SC.home.generalCard('pf1', U.a, myName(), '2 วันที่แล้ว', 'แนะนำร้านซ่อมรถใกล้ตลาด บริการดี ราคาไม่แพง', 12, 3, drawnPic(1, em('🔧')), '<span class="gp-chip" style="--c:#1a56db">💬 โพสต์ทั่วไป</span>', '') +
+        SC.home.generalCard('pf2', U.a, myName(), '1 สัปดาห์ที่แล้ว', 'ขอบคุณทุกคนที่มาช่วยเก็บขยะริมคลองเมื่อวันอาทิตย์', 27, 8, '', '<span class="gp-chip" style="--c:#1a56db">💬 โพสต์ทั่วไป</span>', '') + '</div>';
       if (P.tab === 'poll') return '<div class="pr-feed">' + this.myPoll('ควรมีไฟส่องทางในซอยเพิ่มไหม', 82, 214, '3 วันที่แล้ว') + this.myPoll('ตลาดเช้าย้ายไปลานจอดรถ ดีไหม', 57, 96, '2 สัปดาห์ที่แล้ว') + '</div>';
       if (P.tab === 'alert') {
-        var allI = incidents(), mine = allI.filter(function (x) { return x.by[1] === 'ช้าง 3568'; }).slice(0, 2);
+        var allI = incidents(), mine = allI.filter(function (x) { return x.by === ME; }).slice(0, 2);
         return this.seg('incsub', P.incSub) + (P.incSub === 'data'
           ? '<div class="pr-feed">' + mine.map(function (x, i) { return alertCard(x, allI.indexOf(x), 'pr' + i); }).join('') + '</div>'
           : '<div class="pr-map d-mapc">' + cityMap(true) + mine.map(function (x, i) {
@@ -1566,7 +1578,7 @@
     },
     myPoll: function (q, py, votes, ago) {
       var ny = Math.round(votes * py / 100);
-      return '<div class="pc-card"><div class="pc-row" style="margin-top:0">' + av('elephant') + '<div class="mt"><b>ช้าง 3568</b><small>📍 ' + esc(S.dn) + ' · ' + ago + '</small></div>' +
+      return '<div class="pc-card"><div class="pc-row" style="margin-top:0">' + av(U.a) + '<div class="mt"><b>' + esc(myName()) + '</b><small>📍 ' + esc(S.dn) + ' · ' + ago + '</small></div>' +
         '<span class="pc-chip">' + ic('chart') + 'โพลชุมชน</span><button class="ib" data-a="more" aria-label="เมนู">' + ic('dots') + '</button></div>' +
         '<div class="pc-q" style="font-weight:800">' + esc(q) + '</div><div class="pb">' +
         '<div class="pb-row y"><i style="width:' + py + '%"></i><span class="lb">✓ ใช่</span><span class="nm">' + py + '% · ' + ny + '</span></div>' +
@@ -1591,10 +1603,122 @@
       if (a === 'pvote') { var pid = el.getAttribute('data-id'); H.vote[pid] = H.vote[pid] === v ? null : v; return render('prof', true); }
       if (a === 'amap') { go(4); setTimeout(function () { if (HOSTS.alert) SC.alert.openFull(HOSTS.alert, +el.getAttribute('data-i')); }, 450); return; }
       if (a === 'go') return go(+el.getAttribute('data-i'));
-      var msg = { edit: 'ในแอปเปลี่ยนรูปสัตว์และพื้นที่ได้', pc: 'ในแอปจะเปิดหมุดนี้บนแผนที่', plus: 'ในแอปจะเปิดเมนู "สร้างอะไรดีวันนี้?"', more: 'ในแอปมีเมนู แก้ไข / ลบ', amore: 'ในแอปมีเมนู แก้ไข / ลบ', comment: 'ในแอปจะเปิดคอมเมนต์', share: 'ในแอปจะเปิดเมนูแชร์' }[a];
+      if (a === 'edit') return go(6);
+      var msg = { pc: 'ในแอปจะเปิดหมุดนี้บนแผนที่', plus: 'ในแอปจะเปิดเมนู "สร้างอะไรดีวันนี้?"', more: 'ในแอปมีเมนู แก้ไข / ลบ', amore: 'ในแอปมีเมนู แก้ไข / ลบ', comment: 'ในแอปจะเปิดคอมเมนต์', share: 'ในแอปจะเปิดเมนูแชร์' }[a];
       if (msg) toast(host, msg);
     },
     init: function () { geo().then(function () { if (P.view === 'card') render('prof', true); }); }
+  };
+
+  /* ---------- 7) แก้ไขโปรไฟล์ (EditProfileScreen · animalTraits · notificationSounds) ---------- */
+  // คำคม + คุณลักษณะประจำสัตว์ (ANIMAL_TRAITS ภาษาไทย)
+  var TRAITS = {
+    elephant: ['🐘', 'ช้างจำเก่ง ไม่ลืมเพื่อนบ้านแน่นอน', ['จำเก่ง', 'ใจดี']], dog: ['🐶', 'โฮ่ง! พร้อมช่วยชุมชนทุกเมื่อ', ['ซื่อสัตย์', 'ขยัน']],
+    cat: ['🐱', 'เมี้ยว~ รู้ทุกเรื่องในซอย', ['ช่างสังเกต', 'ขี้สงสัย']], rabbit: ['🐰', 'ข่าวไหนมาก่อน รู้ก่อนเสมอ', ['ว่องไว', 'ร่าเริง']],
+    hamster: ['🐹', 'ตัวเล็กแต่ขยัน สะสมคะแนนทุกวัน', ['ขยัน', 'น่ารัก']], squirrel: ['🐿️', 'เก็บที่เด็ด ๆ ในพื้นที่ไว้ให้เพื่อน', ['นักสำรวจ', 'คล่องแคล่ว']],
+    tiger: ['🐯', 'กล้าพูด กล้าแจ้ง เพื่อชุมชนปลอดภัย', ['กล้าหาญ', 'ผู้นำ']], owl: ['🦉', 'รอบรู้ทุกซอกซอย ถามมาได้เลย', ['รอบรู้', 'สุขุม']],
+    penguin: ['🐧', 'เดินไปด้วยกัน ชุมชนอบอุ่นเสมอ', ['เป็นมิตร', 'รักพวกพ้อง']], koala: ['🐨', 'ใจเย็น ๆ ค่อย ๆ คุย ทุกเรื่องแก้ได้', ['ใจเย็น', 'อบอุ่น']],
+    parrot: ['🦜', 'ฟังแล้วเล่าต่อ ข่าวดีไปไวแน่นอน', ['ช่างเจรจา', 'ร่าเริง']], panda: ['🐼', 'ใจเย็นสบาย ๆ แต่ไม่พลาดเรื่องดีในย่าน', ['ใจเย็น', 'น่ารัก']],
+    turtle: ['🐢', 'ช้าแต่แน่น ข้อมูลชุมชนไม่ตกหล่น', ['อดทน', 'รอบคอบ']]
+  };
+  // เสียงแจ้งเตือน (NOTIFICATION_SOUNDS) — เดโมไม่เล่นเสียง
+  var SOUNDS = [['bark', 'หมาเห่า', 'เสียงหมาชิวาวา สั้นกระชับ'], ['chime', 'ชาม', 'เบาๆ นุ่มนวล'], ['bell', 'กริ่ง', 'เสียงกระดิ่งกังวาน'], ['soft', 'นุ่ม', 'เสียงเบาเนียนนุ่ม'], ['pop', 'ป๊อป', 'เสียงสั้นกระฉับ']];
+  // ข้อความแนะนำตัวตัวอย่าง (เดโมไม่มีช่องพิมพ์ — แตะกล่องแล้วเลือก)
+  function bioSamples() {
+    return ['อยู่' + (S.bkk ? 'เขต' : 'อ.') + S.dn + ' ชอบหาร้านอร่อยใกล้บ้าน ถามได้เลย', 'ชอบปักหมุดจุดชมวิวกับคาเฟ่ เจอที่ดีจะมาแบ่งกัน', 'ช่วยกันแจ้งเหตุ ให้ชุมชนของเราปลอดภัยขึ้น'];
+  }
+  var E = { a: U.a, bio: U.bio, bioOpen: false, acct: false, snd: 'bark' };
+  function eDirty() { return E.a !== U.a || E.bio !== U.bio; }
+  function eReset() { E.a = U.a; E.bio = U.bio; E.bioOpen = false; E.acct = false; }
+  SC.edit = {
+    html: function () {
+      var R = REG[S.r], dirty = eDirty(), T = TRAITS[E.a], word = AWORD[E.a];
+      var animals = ANIMALS.map(function (k) {
+        return '<button class="ep-an' + (E.a === k ? ' on' : '') + '" data-a="pick" data-k="' + k + '" aria-pressed="' + (E.a === k) + '"><span class="rn">' + av(k) + '</span><small>' + AWORD[k] + '</small></button>';
+      }).join('');
+      var bioBox = '<button class="ep-bio' + (E.bioOpen ? ' on' : '') + '" data-a="bio">' + (E.bio ? '<span class="v">' + esc(E.bio) + '</span>' : '<span class="pl">เล่าให้ชุมชนรู้จักคุณสักนิด...</span>') + '</button>' +
+        (E.bioOpen ? '<div class="ep-bs"><small>เลือกข้อความตัวอย่าง (เดโมไม่มีช่องพิมพ์)</small>' + bioSamples().map(function (b, i) {
+          return '<button class="chip' + (E.bio === b ? ' on' : '') + '" style="--ac:#1a56db" data-a="bios" data-i="' + i + '">' + esc(b) + '</button>';
+        }).join('') + '</div>' : '');
+      var menu = [['saved', '🔖', '#1a56db', 'บันทึกไว้', 'โพสต์และสถานที่ที่บันทึก', '0'],
+        ['ring', '🔔', '#6d28d9', 'เสียงแจ้งเตือน', 'ริงโทนปัจจุบัน: ' + SOUNDS.filter(function (x) { return x[0] === E.snd; })[0][1], ''],
+        ['report', '🛡️', '#b45309', 'ศูนย์รายงานของฉัน', 'ตรวจสอบสถานะโพสต์และสถานที่', ''],
+        ['founder', '🏅', '#0f6a3d', 'สมัครเป็นผู้ดูแลพื้นที่', 'ดูคุณสมบัติและยื่นใบสมัคร', '']].map(function (m) {
+        return '<button class="ep-mi" data-a="menu" data-k="' + m[0] + '"><span class="ib" style="background:' + m[2] + '14">' + em(m[1]) + '</span>' +
+          '<span class="tx"><b>' + m[3] + '</b><small>' + esc(m[4]) + '</small></span>' + (m[5] ? '<em>' + m[5] + '</em>' : '') + ic('chev-r') + '</button>';
+      }).join('');
+      return '<div class="dm d-edit">' +
+        '<div class="ep-hd"><button class="cx" data-a="cancel">ยกเลิก</button><b>แก้ไขโปรไฟล์</b>' +
+        '<button class="sv' + (dirty ? '' : ' off') + '" data-a="save"' + (dirty ? '' : ' aria-disabled="true"') + '>บันทึก</button></div>' +
+        '<div class="d-scroll ep-body">' +
+        // ปก: สี/ลายเดียวกับนามบัตร · รูป/ชื่อเปลี่ยนตามสัตว์ที่เลือกทันที
+        '<div class="ep-cv" style="background:linear-gradient(135deg,' + R.c1 + ',' + R.c2 + ')">' + pattern('epc') +
+        '<span class="rg">' + em(R.icon) + ' ' + R.full + '</span>' + (GEO ? '<span class="mp">' + thMini(S.r, 7.75) + '</span>' : '') +
+        '<div class="id"><span class="ring" style="background:' + AV[E.a] + '"><img src="' + BASE + 'avatars/' + E.a + '.png" alt=""></span>' +
+        '<div class="tx"><b>' + word + ' ' + U.num + '</b><small>แตะรูปด้านล่างเพื่อเปลี่ยน</small></div></div><i class="gl"></i></div>' +
+        // รูปประจำตัว
+        '<div class="ep-card"><div class="ep-ah"><b>🐾 รูปประจำตัว</b><button data-a="all">ดูทั้งหมด ›</button></div>' + hsRow('ep', animals, 'ep-hs') +
+        '<div class="ep-q"><span class="qe">' + em(T[0]) + '</span><div class="qt"><small>คำคมประจำตัว · ' + word + '</small><b>“' + T[1] + '”</b>' +
+        '<div class="tr">' + T[2].map(function (x) { return '<span>' + x + '</span>'; }).join('') + '</div></div></div></div>' +
+        // ชื่อแสดงผล + แนะนำตัว
+        '<div class="ep-card"><div class="ep-fh"><span>' + ic('user') + 'ชื่อแสดงผล <i>*</i></span></div>' +
+        '<div class="ep-nr"><span class="w">' + word + '</span><span class="n" aria-disabled="true">' + U.num + '</span></div>' +
+        '<div class="ep-nh">เปลี่ยนได้เฉพาะตัวเลข · เปลี่ยนเลขได้ทุก 14 วัน</div><div class="ep-cd">' + ic('clock') + 'เปลี่ยนเลขได้อีกใน 7 วัน</div>' +
+        '<div class="ep-dv"></div><div class="ep-fh"><span>' + ic('msg') + 'แนะนำตัว</span><em>' + E.bio.length + '/200</em></div>' + bioBox + '</div>' +
+        '<div class="ep-ach">ชื่อและแนะนำตัวจะแสดงในโพสต์และโปรไฟล์ของคุณ</div>' +
+        // พื้นที่ของฉัน
+        '<div class="ep-area" style="background:linear-gradient(135deg,' + R.c1 + ',' + R.c2 + ')">' + pattern('epa') + (GEO ? '<span class="mp">' + thMini(S.r, 5.2) + '</span>' : '') +
+        '<div class="tx"><small>📍 พื้นที่</small><b>' + esc(S.dn) + '</b><span>จ.' + esc(S.pn) + ' · ' + R.n + '</span></div>' +
+        '<button data-a="area" style="color:' + R.c2 + '">เปลี่ยนพื้นที่ ›</button></div>' +
+        // การตั้งค่าบัญชี
+        '<div class="ep-card ep-menu"><b class="ep-st">⚙️ การตั้งค่าบัญชี</b>' + menu + '</div>' +
+        '<button class="ep-out" data-a="logout">' + ic('logout') + 'ออกจากระบบ</button>' +
+        '<button class="ep-acc" data-a="acct"><span>จัดการบัญชี</span>' + ic(E.acct ? 'chev-u' : 'chev-d') + '</button>' +
+        (E.acct ? '<div class="ep-dz"><div class="h">' + ic('alert') + 'โซนอันตราย</div><button data-a="del">' + ic('trash') + 'ลบบัญชีถาวร</button>' +
+          '<p>การลบบัญชีจะลบข้อมูลทั้งหมดออกถาวร — ไม่สามารถกู้คืนได้</p></div>' : '') +
+        '</div>' + SHEET + TOAST + '</div>';
+    },
+    // แผ่น "เลือกรูปประจำตัว" (ตาราง 3 คอลัมน์)
+    allSheet: function () {
+      return '<div class="ep-sh-h"><b>เลือกรูปประจำตัว</b><button data-a="shclose" aria-label="ปิด">' + ic('x') + '</button></div><div class="ep-grid">' + ANIMALS.map(function (k) {
+        return '<button class="ep-an' + (E.a === k ? ' on' : '') + '" data-a="spick" data-k="' + k + '"><span class="rn">' + av(k) + '</span><small>' + AWORD[k] + '</small></button>';
+      }).join('') + '</div>';
+    },
+    // แผ่นเลือกเสียงแจ้งเตือน (RingtoneSettingsScreen) — เดโมไม่เล่นเสียง
+    ringSheet: function () {
+      return '<div class="ep-sh-h"><b>เสียงแจ้งเตือน</b><button data-a="shclose" aria-label="ปิด">' + ic('x') + '</button></div>' + SOUNDS.map(function (x) {
+        var on = E.snd === x[0];
+        return '<button class="ep-snd' + (on ? ' on' : '') + '" data-a="snd" data-k="' + x[0] + '"><span class="tx"><b>' + x[1] + '</b><small>' + x[2] + '</small></span>' + (on ? ic('check') : '') + '</button>';
+      }).join('') + '<p class="ep-sn">ตัวอย่าง — ไม่เล่นเสียง</p>';
+    },
+    on: function (a, el, host) {
+      var k = el.getAttribute('data-k');
+      if (a === 'pick') { E.a = k; var r = el.closest('.hs'); HSREV = r && r.getAttribute('data-hs'); return render('edit', true); }
+      if (a === 'all') return sheet(host, this.allSheet());
+      if (a === 'spick') { E.a = k; sheet(host, null); HSREV = 'ep'; return render('edit', true); }
+      if (a === 'bio') { E.bioOpen = !E.bioOpen; return render('edit', true); }
+      if (a === 'bios') { E.bio = bioSamples()[+el.getAttribute('data-i')]; return render('edit', true); }
+      if (a === 'acct') { E.acct = !E.acct; return render('edit', true); }
+      if (a === 'shclose') return sheet(host, null);
+      if (a === 'snd') { E.snd = k; sheet(host, null); render('edit', true); return toast(host, 'ตั้งเสียงแจ้งเตือนแล้ว (ตัวอย่าง ไม่เล่นเสียง)'); }
+      if (a === 'menu') {
+        if (k === 'ring') return sheet(host, this.ringSheet());
+        return toast(host, { saved: 'ในแอปดูโพสต์และสถานที่ที่บันทึกไว้ได้', report: 'ในแอปตรวจสถานะโพสต์และสถานที่ที่ถูกรายงานได้', founder: 'ในแอปดูคุณสมบัติและยื่นใบสมัครผู้ดูแลพื้นที่ได้' }[k]);
+      }
+      if (a === 'area') return go(1);
+      if (a === 'logout') return toast(host, 'ตัวอย่าง — ในแอปจะออกจากระบบ');
+      if (a === 'del') return toast(host, 'ในแอปลบบัญชีได้ (มีช่วงรอ 7 วัน)');
+      if (a === 'cancel') { eReset(); render('edit'); return go(5); }
+      if (a === 'save') {
+        if (!eDirty()) return;
+        U.a = E.a; U.bio = E.bio; E.bioOpen = false;
+        ['home', 'alert', 'prof'].forEach(function (n) { if (built[n]) render(n, true); });
+        render('edit', true); go(5);
+        setTimeout(function () { if (HOSTS.prof) toast(HOSTS.prof, 'บันทึกแล้ว (ตัวอย่าง)'); }, 80);
+        return;
+      }
+    },
+    init: function () { geo().then(function () { render('edit', true); }); }
   };
 
   /* =====================================================================
@@ -1680,7 +1804,7 @@
   }, true);
 
   var HOSTS = {}, built = {}, HSREV = null;
-  var NAME = { login: 'login', location: 'loc', home: 'home', map: 'map', alert: 'alert', profile: 'prof' };
+  var NAME = { login: 'login', location: 'loc', home: 'home', map: 'map', alert: 'alert', profile: 'prof', editprofile: 'edit' };
   function render(name, keepScroll) {
     var host = HOSTS[name]; if (!host || !built[name]) return;
     var sc = host.querySelector('.d-scroll'), top = sc ? sc.scrollTop : 0, toastMsg = host.querySelector('.d-toast.on');
@@ -1692,7 +1816,7 @@
   }
   function renderAll() {
     loadOtherDistricts();
-    ['home', 'map', 'alert', 'prof'].forEach(function (n) { if (built[n]) render(n); });
+    ['home', 'map', 'alert', 'prof', 'edit'].forEach(function (n) { if (built[n]) render(n); });
   }
   function build(host) {
     var name = NAME[host.getAttribute('data-screen')];

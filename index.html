@@ -245,10 +245,10 @@ footer nav a:hover{text-decoration:underline}
 
     </div>
 
-    <!-- สไลด์มือถือ "ตัวอย่างกดลองได้" 6 หน้า (ปัดแนวนอน · CSS scroll-snap · ไม่ใช้ไลบรารี) · ข้อมูลปลอมทั้งหมด ไม่เรียก API/DB -->
+    <!-- สไลด์มือถือ "ตัวอย่างกดลองได้" 7 หน้า (ปัดแนวนอน · CSS scroll-snap · ไม่ใช้ไลบรารี) · ข้อมูลปลอมทั้งหมด ไม่เรียก API/DB -->
     <div class="carousel" role="region" aria-roledescription="carousel" aria-label="ตัวอย่างแอป กดลองได้">
       <div class="track" id="track" tabindex="0" aria-label="ใช้ปุ่มลูกศรซ้าย/ขวาเพื่อเปลี่ยนหน้า">
-      <div class="slide" role="group" aria-roledescription="slide" aria-label="1 จาก 6: เข้าสู่ระบบ">
+      <div class="slide" role="group" aria-roledescription="slide" aria-label="1 จาก 7: เข้าสู่ระบบ">
         <!-- SCREEN:login -->
         <div class="phone"><div class="screen">
           <div class="demo-host" data-screen="login"></div>
@@ -256,7 +256,7 @@ footer nav a:hover{text-decoration:underline}
         </div></div>
         <!-- /SCREEN:login -->
       </div>
-      <div class="slide" role="group" aria-roledescription="slide" aria-label="2 จาก 6: เลือกพื้นที่">
+      <div class="slide" role="group" aria-roledescription="slide" aria-label="2 จาก 7: เลือกพื้นที่">
         <!-- SCREEN:location -->
         <div class="phone"><div class="screen">
           <div class="demo-host" data-screen="location"></div>
@@ -264,7 +264,7 @@ footer nav a:hover{text-decoration:underline}
         </div></div>
         <!-- /SCREEN:location -->
       </div>
-      <div class="slide" role="group" aria-roledescription="slide" aria-label="3 จาก 6: หน้าหลัก">
+      <div class="slide" role="group" aria-roledescription="slide" aria-label="3 จาก 7: หน้าหลัก">
         <!-- SCREEN:home -->
         <div class="phone"><div class="screen">
           <div class="demo-host" data-screen="home"></div>
@@ -272,7 +272,7 @@ footer nav a:hover{text-decoration:underline}
         </div></div>
         <!-- /SCREEN:home -->
       </div>
-      <div class="slide" role="group" aria-roledescription="slide" aria-label="4 จาก 6: แผนที่">
+      <div class="slide" role="group" aria-roledescription="slide" aria-label="4 จาก 7: แผนที่">
         <!-- SCREEN:map -->
         <div class="phone"><div class="screen">
           <div class="demo-host" data-screen="map"></div>
@@ -280,7 +280,7 @@ footer nav a:hover{text-decoration:underline}
         </div></div>
         <!-- /SCREEN:map -->
       </div>
-      <div class="slide" role="group" aria-roledescription="slide" aria-label="5 จาก 6: แจ้งเหตุ">
+      <div class="slide" role="group" aria-roledescription="slide" aria-label="5 จาก 7: แจ้งเหตุ">
         <!-- SCREEN:alert -->
         <div class="phone"><div class="screen">
           <div class="demo-host" data-screen="alert"></div>
@@ -288,13 +288,21 @@ footer nav a:hover{text-decoration:underline}
         </div></div>
         <!-- /SCREEN:alert -->
       </div>
-      <div class="slide" role="group" aria-roledescription="slide" aria-label="6 จาก 6: โปรไฟล์">
+      <div class="slide" role="group" aria-roledescription="slide" aria-label="6 จาก 7: โปรไฟล์">
         <!-- SCREEN:profile -->
         <div class="phone"><div class="screen">
           <div class="demo-host" data-screen="profile"></div>
           <div class="notch"></div><span class="sample">ตัวอย่าง</span>
         </div></div>
         <!-- /SCREEN:profile -->
+      </div>
+      <div class="slide" role="group" aria-roledescription="slide" aria-label="7 จาก 7: แก้ไขโปรไฟล์">
+        <!-- SCREEN:editprofile -->
+        <div class="phone"><div class="screen">
+          <div class="demo-host" data-screen="editprofile"></div>
+          <div class="notch"></div><span class="sample">ตัวอย่าง</span>
+        </div></div>
+        <!-- /SCREEN:editprofile -->
       </div>
       </div>
       <button class="nav-btn prev" type="button" aria-label="ก่อนหน้า" aria-controls="track" hidden><svg class="ic"><use href="#i-left"/></svg></button>
@@ -307,6 +315,7 @@ footer nav a:hover{text-decoration:underline}
       <button type="button" class="dot" aria-label="แผนที่"></button>
       <button type="button" class="dot" aria-label="แจ้งเหตุ"></button>
       <button type="button" class="dot" aria-label="โปรไฟล์"></button>
+      <button type="button" class="dot" aria-label="แก้ไขโปรไฟล์"></button>
     </div>
     <p class="slide-name"><span id="slideName" aria-live="polite">เข้าสู่ระบบ</span><span class="hint" id="swipeHint">ปัดดูเพิ่ม<svg class="ic"><use href="#i-right"/></svg></span></p>
 
@@ -412,7 +421,7 @@ footer nav a:hover{text-decoration:underline}
     var slides = track.querySelectorAll('.slide'), dots = document.querySelectorAll('.dot'),
         prev = document.querySelector('.nav-btn.prev'), next = document.querySelector('.nav-btn.next'),
         nameEl = document.getElementById('slideName'), hint = document.getElementById('swipeHint');
-    var NAMES = ['เข้าสู่ระบบ', 'เลือกพื้นที่', 'หน้าหลัก', 'แผนที่', 'แจ้งเหตุ', 'โปรไฟล์'], cur = 0, touched = false, interacted = false;
+    var NAMES = ['เข้าสู่ระบบ', 'เลือกพื้นที่', 'หน้าหลัก', 'แผนที่', 'แจ้งเหตุ', 'โปรไฟล์', 'แก้ไขโปรไฟล์'], cur = 0, touched = false, interacted = false;
     var reduce = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
     function step(){ return slides.length > 1 ? slides[1].offsetLeft - slides[0].offsetLeft : track.clientWidth; }
     function markTouched(){ if (touched) return; touched = true; hint.hidden = true; }
