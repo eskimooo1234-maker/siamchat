@@ -1425,10 +1425,18 @@
 
   /* ---------- 6) โปรไฟล์ (ProfileScreen · IdentityCard · BagCard · CardBagSwitch · ProfileTabBar · SiamMapTab) ---------- */
   var P = { view: 'card', tab: 'siam', siamSub: 'data', incSub: 'data', chip: null, checked: false, pts: 2043, inc: 815, exp: 178 };
+  // หมุดของฉัน (ชื่อสมมติ) · r/rc = คะแนน/จำนวนรีวิว · op = เปิดอยู่ · ph = จำนวนรูป (ป้าย 🖼 N)
   var MYPINS = [
-    { k: 'food', n: 'ข้าวซอยบ้านสวนฟ้า', i: 0 }, { k: 'cafe', n: 'คาเฟ่ใบเตยหอม', i: 1 }, { k: 'temple', n: 'วัดตัวอย่าง', i: 2 },
-    { k: 'souvenir', n: 'ร้านของฝากบ้านไม้', i: 3 }, { k: 'food', n: 'ก๋วยเตี๋ยวเรือริมคลอง', i: 4 }, { k: 'viewpoint', n: 'จุดชมวิวสันเขื่อน', i: 5 }
+    { k: 'gas', n: 'ปั๊มน้ำมันหน้าหมู่บ้าน', i: 0, r: 5.0, rc: 1, op: true, ph: 15 },
+    { k: 'food', n: 'ข้าวซอยบ้านสวนฟ้า', i: 1, r: 4.8, rc: 6, op: true, ph: 9 },
+    { k: 'temple', n: 'วัดป่าดอยหมอก', i: 2, r: 5.0, rc: 3, op: false, ph: 12 },
+    { k: 'atm', n: 'ตู้ ATM หน้าตลาด', i: 3, r: 5.0, rc: 1, op: true, ph: 4 },
+    { k: 'cafe', n: 'คาเฟ่ใบเตยหอม', i: 4, r: 4.9, rc: 8, op: false, ph: 15 },
+    { k: 'viewpoint', n: 'จุดชมวิวสันเขื่อน', i: 5, r: 5.0, rc: 2, op: true, ph: 7 }
   ];
+  // สีชิปตอนเลือก = ROOM_META.color · ลำดับชิป = CHIP_PRIORITY ของ SiamMapTab แล้วหมวดที่เหลือต่อท้าย
+  var PIN_COLOR = { gas: '#ea580c', food: '#dc2626', temple: '#ca8a04', atm: '#0d9488', cafe: '#92400e', viewpoint: '#9333ea' };
+  var CHIP_PRIORITY = ['toilet', 'gas', 'food', 'cafe', 'hospital', 'viewpoint', 'temple', 'nature'];
   // กติกาคะแนน (PointsWalletModal: EARN_GUIDE / SPEND_GUIDE)
   var EARN = [
     ['สมัครสมาชิกใหม่', 100, ''], ['เช็กอินรายวัน', 1, 'สามารถกดรับคะแนนได้วันละ 1 ครั้ง'],
@@ -1446,7 +1454,7 @@
   ];
   var HISTORY = [['เพิ่มสถานที่ใหม่', 40, '2 วันที่แล้ว'], ['สร้างโพสต์', -10, '3 วันที่แล้ว'], ['เช็กอินรายวัน', 1, '3 วันที่แล้ว'], ['หมุดของคุณถูกใช้นำทาง', 0.8, '4 วันที่แล้ว'], ['คอมเมนต์', -1, '5 วันที่แล้ว']];
   function fmtAmt(n) { return (n < 0 ? '−' : '+') + (Number.isInteger(n) ? Math.abs(n) : Math.abs(n).toFixed(1)); }
-  function pinPic(p) { return placePic({ k: p.k }, p.i); }
+  function pinPic(p) { return p.k === 'temple' || p.k === 'food' ? scene(p.k, p.i) : drawnPic(p.i, catIcon(p.k)); }
   SC.prof = {
     html: function () {
       var R = REG[S.r];
@@ -1473,7 +1481,7 @@
         '<div class="ct"><div class="rg">' + em(R.icon) + ' ' + R.full + '</div><i class="gl"></i>' +
         '<div class="me"><span class="ring">' + '<img src="' + BASE + 'avatars/elephant.png" alt=""></span><div><b>ช้าง 3568</b><small>ระดับ 6 · คนในพื้นที่</small></div></div>' +
         '<div class="tb"><div><span>ชุมชน</span><b>' + esc(S.dn) + '</b></div><div><span>จังหวัด</span><b>' + esc(S.pn) + '</b></div><div><span>เข้าร่วม</span><b>มี.ค. 2569</b></div></div>' +
-        '<div class="xp"><i style="width:72%"></i></div><div class="xpt">อีก 120 EXP จะถึง Lv.7</div></div></div>' +
+        '<div class="xp"><i style="width:72%"></i></div><div class="xpt">EXP 130 / 160</div></div></div>' +
         '<div class="isb">' + stats.map(function (s) {
           return '<button data-a="stat" data-k="' + s[3] + '"><b style="color:' + s[2] + '">' + s[0] + '</b><small>' + s[1] + '</small></button>';
         }).join('') + '</div></div>';
@@ -1525,24 +1533,36 @@
             return '<span class="d-ipin" style="left:calc(50% + ' + x.x + 'cqw);top:calc(50% + ' + (x.y * .7) + 'cqw)"><svg viewBox="0 0 30 38"><path d="M15 37C15 37 2 23 2 14a13 13 0 0 1 26 0c0 9-13 23-13 23z" fill="#dc2626" stroke="#fff" stroke-width="2"/></svg><span class="em">' + em(T.e) + '</span></span>';
           }).join('') + '</div>');
       }
-      // แท็บแผนที่ (SiamMapTab): ข้อมูล | แผนที่
+      // แท็บแผนที่ (SiamMapTab): ข้อมูล = ชิปหมวด + การ์ดหมุด 2 คอลัมน์ · แผนที่ = PlacesMapSummaryCard + แผนที่หมุดของฉัน
       if (P.siamSub === 'map') {
-        return this.seg('siamsub', P.siamSub) + '<div class="pr-map d-mapc">' + cityMap(true) + MYPINS.map(function (p, i) {
-          var xy = pos([0.6, 1.4, 1.7, 1.6, 2.4, 2.6][i], [40, 75, 228, 165, 320, 112][i]);
-          return '<span class="d-pin" style="--pc:' + (isTravel(p.k) ? '#185FA5' : '#15803d') + ';left:calc(50% + ' + xy[0].toFixed(1) + 'cqw);top:calc(50% + ' + (xy[1] * .7).toFixed(1) + 'cqw)"><span class="tl"></span><span class="hd">' + catIcon(p.k) + '</span></span>';
-        }).join('') + '<span class="d-you" style="left:50%;top:50%"></span></div>';
+        return this.seg('siamsub', P.siamSub) +
+          '<div class="ms"><b class="ms-t">🗺️ แผนที่สถานที่ของฉัน</b><div class="ms-st"><span style="background:#eef3ff"><b style="color:#1a56db">30</b>สถานที่</span>' +
+          '<span style="background:#e8f8ee"><b style="color:#0f6a3d">7</b>หมวดหมู่</span><span style="background:#fff6dd"><b style="color:#b45309">3</b>อำเภอ</span></div>' +
+          '<div class="ms-l">หมวดที่ปักมากที่สุด</div><div class="ms-c"><span>' + em('🍜') + ' ร้านอาหาร 9</span><span>' + em('☕') + ' 6</span><span>' + em('🏯') + ' 4</span><span>+4</span></div>' +
+          '<button class="ms-b" data-a="pmap">🗺️ เปิดแผนที่ของฉัน ›</button></div>' +
+          '<div class="pr-map d-mapc">' + cityMap(true) + MYPINS.map(function (p, i) {
+            var xy = pos([0.6, 1.4, 1.7, 1.6, 2.4, 2.6][i], [40, 75, 228, 165, 320, 112][i]);
+            return '<span class="d-pin" style="--pc:' + (isTravel(p.k) ? '#185FA5' : '#15803d') + ';left:calc(50% + ' + xy[0].toFixed(1) + 'cqw);top:calc(50% + ' + (xy[1] * .7).toFixed(1) + 'cqw)"><span class="tl"></span><span class="hd">' + catIcon(p.k) + '</span></span>';
+          }).join('') + '<span class="d-you" style="left:50%;top:50%"></span></div>';
       }
-      var keys = ['food', 'cafe', 'temple', 'souvenir', 'viewpoint'];
-      var chips = '<div class="chips pr-chips"><button class="chip' + (!P.chip ? ' on' : '') + '" style="--ac:#1a56db" data-a="pchip" data-k="">ทั้งหมด</button>' +
-        keys.map(function (k) { return '<button class="chip' + (P.chip === k ? ' on' : '') + '" style="--ac:' + (isTravel(k) ? '#185FA5' : '#15803d') + '" data-a="pchip" data-k="' + k + '">' + catIcon(k) + CAT[k][1].split(' / ')[0] + '</button>'; }).join('') + '</div>';
-      var cards = MYPINS.filter(function (x) { return !P.chip || x.k === P.chip; }).map(function (x) {
-        return '<button class="pc" data-a="pc"><div class="pic">' + pinPic(x) + '</div><div class="tx"><b>' + esc(x.n) + '</b><small>' + CAT[x.k][1].split(' / ')[0] + ' · ' + esc(dLabel()) + '</small></div></button>';
+      var keys = MYPINS.map(function (x) { return x.k; }).filter(function (k, i, a) { return a.indexOf(k) === i; }).sort(function (a, b) {
+        var ia = CHIP_PRIORITY.indexOf(a), ib = CHIP_PRIORITY.indexOf(b);
+        return (ia < 0 ? 999 : ia) - (ib < 0 ? 999 : ib);
+      });
+      var chips = '<button class="pm-chip all' + (!P.chip ? ' on' : '') + '" data-a="pchip" data-k="">ทั้งหมด</button>' + keys.map(function (k) {
+        var on = P.chip === k;
+        return '<button class="pm-chip' + (on ? ' on' : '') + '"' + (on ? ' style="background:' + PIN_COLOR[k] + ';border-color:' + PIN_COLOR[k] + '"' : '') + ' data-a="pchip" data-k="' + (on ? '' : k) + '">' + catIcon(k) + ' ' + CAT[k][1] + '</button>';
       }).join('');
-      return this.seg('siamsub', P.siamSub) +
-        '<div class="ms"><b class="ms-t">🗺️ แผนที่สถานที่ของฉัน</b><div class="ms-st"><span style="background:#eef3ff"><b style="color:#1a56db">30</b>สถานที่</span>' +
-        '<span style="background:#e8f8ee"><b style="color:#0f6a3d">7</b>หมวดหมู่</span><span style="background:#fff6dd"><b style="color:#b45309">3</b>อำเภอ</span></div>' +
-        '<div class="ms-l">หมวดที่ปักมากที่สุด</div><div class="ms-c"><span>' + em('🍜') + ' ร้านอาหาร 9</span><span>' + em('☕') + ' 6</span><span>' + em('🏯') + ' 4</span><span>+4</span></div>' +
-        '<button class="ms-b" data-a="siamsub" data-v="map">🗺️ เปิดแผนที่ของฉัน ›</button></div>' + chips + '<div class="pf-grid">' + cards + '</div>';
+      var cards = MYPINS.filter(function (x) { return !P.chip || x.k === P.chip; }).map(function (x) {
+        return '<div class="pgc" role="button" data-a="pc"><div class="cv">' + pinPic(x) +
+          '<span class="bd" style="background:' + (isTravel(x.k) ? '#1a56db' : '#10b981') + '">' + catIcon(x.k) + ' ' + CAT[x.k][1] + '</span>' +
+          '<button class="mn" data-a="more" aria-label="เมนู">' + ic('dots') + '</button><span class="pn">' + em('🖼') + ' ' + x.ph + '</span></div>' +
+          '<div class="bo"><b>' + esc(x.n) + '</b><div class="mr"><span class="rt"><i>⭐</i> ' + x.r.toFixed(1) + ' <small>(' + x.rc + ')</small></span><span class="dt">·</span>' +
+          '<span class="st" style="color:' + (x.op ? '#16a34a' : '#dc2626') + '">● ' + (x.op ? 'เปิดอยู่' : 'ปิดอยู่') + '</span></div>' +
+          '<div class="lo">📍 ' + esc(dLabel()) + '</div>' +
+          '<div class="qr"><span>ข้อมูลครบ</span><em>7/7 🏆</em></div><div class="qb"><i></i></div></div></div>';
+      }).join('');
+      return this.seg('siamsub', P.siamSub) + hsRow('pm', chips, 'pm-hs') + '<div class="pm-grid">' + cards + '</div>';
     },
     myPoll: function (q, py, votes, ago) {
       var ny = Math.round(votes * py / 100);
@@ -1560,7 +1580,8 @@
       if (a === 'stat') { if (k === 'gobag') P.view = 'bag'; else P.tab = k; return render('prof', true); }
       if (a === 'siamsub') { P.siamSub = v; return render('prof', true); }
       if (a === 'incsub') { P.incSub = v; return render('prof', true); }
-      if (a === 'pchip') { P.chip = k || null; return render('prof', true); }
+      if (a === 'pchip') { P.chip = k || null; var pr = el.closest('.hs'); HSREV = pr && pr.getAttribute('data-hs'); return render('prof', true); }
+      if (a === 'pmap') return toast(host, 'ในแอปจะเปิดแผนที่หมุดของฉันแบบเต็มจอ');
       if (a === 'checkin') { P.checked = true; P.pts += 1; P.inc += 1; render('prof', true); return toast(host, 'เช็กอินแล้ววันนี้ · +1 คะแนน'); }
       if (a === 'ledger') { var lt = el.getAttribute('data-t'); if (host.querySelector('.d-shw.on')) { host.querySelector('.d-sh').innerHTML = '<div class="d-handle"></div>' + this.ledger(lt); return; } return sheet(host, this.ledger(lt)); }
       if (a === 'shclose') return sheet(host, null);
